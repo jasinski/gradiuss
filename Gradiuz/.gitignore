@@ -1,0 +1,16 @@
+# ignore bin foler
+bin
+# ignore gen folder
+gen
+# ignore .settings folder
+.settings
+# ignore assets folder
+assets
+# ignore classpath
+.classpath
+# ignore .project
+.project
+# ignore proguard.cfg
+proguard.cfg
+# ignore project properties
+project.properties
