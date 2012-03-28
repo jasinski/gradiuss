@@ -7,6 +7,33 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
+        android:gravity="center"
+        android:text="Welcome to GradiuZ!"
+        android:textSize="25dp"
+        android:textColor="#ff0000" />
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Play Game" 
+        android:textSize="15dp"
+        android:textColor="#0000ff"/>
+    
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Options" 
+        android:textSize="15dp"
+        android:textColor="#0000ff"/>
+    
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Highscore" 
+        android:textSize="15dp"
+        android:textColor="#0000ff"/>
+    
 </LinearLayout>
