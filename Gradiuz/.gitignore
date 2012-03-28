@@ -1,0 +1,10 @@
+# Ignoring bin folder
+bin
+# Ignoring assets folder
+assets
+# Ignoring gen folder
+gen
+# Ignoring project.propoerties
+project.properties
+# Ignoring proguard.cfg
+proguard.cfg
