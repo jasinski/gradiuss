@@ -18,12 +18,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public SpaceShip spaceShip;
 	
-	// This might be necessary later, so will not remove yet
-//	public GameView(Context context) {
-//		super(context);
-//		initGameView();
-//	}
-	
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
 		initGameView();
@@ -82,7 +76,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Updating the states for all the game objects
 	public void updateState() {
-		// TODO: GÖR EGNA METODER FÖR VARJE OBJECT SEN!
+		// Update SpaceShip
+		updateSpaceShip();
+	}
+	
+	private void updateSpaceShip() {
 		// Collisions with the Edges
 		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= getWidth()) {
 			spaceShip.setMoveRight(false);
@@ -90,21 +88,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		if ((spaceShip.getX() - spaceShip.getBitmap().getWidth()/2 <= 0)) {
 			spaceShip.setMoveLeft(false);
 		}
-		spaceShip.updateState();	
+		spaceShip.updateState();
 	}
-	
-	// This might be necessary later, so will not remove yet
-//	@Override
-//	protected void onDraw(Canvas canvas) {
-//		canvas.drawColor(Color.BLACK);
-//		spaceShip.draw(canvas);
-//	}
 	
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		spaceShip.draw(canvas);
-		//onDraw(canvas);
 	}
 
 	public class GameLoopThread extends Thread {
@@ -112,6 +102,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		private boolean running;
 		private SurfaceHolder surfaceHolder;
 		private GameView gameView;
+		
+		// Frames per second
+		private final static int MAX_FPS = 50;
+		// Max amount of frames skipped
+		private final static int MAX_FRAMES_SKIPPED = 5;
+		// Length of the period
+		private final static int UPDATE_RENDER_PERIOD = 1000 / MAX_FPS;
 		
 		public GameLoopThread(SurfaceHolder surfaceHolder, GameView gameView) {
 			this.surfaceHolder = surfaceHolder;
@@ -123,6 +120,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			
 			Canvas canvas;
 			
+			// FPS
+			long startTime;
+			long endTime;
+			long timeDifference;
+			int sleepTime;
+			int skippedFrames;
+			
 			Log.d(TAG, "Starting game loop");
 			while (running) {
 				canvas = null;
@@ -132,12 +136,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					canvas = this.surfaceHolder.lockCanvas();
 					
 					synchronized (surfaceHolder) {
-
+						
+						// Start timer
+						startTime = System.currentTimeMillis();
+						
 						// Update the game
 						updateGameState();
 						
 						// Render the game
 						renderGameState(canvas);
+						
+						// Stop timer and measure the timedifference as well as how long we shall sleep
+						endTime = System.currentTimeMillis();
+						timeDifference = startTime - endTime;
+						sleepTime = (int) (UPDATE_RENDER_PERIOD - timeDifference);
+						
+						// If sleepTime is larger than 0 then sleep
+						if (sleepTime > 0) {
+							try {
+								sleep(sleepTime);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						
+						// If sleepTime is smaller than 0 we need to catch up
+						skippedFrames = 0;
+						while (sleepTime < 0 && skippedFrames < MAX_FRAMES_SKIPPED) {
+							updateGameState();
+							sleepTime = sleepTime + UPDATE_RENDER_PERIOD;
+							skippedFrames++;
+						}
+						
 					}
 				} finally {
 					if (canvas != null) {
