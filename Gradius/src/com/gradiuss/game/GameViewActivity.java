@@ -1,5 +1,7 @@
 package com.gradiuss.game;
 
+import com.gradiuss.game.models.SpaceShip;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,10 +41,14 @@ public class GameViewActivity extends Activity {
         bLeftPad.setOnTouchListener(new OnTouchListener() {
 			
 			public boolean onTouch(View v, MotionEvent event) {
+				
+				// Move spaceship left
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bLeftPad.setPressed(true);
 					gameView.spaceShip.setMoveLeft(true);
 				}
+				
+				// Stop moving spaceship left
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.spaceShip.setMoveLeft(false);
 					bLeftPad.setPressed(false);
@@ -54,10 +60,14 @@ public class GameViewActivity extends Activity {
         bRightPad.setOnTouchListener(new OnTouchListener() {
 			
 			public boolean onTouch(View v, MotionEvent event) {
+				
+				// Move spaceship right
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bRightPad.setPressed(true);
 					gameView.spaceShip.setMoveRight(true);
 				}
+				
+				// Stop moving spaceship right
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.spaceShip.setMoveRight(false);
 					bRightPad.setPressed(false);
@@ -69,11 +79,16 @@ public class GameViewActivity extends Activity {
         bFire.setOnTouchListener(new OnTouchListener() {
 			
 			public boolean onTouch(View v, MotionEvent event) {
-				// TODO: Shooting
+				
+				// Start shooting
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					gameView.spaceShip.setShooting(true);
 					Log.d(TAG, "shooting...");
 				}
+				
+				// Stop shooting
 				if (event.getAction() == MotionEvent.ACTION_UP) {
+					gameView.spaceShip.setShooting(false);
 					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
