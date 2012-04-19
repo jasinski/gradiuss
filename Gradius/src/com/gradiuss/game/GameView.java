@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -26,6 +27,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public SpaceShip spaceShip;
 	public List<Projectile> projectiles;
 	int projectileType = 0;
+	public Asteroid asteroid;
 	
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -89,7 +91,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void initEnemies() {
-		// TODO: Enemies
+		// Enemies
+		Bitmap asteroidBitmap = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
+		asteroid = new Asteroid(asteroidBitmap, 0, 0);
 	}
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
@@ -99,10 +103,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// Update SpaceShip
 		updateSpaceShip();
 		updateProjectiles();
+		// Update Enemies
+		updateEnemies();
+		
 	}
-	
+
 	public void updateProjectiles() {
-		// Skjuter projektiler
+		// Shoots projectile
 		if (spaceShip.isShooting()) {
 			addProjectile(spaceShip.getX(), spaceShip.getY());
 		}
@@ -113,7 +120,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				projectiles.remove(i);
 			}
 		}
-		// Skjuter projektiler
+		// Shoots projectile
 	}
 	
 	private void updateSpaceShip() {
@@ -126,6 +133,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		spaceShip.updateState();
 	}
+	
 	
 	public void addProjectile(float x, float y) {
 		// Adding projectiles
@@ -149,6 +157,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 	
+	// Update All Enemies
+	private void updateEnemies() {
+		updateAsteroid();
+	}
+	
+	// Update individual Enemies
+	private void updateAsteroid() {
+		asteroid.updateState();
+	}
+	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	
 	// Rendering the game state
@@ -156,8 +174,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawColor(Color.BLACK);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
+		renderEnemies(canvas);
 	}
-	
+
 	public void renderSpaceShip(Canvas canvas) {
 		spaceShip.draw(canvas);
 	}
@@ -168,109 +187,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
+	// Render All Enemies
+	private void renderEnemies(Canvas canvas) {
+		renderAsteroid(canvas);
+	}
+	
+	private void renderAsteroid(Canvas canvas) {
+		asteroid.draw(canvas);
+	}
+	
 	// :::::::::::::::::::::::::::::::::::::::::::::: GameLoopThread ::::::::::::::::::::::::::::::::::::::::::::::
 
-	public class GameLoopThread extends Thread {
-		private final String TAG = GameLoopThread.class.getSimpleName();
-		private boolean running;
-		private SurfaceHolder surfaceHolder;
-		private GameView gameView;
-		
-		// Frames per second
-		private final static int MAX_FPS = 50;
-		// Max amount of frames skipped
-		private final static int MAX_FRAMES_SKIPPED = 5;
-		// Length of the period
-		private final static int UPDATE_RENDER_PERIOD = 1000 / MAX_FPS;
-		
-		public GameLoopThread(SurfaceHolder surfaceHolder, GameView gameView) {
-			this.surfaceHolder = surfaceHolder;
-			this.gameView = gameView;
-		}
-		
-		@Override
-		public void run() {
-			
-			Canvas canvas;
-			
-			// FPS
-			long startTime;
-			long endTime;
-			long timeDifference;
-			int sleepTime;
-			int skippedFrames;
-			
-			Log.d(TAG, "Starting game loop");
-			while (running) {
-				canvas = null;
-				try {
-					
-					// Locking canvas so that objects can draw themselves on it
-					canvas = this.surfaceHolder.lockCanvas();
-					
-					synchronized (surfaceHolder) {
-						
-						// Start timer
-						startTime = System.currentTimeMillis();
-						
-						// Update the game
-						updateGameState();
-						
-						// Render the game
-						renderGameState(canvas);
-						
-						// Stop timer and measure the timedifference as well as how long we shall sleep
-						endTime = System.currentTimeMillis();
-						timeDifference = startTime - endTime;
-						sleepTime = (int) (UPDATE_RENDER_PERIOD - timeDifference);
-						
-						// If sleepTime is larger than 0 then sleep
-						if (sleepTime > 0) {
-							try {
-								sleep(sleepTime);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-						
-						// If sleepTime is smaller than 0 we need to catch up
-						skippedFrames = 0;
-						while (sleepTime < 0 && skippedFrames < MAX_FRAMES_SKIPPED) {
-							updateGameState();
-							sleepTime = sleepTime + UPDATE_RENDER_PERIOD;
-							skippedFrames++;
-						}
-						
-					}
-				} finally {
-					if (canvas != null) {
-						
-						// Unlocking canvas and displaying it
-						surfaceHolder.unlockCanvasAndPost(canvas);
-					}
-				}
-				
-			}
-		}
-		
-		/**
-		 * Wrapper for the actual update method in the game view.
-		 */
-		public void updateGameState() {
-			gameView.updateState();
-		}
-		
-		/**
-		 * Wrapper for the actual rendering method in the game view.
-		 */
-		public void renderGameState(Canvas canvas) {
-			gameView.renderState(canvas);
-		}
-		
-		public void setRunning(boolean running) {
-			this.running = running;
-		}
 
-	}
 	
 }
