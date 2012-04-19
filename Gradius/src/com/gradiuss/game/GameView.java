@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,10 +18,11 @@ import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
 
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private static final String TAG = GameView.class.getSimpleName();
-	GameLoopThread gameLoop;
+	public GameLoopThread gameLoop;
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
 	
@@ -37,6 +39,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long previousFireTime = 0;
 	// Enemies
 	public Asteroid asteroid;
+	
+	// Bitmaps
+	Bitmap bmBasckground = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
+	Bitmap bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceship);
+	Bitmap bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
+	Bitmap bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
+	Bitmap bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
 	
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -89,8 +98,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void initSpaceShip() {
 		// SpaceShip
-		Bitmap spaceShipBitmap = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceship);
-		spaceShip = new SpaceShip(spaceShipBitmap, getWidth()/2, getHeight()-spaceShipBitmap.getHeight(), 5, 5);
+		spaceShip = new SpaceShip(bmSpaceShip, getWidth()/2, getHeight()-bmSpaceShip.getHeight(), 5, 5);
 		spaceShip.setVx(10);
 		spaceShip.setVy(10);
 		spaceShip.setVisible(true);
@@ -98,15 +106,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void initProjectiles() {
 		// Projectiles
-		
 		projectiles = new ArrayList<Projectile>();
 		//fireTime = 1;
 	}
 	
 	private void initEnemies() {
 		// Enemies
-		Bitmap asteroidBitmap = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
-		asteroid = new Asteroid(asteroidBitmap, 0, 0);
+		asteroid = new Asteroid(bmAsteroid, 0, 0);
 	}
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
@@ -161,14 +167,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Projectile projectile;
 		switch (projectileType) {
 		case 0:
-			projectile = new TypeOneProjectile(BitmapFactory.decodeResource(getResources(), R.drawable.projectile1), x, y - spaceShip.getBitmap().getHeight()/2);
+			projectile = new TypeOneProjectile(bmTypeOneProjectile1, x, y - spaceShip.getBitmap().getHeight()/2);
 			projectile.setVisible(true);
 			projectile.setMoveUp(true);
 			projectile.setVy(50);
 			projectiles.add(projectile);
 			break;
 		case 1:
-			projectile = new TypeOneProjectile(BitmapFactory.decodeResource(getResources(), R.drawable.projectile2), x, y - spaceShip.getBitmap().getHeight()/2);
+			projectile = new TypeOneProjectile(bmTypeOneProjectile2, x, y - spaceShip.getBitmap().getHeight()/2);
 			projectile.setVisible(true);
 			projectile.setMoveUp(true);
 			projectile.setVy(50);
@@ -193,6 +199,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
+		//canvas.drawBitmap(bmBasckground, 0, 0, null);
+		canvas.drawBitmap(bmBasckground, null, new Rect(0, 0, getWidth(), getHeight()), null);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
 		renderEnemies(canvas);

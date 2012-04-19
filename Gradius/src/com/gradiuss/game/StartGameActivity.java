@@ -16,10 +16,10 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
          
         Button bStartGame = (Button) findViewById(R.id.bStartGame);
         Button bOptions = (Button) findViewById(R.id.bOptions);
-        Button bHowTo = (Button) findViewById(R.id.bHowTo);
+        Button bHighScore = (Button) findViewById(R.id.bHighScore);
         bStartGame.setOnClickListener(this);
         bOptions.setOnClickListener(this);
-        bHowTo.setOnClickListener(this);
+        bHighScore.setOnClickListener(this);
 
     }
 
@@ -36,7 +36,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			tmpToast.show();
 			showOptions(null);
 			break;
-		case R.id.bHowTo:
+		case R.id.bHighScore:
 			tmpToast = Toast.makeText(this, "How to play the game! (Not Working yet!)", Toast.LENGTH_SHORT);
 			tmpToast.show();
 			showHighScores(null);
@@ -57,3 +57,14 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
