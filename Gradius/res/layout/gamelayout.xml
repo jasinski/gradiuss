@@ -8,36 +8,52 @@
         android:id="@+id/gameView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="0.3" />
+        android:layout_weight="0.35" />
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.7" >
+        android:layout_weight="0.65" >
 
         <Button
             android:id="@+id/bLeftPad"
             android:layout_width="70dp"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_alignParentLeft="true"
             android:background="@drawable/leftbutton_toggler" />
 
         <Button
             android:id="@+id/bRightPad"
             android:layout_width="70dp"
-            android:layout_height="80dp"
-
-			android:layout_toRightOf="@id/bLeftPad"
+            android:layout_height="70dp"
+            android:layout_toRightOf="@id/bLeftPad"
             android:background="@drawable/rightbutton_toggler" />
+        
+        <Button
+            android:id="@+id/bUpPad"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_toRightOf="@id/bRightPad"
+            android:background="@drawable/upbutton_toggler" >
+        </Button>
+
+        <Button
+            android:id="@+id/bDownPad"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_toRightOf="@id/bUpPad"
+            android:background="@drawable/downbutton_toggler" >
+        </Button>
 
         <Button
             android:id="@+id/bFire"
             android:layout_width="70dp"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/firebutton_toggler" >
         </Button>
+
     </RelativeLayout>
 
 </LinearLayout>
