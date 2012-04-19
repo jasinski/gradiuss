@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -35,6 +36,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long fireTime;
 	long previousFireTime = 0;
 	// Enemies
+	public Asteroid asteroid;
 	
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -102,7 +104,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void initEnemies() {
-		// TODO: Enemies
+		// Enemies
+		Bitmap asteroidBitmap = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
+		asteroid = new Asteroid(asteroidBitmap, 0, 0);
 	}
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
@@ -112,9 +116,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// Update SpaceShip
 		updateSpaceShip();
 		updateProjectiles();
+		// Update Enemies
+		updateEnemies();
+		
 	}
-	
+
 	public void updateProjectiles() {
+
 		// Shooting projectiles
 		if (spaceShip.isShooting()/* && totalGameTime - previousFireTime > fireTime*/) {
 			//previousFireTime = totalGameTime;
@@ -127,6 +135,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				projectiles.remove(i);
 			}
 		}
+		
 	}
 	
 	private void updateSpaceShip() {
@@ -145,6 +154,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		spaceShip.updateState();
 	}
+	
 	
 	public void addProjectile(float x, float y) {
 		// Adding projectiles
@@ -168,6 +178,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 	
+	// Update All Enemies
+	private void updateEnemies() {
+		updateAsteroid();
+	}
+	
+	// Update individual Enemies
+	private void updateAsteroid() {
+		asteroid.updateState();
+	}
+	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	
 	// Rendering the game state
@@ -175,8 +195,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawColor(Color.BLACK);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
+		renderEnemies(canvas);
 	}
-	
+
 	public void renderSpaceShip(Canvas canvas) {
 		spaceShip.draw(canvas);
 	}
@@ -187,4 +208,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
+	// Render All Enemies
+	private void renderEnemies(Canvas canvas) {
+		renderAsteroid(canvas);
+	}
+	
+	private void renderAsteroid(Canvas canvas) {
+		asteroid.draw(canvas);
+	}
+
 }
