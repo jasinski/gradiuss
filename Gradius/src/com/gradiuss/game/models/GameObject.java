@@ -2,6 +2,8 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 
 public abstract class GameObject {
 	
@@ -32,6 +34,36 @@ public abstract class GameObject {
 		return y;
 	}
 	
+	public int getHeight() {
+		return bitmap.getHeight();
+	}
+	
+	public int getWidth() {
+		return bitmap.getWidth();
+	}
+	
+	private int left() {
+		return (int) ((int)getX()-(getWidth()/2));
+	}
+	private int top() {
+		return (int) ((int)getY()-(getHeight()/2));
+	}
+	private int right() {
+		return (int) ((int)getX()+(getWidth()/2));
+	}
+	private int bottom() {
+		return (int) ((int)getY()+(getHeight()/2));
+	}
+	
+	private Rect getRect() {
+		//Rectangle (left, top, right, bottom)
+	    return new Rect(left(), top(), right(), bottom());
+	}
+	
+	public boolean collisionDetection(GameObject gameobject) {
+		return this.getRect().intersect(gameobject.getRect());
+	}
+	
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
@@ -52,8 +84,11 @@ public abstract class GameObject {
 	public abstract void updateState();
 	
 	public void draw(Canvas canvas) {
-		// Paint the new image with the middle at the coordinates and not the edge.
-		canvas.drawBitmap(bitmap, x - (bitmap.getWidth()/2), y - (bitmap.getHeight()/2), null);
+		if(isVisible()){
+			// Paint the new image with the middle at the coordinates and not the edge.
+			canvas.drawBitmap(bitmap, x - (bitmap.getWidth()/2), y - (bitmap.getHeight()/2), null);
+		} 
+	
 	}
 	
 }
