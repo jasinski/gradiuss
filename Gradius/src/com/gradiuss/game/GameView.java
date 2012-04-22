@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
+import com.gradiuss.game.models.GameObject;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -264,7 +265,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO - TEMPORARY SOLUTION: The spaceship should loose lifepower
 		// and when it hits zero the game is over
 		for (Enemy enemy : enemies) {
-			if (spaceShip.getRect().intersect(enemy.getRect())) {
+			if (spaceShip.collisionDetection(enemy)) {
 				spaceShip.setVisible(false);
 			}
 		}
@@ -274,8 +275,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			
 			for (Enemy enemy : enemies) {
 				
-				if (projectile.getRect().intersect(enemy.getRect())) {
-					
+				if (projectile.collisionDetection(enemy)) {	
 					// Destroy the projectile
 					projectile.setVisible(false);
 					
