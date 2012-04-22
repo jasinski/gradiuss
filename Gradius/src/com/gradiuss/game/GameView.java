@@ -2,6 +2,7 @@ package com.gradiuss.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,10 +11,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gradiuss.game.models.Asteroid;
+import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -21,31 +24,46 @@ import com.gradiuss.game.models.TypeOneProjectile;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
+	// Game Constants
 	private static final String TAG = GameView.class.getSimpleName();
+	private static final float FIRE_TIME_STANDARD = 100000000;
+	private static final float FIRE_TIME_TYPE_ONE = (3/2) * FIRE_TIME_STANDARD;
+	private static final float FIRE_TIME_TYPE_TWO = (5/2) * FIRE_TIME_STANDARD;
+	private static final float PROJECTILE_DAMAGE_ONE = 10;
+	private static final float PROJECTILE_DAMAGE_TWO = 20;
 	public GameLoopThread gameLoop;
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
 	
-	// Game time
-	//long totalGameTime;
+	// GameView
+	int width;
+	int height;
 	
-	// GameObjects
+	// Game time
+	long startGameTime;
+	long totalGameTime = 0;
+	
 	// SpaceShip
 	public SpaceShip spaceShip;
+	
 	// Projectiles
 	public List<Projectile> projectiles;
-	int projectileType = 0;
-	long fireTime;
+	int projectileType = 1;
+	float fireTime;
 	long previousFireTime = 0;
+	float projectileDamage;
+	
 	// Enemies
 	public Asteroid asteroid;
+	public List<Enemy> enemies;
 	
 	// Bitmaps
-	Bitmap bmBasckground = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
-	Bitmap bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceship);
-	Bitmap bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
-	Bitmap bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
-	Bitmap bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
+	Bitmap bmBackground;
+	Rect rectBackground;
+	Bitmap bmSpaceShip;
+	Bitmap bmTypeOneProjectile1;
+	Bitmap bmTypeOneProjectile2;
+	Bitmap bmAsteroid;
 	
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -57,13 +75,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Loading resources like images, music etc... and starting the game loop!
 	public void surfaceCreated(SurfaceHolder holder) {
 		
+		// GameView
+		width = getWidth();
+		height = getHeight();
+		
+		// Background
+		initBackground();
+		
 		// Loading level (Resources)
 		initGameObjects();
 		
 		// Starting game loop
 		gameLoop.setRunning(true);
 		gameLoop.start();
-		//totalGameTime = System.currentTimeMillis();
+		startGameTime = System.nanoTime();
 	}
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -88,8 +113,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		gameLoop = new GameLoopThread(getHolder(), this);
 		setFocusable(true);
 	}
-
-	 
+	
+	public void initBackground() {
+		bmBackground = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
+		rectBackground = new Rect(0, 0, width, height);
+	}
+ 
 	public void initGameObjects() {
 		initSpaceShip();
 		initProjectiles();
@@ -98,21 +127,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void initSpaceShip() {
 		// SpaceShip
-		spaceShip = new SpaceShip(bmSpaceShip, getWidth()/2, getHeight()-bmSpaceShip.getHeight(), 5, 5);
+		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsmall);
+		spaceShip = new SpaceShip(bmSpaceShip, width/2, height-bmSpaceShip.getHeight(), 5, 5);
 		spaceShip.setVx(10);
 		spaceShip.setVy(10);
 		spaceShip.setVisible(true);
+		spaceShip.setShooting(true);
 	}
 	
 	private void initProjectiles() {
 		// Projectiles
+		bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
+		bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
 		projectiles = new ArrayList<Projectile>();
-		//fireTime = 1;
+		fireTime = FIRE_TIME_TYPE_ONE;
+		projectileDamage = PROJECTILE_DAMAGE_ONE;
 	}
 	
 	private void initEnemies() {
+		bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
+		enemies = new ArrayList<Enemy>();
 		// Enemies
-		asteroid = new Asteroid(bmAsteroid, 0, 0);
+		asteroid = new Asteroid(bmAsteroid, width/2, 0);
+		asteroid.setVy(1);
+		asteroid.setVx(0);
+		asteroid.setMoveDown(true);
+		asteroid.setMoveRight(true);
+		asteroid.setVisible(true);
+		asteroid.setLife(100);
+		enemies.add(asteroid);
+		
 	}
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
@@ -124,14 +168,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		updateProjectiles();
 		// Update Enemies
 		updateEnemies();
-		
+		// Update collisions
+		updateCollisions();	
 	}
 
 	public void updateProjectiles() {
 
 		// Shooting projectiles
-		if (spaceShip.isShooting()/* && totalGameTime - previousFireTime > fireTime*/) {
-			//previousFireTime = totalGameTime;
+		if (spaceShip.isShooting() && totalGameTime - previousFireTime > fireTime) {
+			previousFireTime = totalGameTime;
 			addProjectile(spaceShip.getX(), spaceShip.getY());
 		}
 		
@@ -145,19 +190,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void updateSpaceShip() {
-		// Collisions with the Edges
-		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= getWidth()) {
-			spaceShip.setMoveRight(false);
-		}
-		if (spaceShip.getX() - spaceShip.getBitmap().getWidth()/2 <= 0) {
-			spaceShip.setMoveLeft(false);
-		}
-		if (spaceShip.getY() - spaceShip.getBitmap().getHeight()/2 <= 0) {
-			spaceShip.setMoveUp(false);
-		}
-		if (spaceShip.getY() + spaceShip.getBitmap().getHeight()/2 >= getHeight()) {
-			spaceShip.setMoveDown(false);
-		}
 		spaceShip.updateState();
 	}
 	
@@ -170,15 +202,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			projectile = new TypeOneProjectile(bmTypeOneProjectile1, x, y - spaceShip.getBitmap().getHeight()/2);
 			projectile.setVisible(true);
 			projectile.setMoveUp(true);
-			projectile.setVy(50);
+			projectile.setVy(10);
 			projectiles.add(projectile);
+			fireTime = FIRE_TIME_TYPE_ONE;
+			projectileDamage = PROJECTILE_DAMAGE_ONE;
 			break;
 		case 1:
 			projectile = new TypeOneProjectile(bmTypeOneProjectile2, x, y - spaceShip.getBitmap().getHeight()/2);
 			projectile.setVisible(true);
 			projectile.setMoveUp(true);
-			projectile.setVy(50);
+			projectile.setVy(10);
 			projectiles.add(projectile);
+			fireTime = FIRE_TIME_TYPE_TWO;
+			projectileDamage = PROJECTILE_DAMAGE_TWO;
 			break;
 		}
 		
@@ -194,13 +230,74 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.updateState();
 	}
 	
+	// Update collisions between objects and boundaries
+	public void updateCollisions() {
+		
+		// Spaceship and screenedges
+		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= width) {
+			spaceShip.setMoveRight(false);
+		}
+		if (spaceShip.getX() - spaceShip.getBitmap().getWidth()/2 <= 0) {
+			spaceShip.setMoveLeft(false);
+		}
+		if (spaceShip.getY() - spaceShip.getBitmap().getHeight()/2 <= 0) {
+			spaceShip.setMoveUp(false);
+		}
+		if (spaceShip.getY() + spaceShip.getBitmap().getHeight()/2 >= height) {
+			spaceShip.setMoveDown(false);
+		}
+		
+		// Spaceship and enemies
+		if (Rect.intersects(spaceShip.getRectangle(), asteroid.getRectangle())) {
+			//spaceShip.setVisible(false);
+		}
+		
+		// Projectiles and enemies
+		for (int i = projectiles.size()-1; i > -1; i--) {
+			if (projectiles.get(i).getRectangle().intersect(asteroid.getRectangle())) {
+				projectiles.get(i).setVisible(false);
+				asteroid.setLife((int) (asteroid.getLife()-projectileDamage));
+				float shrinkPercentage = (100/projectileDamage-1)/(100/projectileDamage);
+				Log.d(TAG, shrinkPercentage + "");
+				asteroid.setBitmap(Bitmap.createBitmap(bmAsteroid, 0, 0, Math.round(shrinkPercentage*asteroid.getBitmap().getWidth()), Math.round(shrinkPercentage*asteroid.getBitmap().getHeight())));
+				
+				Log.d(TAG, asteroid.getLife() + "");
+				
+				if (asteroid.getLife() <= 0) {
+					asteroid = new Asteroid(bmAsteroid, width/2, -asteroid.getHeight()/2);
+					Random r = new Random();
+					asteroid.setVy(r.nextInt(2)+2);
+					asteroid.setVx(r.nextInt(3)-1);
+					asteroid.setMoveDown(true);
+					asteroid.setMoveRight(true);
+					asteroid.setVisible(true);
+					asteroid.setLife(100);
+					//enemies.add(asteroid);
+				} 
+			}
+		}
+		
+		if (asteroid.getX() <= 0 - asteroid.getWidth()/2 || asteroid.getX() >= getWidth() + asteroid.getWidth()/2 || asteroid.getY() <= 0 - asteroid.getHeight()/2  || asteroid.getY() >= getHeight() + asteroid.getHeight()/2) {
+			asteroid = new Asteroid(bmAsteroid, width/2, -asteroid.getHeight()/2);
+			Random r = new Random();
+			asteroid.setVy(r.nextInt(2)+2);
+			asteroid.setVx(r.nextInt(3)-1);
+			asteroid.setMoveDown(true);
+			asteroid.setMoveRight(true);
+			asteroid.setVisible(true);
+			asteroid.setLife(100);
+			//enemies.add(asteroid);
+		}
+		
+	}
+	
+	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
-		//canvas.drawBitmap(bmBasckground, 0, 0, null);
-		canvas.drawBitmap(bmBasckground, null, new Rect(0, 0, getWidth(), getHeight()), null);
+		canvas.drawBitmap(bmBackground, null, rectBackground, null);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
 		renderEnemies(canvas);

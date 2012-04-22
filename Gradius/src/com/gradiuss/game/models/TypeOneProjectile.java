@@ -20,6 +20,9 @@ public class TypeOneProjectile extends Projectile {
 		if (this.getY() < 0) {
 			setVisible(false);
 		}
+		
+		// Update rectangle
+		getRectangle().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
 	}
 
 }

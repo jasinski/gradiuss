@@ -1,6 +1,7 @@
 package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 
 public class Asteroid extends Enemy {
 	
@@ -11,18 +12,21 @@ public class Asteroid extends Enemy {
 	@Override
 	public void updateState() {
 		
-//		if (moveLeft) {	
-//			setX((int) (getX() - (getVx() * getDirectionX()) ));
-//		}
-//		if (moveRight) {	
-//			setX((int) (getX() + (getVx() * getDirectionX()) ));
-//		}
-//		if (moveUp) {	
-//			setY((int) (getY() - (getVy() * getDirectionY()) ));
-//		}
-//		if (moveDown) {	
-//			setY((int) (getY() + (getVy() * getDirectionY()) ));
-//		}
+		if (moveLeft) {	
+			setX((int) (getX() - (getVx() * getDirectionX()) ));
+		}
+		if (moveRight) {	
+			setX((int) (getX() + (getVx() * getDirectionX()) ));
+		}
+		if (moveUp) {	
+			setY((int) (getY() - (getVy() * getDirectionY()) ));
+		}
+		if (moveDown) {	
+			setY((int) (getY() + (getVy() * getDirectionY()) ));
+		}
+		
+		// Update rectangle
+		getRectangle().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
 	}
 
 	

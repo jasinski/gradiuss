@@ -1,6 +1,5 @@
 package com.gradiuss.game;
 
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -77,6 +76,11 @@ public class GameLoopThread extends Thread {
 						sleepTime = sleepTime + UPDATE_RENDER_PERIOD;
 						skippedFrames++;
 					}
+					
+					// Game time
+					long old = gameView.totalGameTime;
+					gameView.totalGameTime = System.nanoTime() - gameView.startGameTime;
+					Log.d(TAG, "Total game time:" + gameView.totalGameTime + ", TimeDifference: " + (gameView.totalGameTime - old));
 					
 				}
 			} finally {
