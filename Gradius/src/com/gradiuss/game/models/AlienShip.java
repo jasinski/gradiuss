@@ -20,6 +20,6 @@ public class AlienShip extends Enemy {
 
 	@Override
 	public void updateState() {
-		// TODO Auto-generated method stub
+		super.updateState();
 	}
 }

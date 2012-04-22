@@ -2,11 +2,11 @@ package com.gradiuss.game.highscore;
 
 
 
-import com.gradiuss.game.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.gradiuss.game.R;
 
 public class SQLViewActivity extends Activity{
 	

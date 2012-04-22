@@ -87,6 +87,8 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bUpPad.setPressed(true);
 					gameView.spaceShip.setMoveUp(true);
+					
+					// TODO - TEMPORARY: Changes the projectiles to type = 1 (just used for testing)
 					gameView.projectileType = 1;
 				}
 				
@@ -107,6 +109,8 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bDownPad.setPressed(true);
 					gameView.spaceShip.setMoveDown(true);
+					
+					// TODO - TEMPORARY: Changes the projectiles to type = 0 (just used for testing)
 					gameView.projectileType = 0;
 				}
 				

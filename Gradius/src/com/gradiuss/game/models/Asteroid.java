@@ -1,7 +1,6 @@
 package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 
 public class Asteroid extends Enemy {
 	
@@ -25,8 +24,10 @@ public class Asteroid extends Enemy {
 			setY((int) (getY() + (getVy() * getDirectionY()) ));
 		}
 		
-		// Update rectangle
-		getRectangle().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
+		// Calls the superclass method that updates the rectangle automatically.
+		super.updateState(); 
+//		// Update rectangle
+//		getRect().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
 	}
 
 	

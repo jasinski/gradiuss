@@ -1,7 +1,5 @@
 package com.gradiuss.game.highscore;
 
-import com.gradiuss.game.R;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -11,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.gradiuss.game.R;
 
 public class SqlLiteActivity extends Activity implements OnClickListener {
     /** Called when the activity is first created. */

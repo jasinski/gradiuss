@@ -59,9 +59,9 @@ public class SpaceShip extends MovingObject {
 		if (moveDown) {	
 			setY((int) (getY() + (getVy() * getDirectionY()) ));
 		}
-		
-		// Update rectangle (LÄGG DETTA I GAMEOBJECTS UPDATESTATE METOD SEN!)
-		getRectangle().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
+
+		// Calls the superclass method that updates the rectangle automatically.
+		super.updateState(); 
 	}
 
 }
