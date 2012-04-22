@@ -1,5 +1,6 @@
 package com.gradiuss.game;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;

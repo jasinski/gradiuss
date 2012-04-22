@@ -16,10 +16,10 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
          
         Button bStartGame = (Button) findViewById(R.id.bStartGame);
         Button bOptions = (Button) findViewById(R.id.bOptions);
-        Button bHowTo = (Button) findViewById(R.id.bHowTo);
+        Button bHighScore = (Button) findViewById(R.id.bHighScore);
         bStartGame.setOnClickListener(this);
         bOptions.setOnClickListener(this);
-        bHowTo.setOnClickListener(this);
+        bHighScore.setOnClickListener(this);
 
     }
 
@@ -27,8 +27,6 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 		Toast tmpToast;
 		switch (v.getId()) {
 		case R.id.bStartGame:
-			tmpToast = Toast.makeText(this, "Starting Game!", Toast.LENGTH_SHORT);
-			tmpToast.show();
 			startGame(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
 			break;
 		case R.id.bOptions:
@@ -36,10 +34,8 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			tmpToast.show();
 			showOptions(null);
 			break;
-		case R.id.bHowTo:
-			tmpToast = Toast.makeText(this, "How to play the game! (Not Working yet!)", Toast.LENGTH_SHORT);
-			tmpToast.show();
-			showHighScores(null);
+		case R.id.bHighScore:
+			showHighScores(new Intent("android.intent.action.SQLVIEWACTIVITY"));
 			break;
 		}
 	}
@@ -53,7 +49,18 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 	}
 	
 	private void showHighScores(Intent showHighScoresIntent) {
-		// TODO Auto-generated method stub
+		startActivity(showHighScoresIntent);
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+

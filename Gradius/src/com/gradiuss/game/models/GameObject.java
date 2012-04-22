@@ -56,7 +56,6 @@ public abstract class GameObject {
 	}
 	
 	private Rect getRect() {
-		//Rectangle (left, top, right, bottom)
 	    return new Rect(left(), top(), right(), bottom());
 	}
 	

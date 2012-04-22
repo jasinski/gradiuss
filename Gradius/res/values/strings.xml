@@ -3,5 +3,12 @@
 
     <string name="hello">Hello World, StartGameActivity!</string>
     <string name="app_name">Gradiuss</string>
+    <!-- StartGame -->
+    <string name="start_game">Startgame</string>
+    <string name="options">Options</string>
+    <string name="high_scores">High Scores</string>
+  	<!-- Highscore -->
+    <string name="highscore">Highscore</string>
+    <string name="user">Player</string>
 
 </resources>
