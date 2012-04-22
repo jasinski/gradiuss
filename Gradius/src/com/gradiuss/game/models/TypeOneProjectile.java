@@ -1,11 +1,24 @@
 package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 public class TypeOneProjectile extends Projectile {
 
 	public TypeOneProjectile(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
+	}
+	
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle) {
+		super(bitmap, x, y, rectangle);
+	}
+	
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, int damage) {
+		super(bitmap, x, y, damage);
+	}
+	
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle, int damage) {
+		super(bitmap, x, y, rectangle, damage);
 	}
 
 	@Override

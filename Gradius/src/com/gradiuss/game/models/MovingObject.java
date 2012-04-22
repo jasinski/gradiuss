@@ -1,6 +1,7 @@
 package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 
 public abstract class MovingObject extends GameObject {
@@ -23,6 +24,10 @@ public abstract class MovingObject extends GameObject {
 	
 	public MovingObject(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
+	}
+	
+	public MovingObject(Bitmap bitmap, float x, float y, Rect rectangle) {
+		super(bitmap, x, y, rectangle);
 	}
 	
 	public void setMoveLeft(boolean moveLeft) {

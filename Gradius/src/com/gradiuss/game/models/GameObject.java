@@ -120,12 +120,12 @@ public abstract class GameObject {
 		getRect().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
 	}
 	
-	// Paint the new image with the middle at the coordinates and not the edge.
+	// Paint the new image with the middle at the coordinates and not the edge
 	public void draw(Canvas canvas) {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
-			canvas.drawBitmap(bitmap, x - (getWidth()/2), y - (getHeight()/2), null);
+			canvas.drawBitmap(bitmap, x - (getRectWidth()/2), y - (getRectHeight()/2), null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
 			Paint paint = new Paint();

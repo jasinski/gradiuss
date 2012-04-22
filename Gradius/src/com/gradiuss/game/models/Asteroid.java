@@ -1,16 +1,25 @@
 package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.util.Log;
 
 public class Asteroid extends Enemy {
 	
+	private int previousLife;
+	
 	public Asteroid(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
+	}
+	
+	public Asteroid(Bitmap bitmap, int x, int y, Rect rectangle) {
+		super(bitmap, x, y, rectangle);
 	}
 
 	@Override
 	public void updateState() {
 		
+		// Movement
 		if (moveLeft) {	
 			setX((int) (getX() - (getVx() * getDirectionX()) ));
 		}
@@ -24,12 +33,24 @@ public class Asteroid extends Enemy {
 			setY((int) (getY() + (getVy() * getDirectionY()) ));
 		}
 		
+		// Size of the asteroid when hit
+		if (isHit()) {
+			float damage = previousLife - getLife();
+			float shrinkPercentage = (100/damage-1)/(100/damage);
+			Log.d("ASTEROID TEST: shrinkPercentage = ", shrinkPercentage + "");
+			setBitmap(Bitmap.createBitmap(getBitmap(), 0, 0, Math.round(shrinkPercentage*getBitmap().getWidth()), Math.round(shrinkPercentage*getBitmap().getHeight())));
+			setHit(false);
+		}
+		
 		// Calls the superclass method that updates the rectangle automatically.
 		super.updateState(); 
-//		// Update rectangle
-//		getRect().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
 	}
-
+	
+	@Override
+	public void setLife(int life) {
+		previousLife = getLife();
+		super.setLife(life);
+	}
 	
 	@Override
 	public void setAlive(boolean isAlive) {
@@ -47,7 +68,5 @@ public class Asteroid extends Enemy {
 	public int getLife() {
 		return super.getLife();
 	}
-
-	
 
 }

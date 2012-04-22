@@ -17,7 +17,6 @@ import android.view.SurfaceView;
 
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
-import com.gradiuss.game.models.GameObject;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -27,13 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
 	
-	// Game Constants
 	private static final String TAG = GameView.class.getSimpleName();
-	private static final float FIRE_TIME_STANDARD = 100000000;
-	private static final float FIRE_TIME_TYPE_ONE = (3/2) * FIRE_TIME_STANDARD;
-	private static final float FIRE_TIME_TYPE_TWO = (5/2) * FIRE_TIME_STANDARD;
-	private static final float PROJECTILE_DAMAGE_ONE = 10;
-	private static final float PROJECTILE_DAMAGE_TWO = 20;
 	public GameLoopThread gameLoop;
 	
 	// GameView
@@ -50,9 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Projectiles
 	public List<Projectile> projectiles;
 	int projectileType = 1;
-	float fireTime; // Measures how often a projectile can be fired
+	float fireTime; // Measures how often a projectile will be fired
 	long previousFireTime = 0; // Measures the last time a projectile was fired
-	float projectileDamage; // The amount of damage a projectile can inflict on an enemy
 	
 	// Enemies
 	public List<Enemy> enemies;
@@ -143,15 +135,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
 		bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
 		projectiles = new ArrayList<Projectile>();
-		fireTime = FIRE_TIME_TYPE_ONE;
-		projectileDamage = PROJECTILE_DAMAGE_ONE;
+		fireTime = Projectile.FIRE_TIME_STANDARD;
+//		projectileDamage = PROJECTILE_DAMAGE_ONE;
 	}
 	
 	private void initEnemies() {
 		bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
 		enemies = new ArrayList<Enemy>();
 		
-		// Initializing the first enemy to the list (TEMPORARY, MAKE THIS TIMEDEPENDANT)
+		// TODO - TEMPORARY: Initializing the first enemy to the list (MAKE THIS TIME-DEPENDANT!)
 		Asteroid asteroid = new Asteroid(bmAsteroid, width/2, 0);
 		asteroid.setVy(new Random().nextInt(2) + 1);
 		asteroid.setVx(new Random().nextInt(1));
@@ -170,13 +162,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Updating the states for all the game objects
 	public void updateState() {
 		
-		// COLLISIONS ARE NOW HANDLED IN THE updateCollisions-method !!
-		//check for all collisions
-//		for(Enemy e : enemies) {
-//			if (spaceShip.collisionDetection(e)) {
-//				spaceShip.setVisible(false);
-//			}
-//		}
 		// Update SpaceShip
 		updateSpaceShip();
 		updateProjectiles();
@@ -218,18 +203,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			projectile.setVisible(true);
 			projectile.setMoveUp(true);
 			projectile.setVy(10);
+			projectile.setDamage(10);
+			projectile.setFireInterval((3/2)*Projectile.FIRE_TIME_STANDARD);
 			projectiles.add(projectile);
-			fireTime = FIRE_TIME_TYPE_ONE;
-			projectileDamage = PROJECTILE_DAMAGE_ONE;
+			fireTime = projectile.getFireInterval();
 			break;
 		case 1:
 			projectile = new TypeOneProjectile(bmTypeOneProjectile2, x, y - spaceShip.getBitmap().getHeight()/2);
 			projectile.setVisible(true);
 			projectile.setMoveUp(true);
 			projectile.setVy(10);
+			projectile.setDamage(20);
+			projectile.setFireInterval((5/2)*Projectile.FIRE_TIME_STANDARD);
 			projectiles.add(projectile);
-			fireTime = FIRE_TIME_TYPE_TWO;
-			projectileDamage = PROJECTILE_DAMAGE_TWO;
+			fireTime = projectile.getFireInterval();
 			break;
 		}
 		
@@ -246,8 +233,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void updateCollisions() {
 		
 		// Collision: Spaceship and screen edges
-		// TODO - BUG: If the user hits the move buttons in the direction of the wall
-		// the spaceship will go through the wall eventually! FIX THIS!
+		// TODO - BUG: If the user keeps pressing the move button in the direction of the wall
+		// then the spaceship will eventually move through it! FIX THIS!
 		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= width) {
 			spaceShip.setMoveRight(false);
 		}
@@ -283,12 +270,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					Log.d(TAG, "projectiles.size() = " + projectiles.size());
 					
 					// Update the life of the enemy by the amount that the projectile inflicts.
-					// TODO - TEMPORARY SOLUTION: Shrink the size of the Asteroid by the same amount that the projectile inflicts, in percentage.
-					enemy.setLife((int) (enemy.getLife()-projectileDamage));
-					float shrinkPercentage = (100/projectileDamage-1)/(100/projectileDamage);
-					Log.d(TAG, shrinkPercentage + "");
-					enemy.setBitmap(Bitmap.createBitmap(bmAsteroid, 0, 0, Math.round(shrinkPercentage*enemy.getBitmap().getWidth()), Math.round(shrinkPercentage*enemy.getBitmap().getHeight())));
-				
+					enemy.setLife((int) (enemy.getLife() - projectile.getDamage()));
+					enemy.setHit(true);
+					
 					// Logging the life of the enemy
 					Log.d(TAG, enemy.getLife() + "");
 					
