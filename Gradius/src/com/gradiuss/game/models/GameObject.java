@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.util.Log;
 
 public abstract class GameObject {
 	
@@ -107,7 +108,7 @@ public abstract class GameObject {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
-			canvas.drawBitmap(bitmap, x - (getRectWidth()/2), y - (getRectHeight()/2), null);
+			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
 			Paint paint = new Paint();
