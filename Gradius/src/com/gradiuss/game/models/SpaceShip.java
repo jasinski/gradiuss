@@ -11,6 +11,7 @@ public class SpaceShip extends MovingObject {
 	
 	public SpaceShip(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
+		setVisible(true);
 	}
 	
 	public SpaceShip(Bitmap bitmap, float x, float y, float xSpeed, float ySpeed) {
@@ -42,21 +43,24 @@ public class SpaceShip extends MovingObject {
 	public boolean isShooting() {
 		return shooting;
 	}
-
+	
+	
 	@Override
 	public void updateState() {
-		if (moveLeft) {	
-			setX((int) (getX() - (getVx() * getDirectionX()) ));
-		}
-		if (moveRight) {	
-			setX((int) (getX() + (getVx() * getDirectionX()) ));
-		}
-		if (moveUp) {	
-			setY((int) (getY() - (getVy() * getDirectionY()) ));
-		}
-		if (moveDown) {	
-			setY((int) (getY() + (getVy() * getDirectionY()) ));
-		}
+			if (moveLeft) {	
+				setX((int) (getX() - (getVx() * getDirectionX()) ));
+			}
+			if (moveRight) {	
+				setX((int) (getX() + (getVx() * getDirectionX()) ));
+			}
+			if (moveUp) {	
+				setY((int) (getY() - (getVy() * getDirectionY()) ));
+			}
+			if (moveDown) {	
+				setY((int) (getY() + (getVy() * getDirectionY()) ));
+			}
+
 	}
+	
 
 }

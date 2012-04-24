@@ -26,4 +26,5 @@ public abstract class Enemy extends MovingObject {
 	public int getLife() {
 		return life;
 	}
+
 }

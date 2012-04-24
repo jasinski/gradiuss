@@ -6,23 +6,14 @@ public class Asteroid extends Enemy {
 	
 	public Asteroid(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
+		super.setVisible(true);
 	}
 
 	@Override
 	public void updateState() {
-		
-//		if (moveLeft) {	
-//			setX((int) (getX() - (getVx() * getDirectionX()) ));
-//		}
-//		if (moveRight) {	
-//			setX((int) (getX() + (getVx() * getDirectionX()) ));
-//		}
-//		if (moveUp) {	
-//			setY((int) (getY() - (getVy() * getDirectionY()) ));
-//		}
-//		if (moveDown) {	
-//			setY((int) (getY() + (getVy() * getDirectionY()) ));
-//		}
+		//setting the new position
+		setY((int)getY()+2);
+		setX((int)getX()+1);
 	}
 
 	
@@ -42,6 +33,7 @@ public class Asteroid extends Enemy {
 	public int getLife() {
 		return super.getLife();
 	}
+
 
 	
 

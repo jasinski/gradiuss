@@ -88,5 +88,6 @@ public abstract class MovingObject extends GameObject {
 	public int getDirectionY() {
 		return directionY;
 	}
+	
 
 }

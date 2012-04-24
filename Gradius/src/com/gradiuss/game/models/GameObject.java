@@ -2,7 +2,6 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 
 public abstract class GameObject {
@@ -59,6 +58,7 @@ public abstract class GameObject {
 	    return new Rect(left(), top(), right(), bottom());
 	}
 	
+	//checks whether this object has collided with other object
 	public boolean collisionDetection(GameObject gameobject) {
 		return this.getRect().intersect(gameobject.getRect());
 	}

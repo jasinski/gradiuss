@@ -22,4 +22,5 @@ public class AlienShip extends Enemy {
 	public void updateState() {
 		// TODO Auto-generated method stub
 	}
+
 }

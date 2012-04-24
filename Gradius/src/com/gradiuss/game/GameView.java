@@ -2,7 +2,6 @@ package com.gradiuss.game;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -110,10 +109,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void initEnemies() {
 		enemies = new ArrayList<Enemy>();
 		
-		// Individual Enemies
+		// Individual Enemies and positioning them
         Asteroid asteroid = new Asteroid(bmAsteroid, 0, 0);
 		
-        // add enemies to list of enemies
+        //add enemies to list of enemies
 		enemies.add(asteroid);
 
 	}
