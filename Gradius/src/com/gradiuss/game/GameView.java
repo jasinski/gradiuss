@@ -69,10 +69,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		// GameView
 		width = getWidth();
-		height = getHeight();
-		
-		// Background
-		initBackground();
+		height = getHeight();		
 		
 		// Loading level (Resources)
 		initGameObjects();
@@ -114,8 +111,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
  
 	public void initGameObjects() {
+		
+		// Background
+		initBackground();
+		
+		// SpaceShip
 		initSpaceShip();
+		
+		// Projectiles
 		initProjectiles();
+		
+		// Enemies
 		initEnemies();
 	}
 
@@ -265,6 +271,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (projectile.collisionDetection(enemy)) {	
 					// Destroy the projectile
 					projectile.setVisible(false);
+//					projectiles.remove(projectile);
 					
 					// Logging how many projectiles there are in the list.
 					Log.d(TAG, "projectiles.size() = " + projectiles.size());

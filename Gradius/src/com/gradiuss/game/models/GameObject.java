@@ -16,7 +16,7 @@ public abstract class GameObject {
 	private boolean visible;
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
-		if (rectangle == null) {
+		if (rectangle == null || bitmap == null) {
 			throw new IllegalArgumentException();
 		}
 		this.bitmap = bitmap;
@@ -60,24 +60,6 @@ public abstract class GameObject {
 	public int getRectHeight() {
 		return rectangle.bottom - rectangle.top;
 	}
-	
-	// TODO: Not used, added a rectangle to all the GameObjects instead.
-//	private int left() {
-//		return (int) ((int)getX()-(getWidth()/2));
-//	}
-//	private int top() {
-//		return (int) ((int)getY()-(getHeight()/2));
-//	}
-//	private int right() {
-//		return (int) ((int)getX()+(getWidth()/2));
-//	}
-//	private int bottom() {
-//		return (int) ((int)getY()+(getHeight()/2));
-//	}
-	
-//	private Rect getRect() {
-//	    return new Rect(left(), top(), right(), bottom());
-//	}
 	
 	public boolean collisionDetection(GameObject gameobject) {
 		return rectangle.intersect(gameobject.rectangle);
