@@ -2,6 +2,9 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
 public abstract class GameObject {
@@ -9,14 +12,23 @@ public abstract class GameObject {
 	private float x; // The X coordinate
 	private float y; // The Y coordinate
 	private Bitmap bitmap; // The bitmap
+	private Rect rectangle;
 	private boolean visible;
-
-	public GameObject(Bitmap bitmap, float x, float y) {
+	
+	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
+		if (rectangle == null) {
+			throw new IllegalArgumentException();
+		}
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
+		this.rectangle = rectangle;
 	}
-	
+
+	public GameObject(Bitmap bitmap, float x, float y) throws IllegalArgumentException {
+		this(bitmap, x, y, new Rect((int) x - bitmap.getWidth()/2, (int) y - bitmap.getHeight()/2, (int) x + bitmap.getWidth()/2, (int) y + bitmap.getHeight()/2));
+	}
+
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -41,26 +53,16 @@ public abstract class GameObject {
 		return bitmap.getWidth();
 	}
 	
-	private int left() {
-		return (int) ((int)getX()-(getWidth()/2));
-	}
-	private int top() {
-		return (int) ((int)getY()-(getHeight()/2));
-	}
-	private int right() {
-		return (int) ((int)getX()+(getWidth()/2));
-	}
-	private int bottom() {
-		return (int) ((int)getY()+(getHeight()/2));
+	public int getRectWidth() {
+		return rectangle.right - rectangle.left;
 	}
 	
-	private Rect getRect() {
-	    return new Rect(left(), top(), right(), bottom());
+	public int getRectHeight() {
+		return rectangle.bottom - rectangle.top;
 	}
 	
-	//checks whether this object has collided with other object
 	public boolean collisionDetection(GameObject gameobject) {
-		return this.getRect().intersect(gameobject.getRect());
+		return rectangle.intersect(gameobject.rectangle);
 	}
 	
 	public void setBitmap(Bitmap bitmap) {
@@ -71,6 +73,14 @@ public abstract class GameObject {
 		return bitmap;
 	}
 	
+	public void setRect(Rect rectangle) {
+		this.rectangle = rectangle;
+	}
+	
+	public Rect getRect() {
+		return rectangle;
+	}
+	
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
@@ -79,15 +89,34 @@ public abstract class GameObject {
 		return visible;
 	}
 
-	// This is implemented by the extending class
-	public abstract void updateState();
 	
+	/**
+	 * This method should be overridden by the extending class. 
+	 * The overriding method should call "super.updateState()" at the end of the method 
+	 * to automatically update the rectangle to fit the size of the bitmap.
+	 * Otherwise the updating of the rectangle has to be implemented explicitly.
+	 */
+	public void updateState() {
+		
+		// Update rectangle
+		getRect().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
+	}
+	
+	// Paint the new image with the middle at the coordinates and not the edge
 	public void draw(Canvas canvas) {
-		if(isVisible()){
-			// Paint the new image with the middle at the coordinates and not the edge.
-			canvas.drawBitmap(bitmap, x - (bitmap.getWidth()/2), y - (bitmap.getHeight()/2), null);
-		} 
-	
+		
+		// Draw the bitmap if the object is set to be visible
+		if (visible) {
+			canvas.drawBitmap(bitmap, x - (getRectWidth()/2), y - (getRectHeight()/2), null);
+			
+			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
+			Paint paint = new Paint();
+			paint.setColor(Color.GREEN);
+			paint.setStyle(Style.STROKE);
+			canvas.drawRect(rectangle, paint);
+			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
+			
+		}
 	}
 	
 }

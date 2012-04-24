@@ -27,7 +27,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 		Toast tmpToast;
 		switch (v.getId()) {
 		case R.id.bStartGame:
-			startGame(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
+			startActivity(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
 			break;
 		case R.id.bOptions:
 			tmpToast = Toast.makeText(this, "Options Screen! (Not Working yet!)", Toast.LENGTH_SHORT);
@@ -35,23 +35,15 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			showOptions(null);
 			break;
 		case R.id.bHighScore:
-			showHighScores(new Intent("android.intent.action.SQLVIEWACTIVITY"));
+			startActivity(new Intent("android.intent.action.SQLVIEWACTIVITY"));
 			break;
 		}
 	}
 
-	private void startGame(Intent startGameIntent) {
-		startActivity(startGameIntent);
-	}
-	
 	private void showOptions(Intent showOptionsIntent) {
 		// TODO Auto-generated method stub
 	}
 	
-	private void showHighScores(Intent showHighScoresIntent) {
-		startActivity(showHighScoresIntent);
-	}
-
 }
 
 

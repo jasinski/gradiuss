@@ -23,7 +23,6 @@ public class GameViewActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
         // Window settings
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -63,6 +62,8 @@ public class GameViewActivity extends Activity {
 			
 			public boolean onTouch(View v, MotionEvent event) {
 				
+				Log.d(TAG, event.getX() + "");
+				
 				// Move spaceship right
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bRightPad.setPressed(true);
@@ -86,6 +87,9 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bUpPad.setPressed(true);
 					gameView.spaceShip.setMoveUp(true);
+					
+					// TODO - TEMPORARY: Changes the projectiles to type = 1 (just used for testing)
+					gameView.projectileType = 1;
 				}
 				
 				// Stop moving spaceship up
@@ -105,6 +109,9 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bDownPad.setPressed(true);
 					gameView.spaceShip.setMoveDown(true);
+					
+					// TODO - TEMPORARY: Changes the projectiles to type = 0 (just used for testing)
+					gameView.projectileType = 0;
 				}
 				
 				// Stop moving spaceship down
@@ -150,7 +157,7 @@ public class GameViewActivity extends Activity {
 		super.onResume();
 		gameView.gameLoop.resumeThread();
 	}
-
+	
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "Destroying...");

@@ -47,19 +47,22 @@ public class SpaceShip extends MovingObject {
 	
 	@Override
 	public void updateState() {
-			if (moveLeft) {	
-				setX((int) (getX() - (getVx() * getDirectionX()) ));
-			}
-			if (moveRight) {	
-				setX((int) (getX() + (getVx() * getDirectionX()) ));
-			}
-			if (moveUp) {	
-				setY((int) (getY() - (getVy() * getDirectionY()) ));
-			}
-			if (moveDown) {	
-				setY((int) (getY() + (getVy() * getDirectionY()) ));
-			}
+		// Update movement
+		if (moveLeft) {	
+			setX((int) (getX() - (getVx() * getDirectionX()) ));
+		}
+		if (moveRight) {	
+			setX((int) (getX() + (getVx() * getDirectionX()) ));
+		}
+		if (moveUp) {	
+			setY((int) (getY() - (getVy() * getDirectionY()) ));
+		}
+		if (moveDown) {	
+			setY((int) (getY() + (getVy() * getDirectionY()) ));
+		}
 
+		// Calls the superclass method that updates the rectangle automatically.
+		super.updateState(); 
 	}
 	
 
