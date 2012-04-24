@@ -161,7 +161,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void initSpaceShip() {
 		// SpaceShip
 		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall2);
-		spaceShip = new SpaceShip(bmSpaceShip, width/2, height-bmSpaceShip.getHeight(), 5, 5);
+		
+		// TODO - DISKUTERA: Diskutera om inte detta gör att skärmar med olika "ratio" mellan höjd och bredd ändrar rymdskeppets form.
+		Bitmap bm = Bitmap.createScaledBitmap(bmSpaceShip, (int)width/8, (int)height/6, true);
+		
+		spaceShip = new SpaceShip(bm, width/2, height-bmSpaceShip.getHeight(), 5, 5);
 		spaceShip.setVx(10);
 		spaceShip.setVisible(true);
 		
@@ -192,6 +196,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.setLife(100);
 		
 		// add enemies to list of enemies
+
 		enemies.add(asteroid);
 		
 	}

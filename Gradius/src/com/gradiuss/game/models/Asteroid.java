@@ -10,6 +10,7 @@ public class Asteroid extends Enemy {
 	
 	public Asteroid(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
+		super.setVisible(true);
 	}
 	
 	public Asteroid(Bitmap bitmap, int x, int y, Rect rectangle) {
