@@ -122,7 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void initSpaceShip() {
 		// SpaceShip
-		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsmall);
+		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall);
 		spaceShip = new SpaceShip(bmSpaceShip, width/2, height-bmSpaceShip.getHeight(), 5, 5);
 		spaceShip.setVx(10);
 		spaceShip.setVisible(true);
@@ -141,7 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void initEnemies() {
-		bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.asteroid);
+		bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.rocksmall);
 		enemies = new ArrayList<Enemy>();
 		
 		// TODO - TEMPORARY: Initializing the first enemy to the list (MAKE THIS TIME-DEPENDANT!)
