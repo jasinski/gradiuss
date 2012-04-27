@@ -15,11 +15,16 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
         setContentView(R.layout.startgame);
          
         Button bStartGame = (Button) findViewById(R.id.bStartGame);
-        Button bOptions = (Button) findViewById(R.id.bOptions);
         Button bHighScore = (Button) findViewById(R.id.bHighScore);
+        Button bOptions = (Button) findViewById(R.id.bOptions);
+        Button bAbout = (Button) findViewById(R.id.bAbout);
+        Button bHelp = (Button) findViewById(R.id.bHelp);
+
         bStartGame.setOnClickListener(this);
-        bOptions.setOnClickListener(this);
         bHighScore.setOnClickListener(this);
+        bOptions.setOnClickListener(this);
+        bAbout.setOnClickListener(this);
+        bHelp.setOnClickListener(this);
 
     }
 
@@ -37,6 +42,13 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 		case R.id.bHighScore:
 			showHighScores(new Intent("android.intent.action.SQLVIEWACTIVITY"));
 			break;
+		case R.id.bAbout:
+			showAbout(new Intent("android.intent.action.ABOUTACTIVITY"));
+			break;
+		case R.id.bHelp:
+			showAbout(new Intent("android.intent.action.HELPACTIVITY"));
+			break;
+			
 		}
 	}
 
@@ -44,14 +56,22 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 		startActivity(startGameIntent);
 	}
 	
-	private void showOptions(Intent showOptionsIntent) {
-		// TODO Auto-generated method stub
-	}
-	
 	private void showHighScores(Intent showHighScoresIntent) {
 		startActivity(showHighScoresIntent);
 	}
+	
+	private void showOptions(Intent showOptionsIntent) {
 
+	}
+	
+	private void showAbout(Intent showAboutIntent) {
+		startActivity(showAboutIntent);
+	}
+	
+	private void showHelp(Intent showHelpIntent) {
+		startActivity(showHelpIntent);
+	}
+	
 }
 
 
