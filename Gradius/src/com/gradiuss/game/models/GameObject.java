@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.util.Log;
 
 public abstract class GameObject {
 	
@@ -16,7 +17,7 @@ public abstract class GameObject {
 	private boolean visible;
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
-		if (rectangle == null) {
+		if (rectangle == null || bitmap == null) {
 			throw new IllegalArgumentException();
 		}
 		this.bitmap = bitmap;
@@ -60,24 +61,6 @@ public abstract class GameObject {
 	public int getRectHeight() {
 		return rectangle.bottom - rectangle.top;
 	}
-	
-	// TODO: Not used, added a rectangle to all the GameObjects instead.
-//	private int left() {
-//		return (int) ((int)getX()-(getWidth()/2));
-//	}
-//	private int top() {
-//		return (int) ((int)getY()-(getHeight()/2));
-//	}
-//	private int right() {
-//		return (int) ((int)getX()+(getWidth()/2));
-//	}
-//	private int bottom() {
-//		return (int) ((int)getY()+(getHeight()/2));
-//	}
-	
-//	private Rect getRect() {
-//	    return new Rect(left(), top(), right(), bottom());
-//	}
 	
 	public boolean collisionDetection(GameObject gameobject) {
 		return rectangle.intersect(gameobject.rectangle);
@@ -125,7 +108,7 @@ public abstract class GameObject {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
-			canvas.drawBitmap(bitmap, x - (getRectWidth()/2), y - (getRectHeight()/2), null);
+			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
 			Paint paint = new Paint();

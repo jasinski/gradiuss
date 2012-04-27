@@ -11,6 +11,7 @@ public class SpaceShip extends MovingObject {
 	
 	public SpaceShip(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
+		setVisible(true);
 	}
 	
 	public SpaceShip(Bitmap bitmap, float x, float y, float xSpeed, float ySpeed) {
@@ -42,10 +43,10 @@ public class SpaceShip extends MovingObject {
 	public boolean isShooting() {
 		return shooting;
 	}
-
+	
+	
 	@Override
 	public void updateState() {
-		
 		// Update movement
 		if (moveLeft) {	
 			setX((int) (getX() - (getVx() * getDirectionX()) ));
@@ -63,5 +64,6 @@ public class SpaceShip extends MovingObject {
 		// Calls the superclass method that updates the rectangle automatically.
 		super.updateState(); 
 	}
+	
 
 }

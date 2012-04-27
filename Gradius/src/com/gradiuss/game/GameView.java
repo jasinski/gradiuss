@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gradiuss.game.models.Asteroid;
+import com.gradiuss.game.models.Background;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
@@ -24,7 +25,9 @@ import com.gradiuss.game.models.TypeOneProjectile;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	private static final String TAG = GameView.class.getSimpleName();
 	public GameLoopThread gameLoop;
@@ -36,6 +39,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Game time
 	long startGameTime;
 	long totalGameTime = 0;
+	
+	// Background
+	Background[] backgrounds;
 	
 	// SpaceShip
 	public SpaceShip spaceShip;
@@ -62,17 +68,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		initGameView();
 	}
 	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	// Loading resources like images, music etc... and starting the game loop!
 	public void surfaceCreated(SurfaceHolder holder) {
 		
 		// GameView
 		width = getWidth();
-		height = getHeight();
-		
-		// Background
-		initBackground();
+		height = getHeight();		
 		
 		// Loading level (Resources)
 		initGameObjects();
@@ -109,20 +114,58 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void initBackground() {
+		
+		// Initiate Bitmap
 		bmBackground = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
-		rectBackground = new Rect(0, 0, width, height);
+//		rectBackground = new Rect(0, 0, width, height);
+		
+		// Calculate how many background images are needed to cover the whole screen
+		int nrOfBackgroundgImages = (int) Math.ceil((float) height/(float) bmBackground.getHeight()) + 1;
+		
+		// TODO: LOGGING
+		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages);
+		
+		// Creating and populating the array of Background images
+		backgrounds = new Background[nrOfBackgroundgImages];
+		
+		for (int i = 0; i < backgrounds.length; i++) {
+			
+			// TODO: LOGGING
+			Log.d(TAG, "i = " + i);
+			Rect rect = new Rect(0, 0, width, height);
+			
+			// Creating a new Background object
+			backgrounds[i] = new Background(bmBackground, width/2, height-bmBackground.getHeight()/2 - i*bmBackground.getHeight(), rect, width, height);
+			backgrounds[i].setVisible(true);
+			backgrounds[i].setMoveDown(true);
+			backgrounds[i].setVy(1);
+		}
+		
 	}
  
 	public void initGameObjects() {
+		
+		// Background
+		initBackground();
+		
+		// SpaceShip
 		initSpaceShip();
+		
+		// Projectiles
 		initProjectiles();
+		
+		// Enemies
 		initEnemies();
 	}
 
 	private void initSpaceShip() {
 		// SpaceShip
-		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall);
-		spaceShip = new SpaceShip(bmSpaceShip, width/2, height-bmSpaceShip.getHeight(), 5, 5);
+		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall2);
+		
+		// TODO - DISKUTERA: Diskutera om inte detta gör att skärmar med olika "ratio" mellan höjd och bredd ändrar rymdskeppets form.
+		Bitmap bm = Bitmap.createScaledBitmap(bmSpaceShip, (int)width/8, (int)height/6, true);
+		
+		spaceShip = new SpaceShip(bm, width/2, height-bmSpaceShip.getHeight(), 5, 5);
 		spaceShip.setVx(10);
 		spaceShip.setVisible(true);
 		
@@ -153,15 +196,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.setLife(100);
 		
 		// add enemies to list of enemies
+
 		enemies.add(asteroid);
 		
 	}
 	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	// Updating the states for all the game objects
 	public void updateState() {
-		
+		// Background
+		updateBackground();
 		// Update SpaceShip
 		updateSpaceShip();
 		updateProjectiles();
@@ -229,6 +276,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
+	// Update All Enemies
+	private void updateBackground() {
+		for(Background background: backgrounds){
+			Log.d(TAG, "bg.updatestate");
+			background.updateState();
+		}
+	}
+	
 	// Update collisions between objects and boundaries
 	public void updateCollisions() {
 		
@@ -265,6 +320,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (projectile.collisionDetection(enemy)) {	
 					// Destroy the projectile
 					projectile.setVisible(false);
+//					projectiles.remove(projectile);
 					
 					// Logging how many projectiles there are in the list.
 					Log.d(TAG, "projectiles.size() = " + projectiles.size());
@@ -325,11 +381,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
-		canvas.drawColor(Color.BLACK);
-		canvas.drawBitmap(bmBackground, null, rectBackground, null);
+		canvas.drawColor(Color.WHITE);
+		renderBackground(canvas);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
 		renderEnemies(canvas);
+	}
+	
+	// Render background
+	public void renderBackground(Canvas canvas) {
+		for (Background background : backgrounds) {
+			Log.d(TAG, "Paint background");
+			background.draw(canvas);
+		}
+		//canvas.drawBitmap(bmBackground, null, rectBackground, null);
 	}
 	
 	// Render the Spaceship

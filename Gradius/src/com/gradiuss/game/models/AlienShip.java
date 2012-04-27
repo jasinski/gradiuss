@@ -22,4 +22,5 @@ public class AlienShip extends Enemy {
 	public void updateState() {
 		super.updateState();
 	}
+
 }

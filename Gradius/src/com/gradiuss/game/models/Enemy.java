@@ -40,4 +40,5 @@ public abstract class Enemy extends MovingObject {
 	public boolean isHit() {
 		return hit;
 	}
+
 }

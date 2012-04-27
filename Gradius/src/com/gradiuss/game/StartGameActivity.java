@@ -32,7 +32,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 		Toast tmpToast;
 		switch (v.getId()) {
 		case R.id.bStartGame:
-			startGame(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
+			startActivity(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
 			break;
 		case R.id.bOptions:
 			tmpToast = Toast.makeText(this, "Options Screen! (Not Working yet!)", Toast.LENGTH_SHORT);
@@ -40,7 +40,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			showOptions(null);
 			break;
 		case R.id.bHighScore:
-			showHighScores(new Intent("android.intent.action.SQLVIEWACTIVITY"));
+			startActivity(new Intent("android.intent.action.SQLVIEWACTIVITY"));
 			break;
 		case R.id.bAbout:
 			showAbout(new Intent("android.intent.action.ABOUTACTIVITY"));
@@ -70,6 +70,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 	
 	private void showHelp(Intent showHelpIntent) {
 		startActivity(showHelpIntent);
+
 	}
 	
 }
