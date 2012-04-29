@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class GameObject {
 	
@@ -67,15 +68,6 @@ public class GameObject {
 		return rectangle.intersect(gameobject.rectangle);
 	}
 	
-	//method for giving the object all resources to for example be able to draw an explosion
-	public void setResources(Resources res) {
-		this.res = res;
-	}
-	
-	public Resources getResources(){
-		return res;
-	}
-	
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
@@ -117,7 +109,7 @@ public class GameObject {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
-			canvas.drawBitmap(bitmap, x - (getRectWidth()/2), y - (getRectHeight()/2), null);
+			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
 			Paint paint = new Paint();
