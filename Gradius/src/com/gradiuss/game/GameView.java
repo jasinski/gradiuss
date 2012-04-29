@@ -118,14 +118,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		// Initiate Bitmap
 		bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
-		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front);
+		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
 //		rectBackground = new Rect(0, 0, width, height);
 		
 		// Calculate how many background images are needed to cover the whole screen
 		int nrOfBackgroundgImages = (int) Math.ceil((float) height/(float) bmBackgroundBack.getHeight()) + 1;
 		
 		// TODO: LOGGING
-		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages);
+		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages); 
 		
 		// Creating and populating the array of Background images
 		backgroundsBack = new Background[nrOfBackgroundgImages];
@@ -138,7 +138,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			Rect rect = new Rect(0, 0, width, height);
 			
 			// Creating a new Background object
-			backgroundsBack[i] = new Background(bmBackgroundBack, width/2, height-bmBackgroundBack.getHeight()/2 - i*bmBackgroundBack.getHeight(), rect, width, height);
+			backgroundsBack[i] = new Background(bmBackgroundBack, width/2, height-bmBackgroundBack.getHeight()/2 - i*bmBackgroundBack.getHeight(), rect, width, height, nrOfBackgroundgImages);
 			backgroundsBack[i].setVisible(true);
 			backgroundsBack[i].setMoveDown(true);
 			backgroundsBack[i].setVy(1);
@@ -151,10 +151,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			Rect rect = new Rect(0, 0, width, height);
 			
 			// Creating a new Background object
-			backgroundsFront[i] = new Background(bmBackgroundFront, width/2, height-bmBackgroundFront.getHeight()/2 - i*bmBackgroundFront.getHeight(), rect, width, height);
+			backgroundsFront[i] = new Background(bmBackgroundFront, width/2, height-bmBackgroundFront.getHeight()/2 - i*bmBackgroundFront.getHeight(), rect, width, height, nrOfBackgroundgImages);
 			backgroundsFront[i].setVisible(true);
 			backgroundsFront[i].setMoveDown(true);
-			backgroundsFront[i].setVy(5);
+			backgroundsFront[i].setVy(3);
 		}
 		
 	}

@@ -9,14 +9,18 @@ public class Background extends MovingObject {
 
 	int screenWidth;
 	int screenHeight;
+	int nrOfBackgroundCopies;
+	int redrawPosition;
 	
 	// TODO - TEMPORARY VARIABLE
 	int tmp = 1;
 	
-	public Background(Bitmap bitmap, float x, float y, Rect rectangle, int screenWidth, int screenHeight) {
+	public Background(Bitmap bitmap, float x, float y, Rect rectangle, int screenWidth, int screenHeight, int nrOfBackgroundCopies) {
 		super(bitmap, x, y, rectangle);
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
+		this.nrOfBackgroundCopies = nrOfBackgroundCopies;
+		this.redrawPosition = nrOfBackgroundCopies * getHeight();
 	}
 
 	@Override
@@ -33,7 +37,7 @@ public class Background extends MovingObject {
 		
 		// TODO - NEED TO BE UPDATED: Doesn't draw the image at the right spot
 		if (getY() >= screenHeight + getHeight()/2) {
-			setY(-getHeight());
+			setY((int) getY() - redrawPosition);
 		}
 		
 		super.updateState();
