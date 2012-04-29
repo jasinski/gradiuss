@@ -22,6 +22,7 @@ public class Background extends MovingObject {
 		this.nrOfBackgroundCopies = nrOfBackgroundCopies;
 		this.redrawPosition = nrOfBackgroundCopies * getHeight();
 	}
+	
 
 	@Override
 	public void updateState() {

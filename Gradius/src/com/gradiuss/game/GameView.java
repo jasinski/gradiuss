@@ -18,6 +18,7 @@ import android.view.SurfaceView;
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Background;
 import com.gradiuss.game.models.Enemy;
+import com.gradiuss.game.models.Explosion;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -41,8 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long totalGameTime = 0;
 	
 	// Background
-	Background[] backgroundsBack;
-	Background[] backgroundsFront;
+	List<Background[]> bgLayers;
 	
 	// SpaceShip
 	public SpaceShip spaceShip;
@@ -56,13 +56,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Enemies
 	public List<Enemy> enemies;
 	
+	
+	// Explosions
+	public List<Explosion> explosions;
+	float explosionFrameTime; // Measures how long time an explosion-frame last.
+	
 	// Bitmaps
-	Bitmap bmBackgroundBack;
+	// Background
+//	Bitmap bmBackgroundBack;
 	Rect rectBackground;
 	Bitmap bmSpaceShip;
 	Bitmap bmTypeOneProjectile1;
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
+	// Array of Explosion Frames
+	Bitmap[] bmExplosionFrames = new Bitmap[9];
+	
 	
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -114,10 +123,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		setFocusable(true);
 	}
 
-	public void initBackground() {
+	public void initBackground(Bitmap... bitmap) {
+		
+		// Initializing Background Layers
+		bgLayers = new ArrayList<Background[]>();
+		for (Bitmap bm : bitmap) {
+			Background[] bg = new Background[10];
+		}
 		
 		// Initiate Bitmap
-		bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
+		Bitmap bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
 		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
 //		rectBackground = new Rect(0, 0, width, height);
 		
@@ -128,8 +143,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages); 
 		
 		// Creating and populating the array of Background images
-		backgroundsBack = new Background[nrOfBackgroundgImages];
-		backgroundsFront = new Background[nrOfBackgroundgImages];
+		Background[] backgroundsBack = new Background[nrOfBackgroundgImages];
+		Background[] backgroundsFront = new Background[nrOfBackgroundgImages];
+		
+		
+		bgLayers.add(backgroundsBack);
+		bgLayers.add(backgroundsFront);
 		
 		for (int i = 0; i < backgroundsBack.length; i++) {
 			
@@ -172,6 +191,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		// Enemies
 		initEnemies();
+		initExplosions();
 	}
 
 	private void initSpaceShip() {
@@ -214,9 +234,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// add enemies to list of enemies
 
 		enemies.add(asteroid);
-		
 	}
 	
+	private void initExplosions() {
+		explosions = new ArrayList<Explosion>(); 
+		explosionFrameTime = Explosion.STANDARD_FRAME_TIME;
+		bmExplosionFrames[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion1);
+		bmExplosionFrames[1] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion2);
+		bmExplosionFrames[2] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion3);
+		bmExplosionFrames[3] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion4);
+		bmExplosionFrames[4] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion5);
+		bmExplosionFrames[5] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion6);
+		bmExplosionFrames[6] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion7);
+		bmExplosionFrames[7] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8);
+		bmExplosionFrames[8] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9);
+	}
+
+	
+
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -228,13 +263,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// Update SpaceShip
 		updateSpaceShip();
 		updateProjectiles();
+		
 		// Update Enemies
 		updateEnemies();
 		
 		// Update collisions
 		updateCollisions();	
+		
+		// Update Explosions
+		updateExplosions();
 	}
-	
+
 	public void updateProjectiles() {
 
 		// Shooting projectiles
@@ -292,16 +331,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
+	// Create an Explosion in position x, y, with an explosion area
+	private void addExplosion(float x, float y, Rect explosionArea) { 
+		Explosion explosion = new Explosion(x, y, explosionArea);
+		explosion.setFrames(bmExplosionFrames);
+		explosion.setVisible(true);
+		//give the Explosion instance Resources so it can access the "png" files of them explosion frames
+		explosions.add(explosion);
+		Log.d(TAG, "adding explosion");
+	}
+
 	// Update All Enemies
 	private void updateBackground() {
-		for(Background background: backgroundsBack){
-			Log.d(TAG, "bg.updatestate");
-			background.updateState();
+		for (Background[] bgLayer : bgLayers) {
+			for(Background background: bgLayer){
+				Log.d(TAG, "bg.updatestate");
+				background.updateState();
+			}
 		}
-		for(Background background: backgroundsFront){
-			Log.d(TAG, "bg.updatestate");
-			background.updateState();
-		}
+		
+//		for(Background background: backgroundsFront){
+//			Log.d(TAG, "bg.updatestate");
+//			background.updateState();
+//		}
 	}
 	
 	// Update collisions between objects and boundaries
@@ -324,11 +376,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		
 		// Collision: Spaceship and Enemies
-		// TODO - TEMPORARY SOLUTION: The spaceship should loose lifepower
-		// and when it hits zero the game is over
+		// TODO - TEMPORARY SOLUTION: The spaceship should lose lifepower
+		// and when it hits zero the game is over.
 		for (Enemy enemy : enemies) {
 			if (spaceShip.collisionDetection(enemy)) {
 				spaceShip.setVisible(false);
+				// TODO - method for explosion should be applied if enemy kills the spaceship.
 			}
 		}
 		
@@ -352,12 +405,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					// Logging the life of the enemy
 					Log.d(TAG, enemy.getLife() + "");
 					
-					// TODO - TEMPORARY SOLUTION: Destroy the enemy if lifebar <= 0 and add a new one to the top of the screen
+					// TODO - TEMPORARY SOLUTION: Destroy the enemy if lifebar <= 0 and add a new one to the top of the screen 
+					// and add an explosion on previous position
 					if (enemy.getLife() <= 0) {
 						enemy.setVisible(false);
+						float x = enemy.getX();
+						float y = enemy.getY();
+						Rect rect = enemy.getRect();
 						enemies.remove(enemy);
-						
-						// Logging how many enemies there are in the list.
+						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
 						Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getHeight()/2);
@@ -369,10 +425,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						asteroid.setVisible(true);
 						asteroid.setLife(100);
 						enemies.add(asteroid);
-					} 
-				}
+
+					}
+				} 
 			}
 		}
+		
 
 		// Collision: Enemies and screen edges
 		for (Enemy enemy : enemies) {
@@ -394,9 +452,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				enemies.add(asteroid);
 			}
 		}
+	} //updateCollison()
+	
+	private void updateExplosions() {
+		if(!explosions.isEmpty()) {
+			for(Explosion explosion : explosions) {
+				if(totalGameTime - explosion.previousExplosionFrame > explosionFrameTime) {
+					explosion.previousExplosionFrame = totalGameTime;
+					explosion.updateState();
+					if(explosion.lastFrame()) {
+						explosions.remove(explosion);
+					}
+				}			
+			}
+		}
 	}
-	
-	
+
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	
 	// Rendering the game state
@@ -406,17 +477,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
 		renderEnemies(canvas);
+		renderExplosions(canvas);
 	}
 	
 	// Render background
 	public void renderBackground(Canvas canvas) {
-		for (Background background : backgroundsBack) {
-			Log.d(TAG, "Paint background");
-			background.draw(canvas);
-		}
-		for (Background background : backgroundsFront) {
-			Log.d(TAG, "Paint background");
-			background.draw(canvas);
+		for (Background[] bgLayer : bgLayers) {
+			for(Background background : bgLayer){
+				Log.d(TAG, "bg.updatestate");
+				background.draw(canvas);
+			}
 		}
 		//canvas.drawBitmap(bmBackground, null, rectBackground, null);
 	}
@@ -434,9 +504,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	// Render All Enemies
-	private void renderEnemies(Canvas canvas) {
+	public void renderEnemies(Canvas canvas) {
 		for(Enemy enemy : enemies){
 			enemy.draw(canvas);
+		}
+	}
+	
+	// Render All Explosions
+	public void renderExplosions(Canvas canvas) {
+		for(Explosion explosion : explosions) {
+			explosion.draw(canvas);
 		}
 	}
 
