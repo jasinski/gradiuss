@@ -63,7 +63,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Bitmaps
 	// Background
-//	Bitmap bmBackgroundBack;
 	Rect rectBackground;
 	Bitmap bmSpaceShip;
 	Bitmap bmTypeOneProjectile1;
@@ -169,7 +168,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		spaceShip.setVisible(true);
 		
 		// TODO - REMOVE: This line makes the spaceship shoot projectiles automatically until the firebutton is pressed.
-//		spaceShip.setShooting(true);
 	}
 	
 	private void initProjectiles() {
@@ -418,7 +416,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void updateExplosions() {
 		// Den första if-satsen är onödig eftersom foreach loopen hoppas över att köras om listan är tom
-//		if(!explosions.isEmpty()) {
 		for(Explosion explosion : explosions) {
 			if(totalGameTime - explosion.previousExplosionFrame > explosionFrameTime) {
 				explosion.previousExplosionFrame = totalGameTime;
@@ -428,7 +425,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 		}
-//		}
 	}
 
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
