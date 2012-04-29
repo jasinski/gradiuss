@@ -39,7 +39,7 @@ public class Asteroid extends Enemy {
 			float damage = previousLife - getLife();
 			float shrinkPercentage = (100/damage-1)/(100/damage);
 			Log.d("ASTEROID TEST: shrinkPercentage = ", shrinkPercentage + "");
-			setBitmap(Bitmap.createBitmap(getBitmap(), 0, 0, Math.round(shrinkPercentage*getBitmap().getWidth()), Math.round(shrinkPercentage*getBitmap().getHeight())));
+			setBitmap(0, Bitmap.createBitmap(getBitmap(), 0, 0, Math.round(shrinkPercentage*getBitmap().getWidth()), Math.round(shrinkPercentage*getBitmap().getHeight())));
 			setHit(false);
 		}
 		

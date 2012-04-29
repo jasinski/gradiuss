@@ -1,5 +1,8 @@
 package com.gradiuss.game.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,13 +10,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class GameObject {
 	
 	private float x; // The X coordinate
 	private float y; // The Y coordinate
 	private Bitmap bitmap; // The bitmap
+	private List<Bitmap> animations; // The animations
+	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
 	private Resources res;
@@ -22,7 +26,19 @@ public class GameObject {
 		if (rectangle == null) {
 			throw new IllegalArgumentException();
 		}
-		this.bitmap = bitmap;
+		this.animations = new ArrayList<Bitmap>(1);
+		this.animations.add(bitmap);
+//		this.bitmap = bitmap;
+		this.x = x;
+		this.y = y;
+		this.rectangle = rectangle;
+	}
+	
+	public GameObject(List<Bitmap> animations, float x, float y, Rect rectangle) throws IllegalArgumentException {
+		if (rectangle == null) {
+			throw new IllegalArgumentException();
+		}
+		this.animations = animations;
 		this.x = x;
 		this.y = y;
 		this.rectangle = rectangle;
@@ -49,11 +65,13 @@ public class GameObject {
 	}
 	
 	public int getHeight() {
-		return bitmap.getHeight();
+		return animations.get(0).getHeight();
+//		return bitmap.getHeight();
 	}
 	
 	public int getWidth() {
-		return bitmap.getWidth();
+		return animations.get(0).getWidth();
+//		return bitmap.getWidth();
 	}
 	
 	public int getRectWidth() {
@@ -68,12 +86,49 @@ public class GameObject {
 		return rectangle.intersect(gameobject.rectangle);
 	}
 	
-	public void setBitmap(Bitmap bitmap) {
-		this.bitmap = bitmap;
+	public void setBitmap(int position, Bitmap bitmap) {
+		this.animations.set(position, bitmap);
+//		this.bitmap = bitmap;
 	}
 	
 	public Bitmap getBitmap() {
-		return bitmap;
+		return animations.get(animationPointer);
+//		return bitmap;
+	}
+	
+	public void setAnimations(List<Bitmap> animations) {
+		this.animations = animations;
+	}
+	
+	public List<Bitmap> getAnimations() {
+		return animations;
+	}
+	
+	public void setAnimationPointer(int animationPointer) {
+		if (animationPointer >= animations.size() || animationPointer < 0) {
+			throw new IndexOutOfBoundsException("animationPointer is out of bounds, listsize = " + getAnimations().size());
+		}
+		this.animationPointer = animationPointer;
+	}
+	
+	public int getAnimationPointer() {
+		return animationPointer;
+	}
+	
+	public void nextAnimation() {
+		if (animationPointer < animations.size()-1) {
+			this.animationPointer++;
+		}
+	}
+	
+	public void previousAnimation() {
+		if (animationPointer > 0) {
+			this.animationPointer--;
+		}
+	}
+
+	public void addAnimation(Bitmap animation) {
+		animations.add(animation);
 	}
 	
 	public void setRect(Rect rectangle) {
@@ -91,13 +146,11 @@ public class GameObject {
 	public boolean isVisible() {
 		return visible;
 	}
-
-	
 	
 //	 This method should be overridden by the extending class. 
 //	 The overriding method should call "super.updateState()" at the end of the method 
 //	 to automatically update the rectangle to fit the size of the bitmap.
-//	 Otherwise the updating of the rectangle has to be implemented explicitly.
+//	 Otherwise the updating of the rectangle should be implemented explicitly.
 	public void updateState() {
 		
 		// Update rectangle
@@ -109,7 +162,9 @@ public class GameObject {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
-			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
+			// TODO: TEMPORÄRT "get(0)"
+			canvas.drawBitmap(animations.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
+//			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
 			Paint paint = new Paint();

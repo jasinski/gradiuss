@@ -70,7 +70,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
 	// Array of Explosion Frames
-	Bitmap[] bmExplosionFrames = new Bitmap[9];
+	
+	// TEST
+	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
+	// TEST
+	
+//	Bitmap[] bmExplosionFrames = new Bitmap[9];
+	
 	
 	
 	public GameView(Context context, AttributeSet attributes) {
@@ -239,15 +245,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void initExplosions() {
 		explosions = new ArrayList<Explosion>(); 
 		explosionFrameTime = Explosion.STANDARD_FRAME_TIME;
-		bmExplosionFrames[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion1);
-		bmExplosionFrames[1] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion2);
-		bmExplosionFrames[2] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion3);
-		bmExplosionFrames[3] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion4);
-		bmExplosionFrames[4] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion5);
-		bmExplosionFrames[5] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion6);
-		bmExplosionFrames[6] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion7);
-		bmExplosionFrames[7] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8);
-		bmExplosionFrames[8] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9);
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion1));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion2));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion3));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion4));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion5));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion6));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion7));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8));
+		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9));
+//		bmExplosionFrames[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion1);
+//		bmExplosionFrames[1] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion2);
+//		bmExplosionFrames[2] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion3);
+//		bmExplosionFrames[3] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion4);
+//		bmExplosionFrames[4] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion5);
+//		bmExplosionFrames[5] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion6);
+//		bmExplosionFrames[6] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion7);
+//		bmExplosionFrames[7] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8);
+//		bmExplosionFrames[8] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9);
 	}
 
 	
@@ -333,8 +348,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Create an Explosion in position x, y, with an explosion area
 	private void addExplosion(float x, float y, Rect explosionArea) { 
-		Explosion explosion = new Explosion(x, y, explosionArea);
-		explosion.setFrames(bmExplosionFrames);
+		Explosion explosion = new Explosion(bmExplosionFrames, x, y, explosionArea);
+//		explosion.setFrames(bmExplosionFrames);
 		explosion.setVisible(true);
 		//give the Explosion instance Resources so it can access the "png" files of them explosion frames
 		explosions.add(explosion);
@@ -455,17 +470,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	} //updateCollison()
 	
 	private void updateExplosions() {
-		if(!explosions.isEmpty()) {
-			for(Explosion explosion : explosions) {
-				if(totalGameTime - explosion.previousExplosionFrame > explosionFrameTime) {
-					explosion.previousExplosionFrame = totalGameTime;
-					explosion.updateState();
-					if(explosion.lastFrame()) {
-						explosions.remove(explosion);
-					}
-				}			
+		// Den första if-satsen är onödig eftersom foreach loopen hoppas över att köras om listan är tom
+//		if(!explosions.isEmpty()) {
+		for(Explosion explosion : explosions) {
+			if(totalGameTime - explosion.previousExplosionFrame > explosionFrameTime) {
+				explosion.previousExplosionFrame = totalGameTime;
+				explosion.updateState();
+				if(explosion.lastFrame()) {
+					explosions.remove(explosion);
+				}
 			}
 		}
+//		}
 	}
 
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
