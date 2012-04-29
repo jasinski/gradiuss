@@ -23,7 +23,7 @@ public class Background extends MovingObject {
 	public void updateState() {
 		
 		// The int variable makes the update of the background to slow down
-		if (moveDown && tmp % 5 == 0) {
+		if (moveDown/* && tmp % 5 == 0*/) {
 			setY((int) (getY() + (getVy() * getDirectionY()) ));
 			tmp = 1;
 			Log.d("TEST", "getY() = " + getY() + ", screenHeight = " + screenHeight);

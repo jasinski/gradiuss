@@ -41,7 +41,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long totalGameTime = 0;
 	
 	// Background
-	Background[] backgrounds;
+	Background[] backgroundsBack;
+	Background[] backgroundsFront;
 	
 	// SpaceShip
 	public SpaceShip spaceShip;
@@ -56,7 +57,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public List<Enemy> enemies;
 	
 	// Bitmaps
-	Bitmap bmBackground;
+	Bitmap bmBackgroundBack;
 	Rect rectBackground;
 	Bitmap bmSpaceShip;
 	Bitmap bmTypeOneProjectile1;
@@ -116,29 +117,44 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void initBackground() {
 		
 		// Initiate Bitmap
-		bmBackground = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
+		bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
+		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front);
 //		rectBackground = new Rect(0, 0, width, height);
 		
 		// Calculate how many background images are needed to cover the whole screen
-		int nrOfBackgroundgImages = (int) Math.ceil((float) height/(float) bmBackground.getHeight()) + 1;
+		int nrOfBackgroundgImages = (int) Math.ceil((float) height/(float) bmBackgroundBack.getHeight()) + 1;
 		
 		// TODO: LOGGING
 		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages);
 		
 		// Creating and populating the array of Background images
-		backgrounds = new Background[nrOfBackgroundgImages];
+		backgroundsBack = new Background[nrOfBackgroundgImages];
+		backgroundsFront = new Background[nrOfBackgroundgImages];
 		
-		for (int i = 0; i < backgrounds.length; i++) {
+		for (int i = 0; i < backgroundsBack.length; i++) {
 			
 			// TODO: LOGGING
 			Log.d(TAG, "i = " + i);
 			Rect rect = new Rect(0, 0, width, height);
 			
 			// Creating a new Background object
-			backgrounds[i] = new Background(bmBackground, width/2, height-bmBackground.getHeight()/2 - i*bmBackground.getHeight(), rect, width, height);
-			backgrounds[i].setVisible(true);
-			backgrounds[i].setMoveDown(true);
-			backgrounds[i].setVy(1);
+			backgroundsBack[i] = new Background(bmBackgroundBack, width/2, height-bmBackgroundBack.getHeight()/2 - i*bmBackgroundBack.getHeight(), rect, width, height);
+			backgroundsBack[i].setVisible(true);
+			backgroundsBack[i].setMoveDown(true);
+			backgroundsBack[i].setVy(1);
+		}
+		
+		for (int i = 0; i < backgroundsFront.length; i++) {
+			
+			// TODO: LOGGING
+			Log.d(TAG, "i = " + i);
+			Rect rect = new Rect(0, 0, width, height);
+			
+			// Creating a new Background object
+			backgroundsFront[i] = new Background(bmBackgroundFront, width/2, height-bmBackgroundFront.getHeight()/2 - i*bmBackgroundFront.getHeight(), rect, width, height);
+			backgroundsFront[i].setVisible(true);
+			backgroundsFront[i].setMoveDown(true);
+			backgroundsFront[i].setVy(5);
 		}
 		
 	}
@@ -278,7 +294,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Update All Enemies
 	private void updateBackground() {
-		for(Background background: backgrounds){
+		for(Background background: backgroundsBack){
+			Log.d(TAG, "bg.updatestate");
+			background.updateState();
+		}
+		for(Background background: backgroundsFront){
 			Log.d(TAG, "bg.updatestate");
 			background.updateState();
 		}
@@ -390,7 +410,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Render background
 	public void renderBackground(Canvas canvas) {
-		for (Background background : backgrounds) {
+		for (Background background : backgroundsBack) {
+			Log.d(TAG, "Paint background");
+			background.draw(canvas);
+		}
+		for (Background background : backgroundsFront) {
 			Log.d(TAG, "Paint background");
 			background.draw(canvas);
 		}
