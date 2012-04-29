@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 
-public abstract class MovingObject extends GameObject {
+public class MovingObject extends GameObject {
 
 	public static final int DIRECTION_LEFT	= -1;
 	public static final int DIRECTION_RIGHT	= 1;

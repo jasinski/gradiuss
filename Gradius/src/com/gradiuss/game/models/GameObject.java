@@ -1,5 +1,6 @@
 package com.gradiuss.game.models;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,13 +8,14 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
-public abstract class GameObject {
+public class GameObject {
 	
 	private float x; // The X coordinate
 	private float y; // The Y coordinate
 	private Bitmap bitmap; // The bitmap
 	private Rect rectangle;
 	private boolean visible;
+	private Resources res;
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {
@@ -65,6 +67,15 @@ public abstract class GameObject {
 		return rectangle.intersect(gameobject.rectangle);
 	}
 	
+	//method for giving the object all resources to for example be able to draw an explosion
+	public void setResources(Resources res) {
+		this.res = res;
+	}
+	
+	public Resources getResources(){
+		return res;
+	}
+	
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
@@ -90,12 +101,11 @@ public abstract class GameObject {
 	}
 
 	
-	/**
-	 * This method should be overridden by the extending class. 
-	 * The overriding method should call "super.updateState()" at the end of the method 
-	 * to automatically update the rectangle to fit the size of the bitmap.
-	 * Otherwise the updating of the rectangle has to be implemented explicitly.
-	 */
+	
+//	 This method should be overridden by the extending class. 
+//	 The overriding method should call "super.updateState()" at the end of the method 
+//	 to automatically update the rectangle to fit the size of the bitmap.
+//	 Otherwise the updating of the rectangle has to be implemented explicitly.
 	public void updateState() {
 		
 		// Update rectangle
