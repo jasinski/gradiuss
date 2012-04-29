@@ -8,7 +8,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,9 +15,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gradiuss.game.models.Asteroid;
-import com.gradiuss.game.models.Background;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
+import com.gradiuss.game.models.ParallaxBackground;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
@@ -42,7 +41,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long totalGameTime = 0;
 	
 	// Background
-	List<Background[]> bgLayers;
+//	List<Background[]> bgLayers;
+	ParallaxBackground parallaxBackground;
 	
 	// SpaceShip
 	public SpaceShip spaceShip;
@@ -131,57 +131,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void initBackground(Bitmap... bitmap) {
 		
-		// Initializing Background Layers
-		bgLayers = new ArrayList<Background[]>();
-		for (Bitmap bm : bitmap) {
-			Background[] bg = new Background[10];
-		}
-		
-		// Initiate Bitmap
 		Bitmap bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
 		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
-//		rectBackground = new Rect(0, 0, width, height);
 		
-		// Calculate how many background images are needed to cover the whole screen
-		int nrOfBackgroundgImages = (int) Math.ceil((float) height/(float) bmBackgroundBack.getHeight()) + 1;
+		Log.d("TESTING", "screen height(GameView) = " + height);
 		
-		// TODO: LOGGING
-		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages); 
-		
-		// Creating and populating the array of Background images
-		Background[] backgroundsBack = new Background[nrOfBackgroundgImages];
-		Background[] backgroundsFront = new Background[nrOfBackgroundgImages];
-		
-		
-		bgLayers.add(backgroundsBack);
-		bgLayers.add(backgroundsFront);
-		
-		for (int i = 0; i < backgroundsBack.length; i++) {
-			
-			// TODO: LOGGING
-			Log.d(TAG, "i = " + i);
-			Rect rect = new Rect(0, 0, width, height);
-			
-			// Creating a new Background object
-			backgroundsBack[i] = new Background(bmBackgroundBack, width/2, height-bmBackgroundBack.getHeight()/2 - i*bmBackgroundBack.getHeight(), rect, width, height, nrOfBackgroundgImages);
-			backgroundsBack[i].setVisible(true);
-			backgroundsBack[i].setMoveDown(true);
-			backgroundsBack[i].setVy(1);
-		}
-		
-		for (int i = 0; i < backgroundsFront.length; i++) {
-			
-			// TODO: LOGGING
-			Log.d(TAG, "i = " + i);
-			Rect rect = new Rect(0, 0, width, height);
-			
-			// Creating a new Background object
-			backgroundsFront[i] = new Background(bmBackgroundFront, width/2, height-bmBackgroundFront.getHeight()/2 - i*bmBackgroundFront.getHeight(), rect, width, height, nrOfBackgroundgImages);
-			backgroundsFront[i].setVisible(true);
-			backgroundsFront[i].setMoveDown(true);
-			backgroundsFront[i].setVy(3);
-		}
-		
+		parallaxBackground = new ParallaxBackground(height, width);
+		parallaxBackground.addBackground(bmBackgroundBack, 1);
+		parallaxBackground.addBackground(bmBackgroundFront, 2);
 	}
  
 	public void initGameObjects() {
@@ -356,19 +313,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Log.d(TAG, "adding explosion");
 	}
 
-	// Update All Enemies
+	// Update Background
 	private void updateBackground() {
-		for (Background[] bgLayer : bgLayers) {
-			for(Background background: bgLayer){
-				Log.d(TAG, "bg.updatestate");
-				background.updateState();
-			}
-		}
-		
-//		for(Background background: backgroundsFront){
-//			Log.d(TAG, "bg.updatestate");
-//			background.updateState();
-//		}
+		parallaxBackground.updateState();
 	}
 	
 	// Update collisions between objects and boundaries
@@ -488,7 +435,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
-		canvas.drawColor(Color.WHITE);
+//		canvas.drawColor(Color.WHITE);
 		renderBackground(canvas);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
@@ -498,13 +445,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Render background
 	public void renderBackground(Canvas canvas) {
-		for (Background[] bgLayer : bgLayers) {
-			for(Background background : bgLayer){
-				Log.d(TAG, "bg.updatestate");
-				background.draw(canvas);
-			}
-		}
-		//canvas.drawBitmap(bmBackground, null, rectBackground, null);
+		parallaxBackground.draw(canvas);
 	}
 	
 	// Render the Spaceship

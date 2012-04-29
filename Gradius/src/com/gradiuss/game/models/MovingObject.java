@@ -30,6 +30,9 @@ public class MovingObject extends GameObject {
 		super(bitmap, x, y, rectangle);
 	}
 	
+	public MovingObject() {
+	}
+	
 	public void setMoveLeft(boolean moveLeft) {
 		this.moveLeft = moveLeft;
 	}

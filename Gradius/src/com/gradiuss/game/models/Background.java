@@ -1,47 +1,59 @@
 package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.util.Log;
 
-
-public class Background extends MovingObject {
-
-	int screenWidth;
-	int screenHeight;
-	int nrOfBackgroundCopies;
-	int redrawPosition;
+public class Background {
 	
-	// TODO - TEMPORARY VARIABLE
-	int tmp = 1;
+	private float x;
+	private float y;
+	private Bitmap bitmap;
+	private int movementSpeed;
+	private int redrawPosition;
 	
-	public Background(Bitmap bitmap, float x, float y, Rect rectangle, int screenWidth, int screenHeight, int nrOfBackgroundCopies) {
-		super(bitmap, x, y, rectangle);
-		this.screenWidth = screenWidth;
-		this.screenHeight = screenHeight;
-		this.nrOfBackgroundCopies = nrOfBackgroundCopies;
-		this.redrawPosition = nrOfBackgroundCopies * getHeight();
+	public Background(Bitmap bitmap, int movementSpeed, int nrOfBackgroundCopies) {
+		this.bitmap = bitmap;
+		this.movementSpeed = movementSpeed;
+		this.redrawPosition = nrOfBackgroundCopies * bitmap.getHeight();
 	}
 	
-
-	@Override
-	public void updateState() {
-		
-		// The int variable makes the update of the background to slow down
-		if (moveDown/* && tmp % 5 == 0*/) {
-			setY((int) (getY() + (getVy() * getDirectionY()) ));
-			tmp = 1;
-			Log.d("TEST", "getY() = " + getY() + ", screenHeight = " + screenHeight);
-		} else {
-			tmp++;
-		}
-		
-		// TODO - NEED TO BE UPDATED: Doesn't draw the image at the right spot
-		if (getY() >= screenHeight + getHeight()/2) {
-			setY((int) getY() - redrawPosition);
-		}
-		
-		super.updateState();
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
 	}
-
+	
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
+	}
+	
+	public float getY() {
+		return y;
+	}
+	
+	public void setX(float x) {
+		this.x = x;
+	}
+	
+	public float getX() {
+		return x;
+	}
+	
+	public void setMovementSpeed(int movementSpeed) {
+		this.movementSpeed = movementSpeed;
+	}
+	
+	public int getMovementSpeed() {
+		return movementSpeed;
+	}
+	
+	public void setRedrawPosition(int redrawPosition) {
+		this.redrawPosition = redrawPosition;
+	}
+	
+	public int getRedrawPosition() {
+		return redrawPosition;
+	}
+	
 }

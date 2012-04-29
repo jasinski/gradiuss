@@ -15,30 +15,30 @@ public class GameObject {
 	
 	private float x; // The X coordinate
 	private float y; // The Y coordinate
-	private Bitmap bitmap; // The bitmap
-	private List<Bitmap> animations; // The animations
+//	private Bitmap bitmap; // The bitmap
+	private List<Bitmap> bitmaps; // The animations
 	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
-	private Resources res;
+//	private Resources res;
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {
 			throw new IllegalArgumentException();
 		}
-		this.animations = new ArrayList<Bitmap>(1);
-		this.animations.add(bitmap);
+		this.bitmaps = new ArrayList<Bitmap>(1);
+		this.bitmaps.add(bitmap);
 //		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
 		this.rectangle = rectangle;
 	}
 	
-	public GameObject(List<Bitmap> animations, float x, float y, Rect rectangle) throws IllegalArgumentException {
+	public GameObject(List<Bitmap> bitmaps, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {
 			throw new IllegalArgumentException();
 		}
-		this.animations = animations;
+		this.bitmaps = bitmaps;
 		this.x = x;
 		this.y = y;
 		this.rectangle = rectangle;
@@ -46,6 +46,10 @@ public class GameObject {
 
 	public GameObject(Bitmap bitmap, float x, float y) throws IllegalArgumentException {
 		this(bitmap, x, y, new Rect((int) x - bitmap.getWidth()/2, (int) y - bitmap.getHeight()/2, (int) x + bitmap.getWidth()/2, (int) y + bitmap.getHeight()/2));
+	}
+	
+	public GameObject() {
+		
 	}
 
 	public void setX(int x) {
@@ -65,12 +69,12 @@ public class GameObject {
 	}
 	
 	public int getHeight() {
-		return animations.get(0).getHeight();
+		return bitmaps.get(0).getHeight();
 //		return bitmap.getHeight();
 	}
 	
 	public int getWidth() {
-		return animations.get(0).getWidth();
+		return bitmaps.get(0).getWidth();
 //		return bitmap.getWidth();
 	}
 	
@@ -87,27 +91,26 @@ public class GameObject {
 	}
 	
 	public void setBitmap(int position, Bitmap bitmap) {
-		this.animations.set(position, bitmap);
-//		this.bitmap = bitmap;
+		this.bitmaps.set(position, bitmap);
 	}
 	
 	public Bitmap getBitmap() {
-		return animations.get(animationPointer);
-//		return bitmap;
+		return bitmaps.get(animationPointer);
+	}
+	
+	public Bitmap getBitmap(int position) {
+		return bitmaps.get(position);
 	}
 	
 	public void setAnimations(List<Bitmap> animations) {
-		this.animations = animations;
+		this.bitmaps = animations;
 	}
 	
 	public List<Bitmap> getAnimations() {
-		return animations;
+		return bitmaps;
 	}
 	
 	public void setAnimationPointer(int animationPointer) {
-		if (animationPointer >= animations.size() || animationPointer < 0) {
-			throw new IndexOutOfBoundsException("animationPointer is out of bounds, listsize = " + getAnimations().size());
-		}
 		this.animationPointer = animationPointer;
 	}
 	
@@ -116,7 +119,7 @@ public class GameObject {
 	}
 	
 	public void nextAnimation() {
-		if (animationPointer < animations.size()-1) {
+		if (animationPointer < bitmaps.size()-1) {
 			this.animationPointer++;
 		}
 	}
@@ -128,7 +131,7 @@ public class GameObject {
 	}
 
 	public void addAnimation(Bitmap animation) {
-		animations.add(animation);
+		bitmaps.add(animation);
 	}
 	
 	public void setRect(Rect rectangle) {
@@ -163,7 +166,7 @@ public class GameObject {
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
 			// TODO: TEMPORÄRT "get(0)"
-			canvas.drawBitmap(animations.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
+			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
 //			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
