@@ -80,7 +80,9 @@ public class GameLoopThread extends Thread {
 					// Game time
 					long old = gameView.totalGameTime;
 					gameView.totalGameTime = System.nanoTime() - gameView.startGameTime;
-					Log.d(TAG, "Total game time:" + gameView.totalGameTime + ", TimeDifference: " + (gameView.totalGameTime - old));
+					
+					// TODO - REMOVE: LOGGIN GAME TIME
+//					Log.d(TAG, "Total game time:" + gameView.totalGameTime + ", TimeDifference: " + (gameView.totalGameTime - old));
 					
 				}
 			} finally {

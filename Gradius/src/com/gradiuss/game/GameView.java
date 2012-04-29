@@ -123,7 +123,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		int nrOfBackgroundgImages = (int) Math.ceil((float) height/(float) bmBackground.getHeight()) + 1;
 		
 		// TODO: LOGGING
-		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages);
+		Log.d(TAG, "nrOfbgImages = " + nrOfBackgroundgImages); 
 		
 		// Creating and populating the array of Background images
 		backgrounds = new Background[nrOfBackgroundgImages];
@@ -135,10 +135,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			Rect rect = new Rect(0, 0, width, height);
 			
 			// Creating a new Background object
-			backgrounds[i] = new Background(bmBackground, width/2, height-bmBackground.getHeight()/2 - i*bmBackground.getHeight(), rect, width, height);
+			backgrounds[i] = new Background(bmBackground, width/2, height-bmBackground.getHeight()/2 - i*bmBackground.getHeight(), rect, width, height, nrOfBackgroundgImages);
 			backgrounds[i].setVisible(true);
 			backgrounds[i].setMoveDown(true);
-			backgrounds[i].setVy(1);
+			backgrounds[i].setVy(5);
 		}
 		
 	}
