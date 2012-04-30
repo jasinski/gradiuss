@@ -55,13 +55,13 @@
             android:background="@drawable/firebutton_toggler" >
         </Button>
 
-        <Button
+        <ImageButton
             android:id="@+id/bChangeWeapon"
             android:layout_width="50dp"
             android:layout_height="70dp"
             android:layout_toLeftOf="@id/bFire"
-            android:background="@drawable/change_weaon_temporary" >
-        </Button>
+            android:background="@drawable/change_weaon_temporary_test" >
+        </ImageButton>
     </RelativeLayout>
 
 </LinearLayout>

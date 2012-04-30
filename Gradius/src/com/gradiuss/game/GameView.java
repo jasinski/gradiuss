@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.ImageButton;
 
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
@@ -48,9 +49,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Projectiles
 	public List<Projectile> projectiles;
-	int projectileTypePointer = 1;
+	public List<Projectile> projectileTypes;
+	Projectile proj1;
+	Projectile proj2;
+	Projectile proj3;
+	Projectile proj4;
+	int projectileTypePointer = 0;
 	float fireTime; // Measures how often a projectile will be fired
 	long previousFireTime = 0; // Measures the last time a projectile was fired
+	
 	
 	// Enemies
 	public List<Enemy> enemies;
@@ -69,9 +76,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Array of Explosion Frames
 	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
-	
-	// Projectile Bitmaps
-	public List<Bitmap> projectileTypes;
 		
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -165,17 +169,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void initProjectiles() {
-		bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
-		bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
 		
-		projectileTypes = new ArrayList<Bitmap>();
-		projectileTypes.add(bmTypeOneProjectile1);
-		projectileTypes.add(bmTypeOneProjectile2);
+		// Single Laser gun
+		bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
+		proj1 = new TypeOneProjectile(bmTypeOneProjectile1, 0, 0);
+		proj1.setVisible(true);
+		proj1.setMoveUp(true);
+		proj1.setVy(10);
+		proj1.setDamage(15);
+		proj1.setFireInterval((3/2)*Projectile.FIRE_TIME_STANDARD);
+		
+		// Double Laser gun
+		bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
+		proj2 = new TypeOneProjectile(bmTypeOneProjectile2, 0, 0);
+		proj2.setVisible(true);
+		proj2.setMoveUp(true);
+		proj2.setVy(10);
+		proj2.setDamage(20);
+		proj2.setFireInterval((5/2)*Projectile.FIRE_TIME_STANDARD);
+		
+		// List of projectile types
+		projectileTypes = new ArrayList<Projectile>();
+		projectileTypes.add(proj1);
+		projectileTypes.add(proj2);
 		projectileTypePointer = 0;
+		GameViewActivity.bChangeWeapon.setImageBitmap(projectileTypes.get(projectileTypePointer).getBitmap());
 		
 		projectiles = new ArrayList<Projectile>();
 		fireTime = Projectile.FIRE_TIME_STANDARD;
-//		projectileDamage = PROJECTILE_DAMAGE_ONE;
 	}
 	
 	private void initEnemies() {
@@ -246,32 +267,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		spaceShip.updateState();
 	}
 	
-	
 	public void addProjectile(float x, float y) {
-		Projectile projectile;
-		switch (projectileTypePointer) {
-		case 0:
-			projectile = new TypeOneProjectile(bmTypeOneProjectile1, x, y - spaceShip.getBitmap().getHeight()/2);
-			projectile.setVisible(true);
-			projectile.setMoveUp(true);
-			projectile.setVy(10);
-			projectile.setDamage(15);
-			projectile.setFireInterval((3/2)*Projectile.FIRE_TIME_STANDARD);
-			projectiles.add(projectile);
-			fireTime = projectile.getFireInterval();
-			break;
-		case 1:
-			projectile = new TypeOneProjectile(bmTypeOneProjectile2, x, y - spaceShip.getBitmap().getHeight()/2);
-			projectile.setVisible(true);
-			projectile.setMoveUp(true);
-			projectile.setVy(10);
-			projectile.setDamage(20);
-			projectile.setFireInterval((5/2)*Projectile.FIRE_TIME_STANDARD);
-			projectiles.add(projectile);
-			fireTime = projectile.getFireInterval();
-			break;
-		}
+		Projectile projectile = new TypeOneProjectile(projectileTypes.get(projectileTypePointer));
+		projectile.setX(x);
+		projectile.setY(y - spaceShip.getBitmap().getHeight()/2);
 		
+		fireTime = projectile.getFireInterval();
+		projectiles.add(projectile);
+		
+	}
+	
+	public void changeWeapon() {
+		if (projectileTypePointer >= projectileTypes.size() - 1) {
+			projectileTypePointer = 0;
+		} else {
+			projectileTypePointer++;
+		}
+		GameViewActivity.bChangeWeapon.setImageBitmap(projectileTypes.get(projectileTypePointer).getBitmap());
 	}
 	
 	// Update All Enemies
@@ -292,15 +304,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Update Background
 	private void updateBackground() {
 		parallaxBackground.updateState();
-	}
-	
-	public void changeWeapon() {
-		if (projectileTypePointer >= projectileTypes.size() - 1) {
-			projectileTypePointer = 0;
-		} else {
-			projectileTypePointer++;
-		}
-		
 	}
 	
 	// Update collisions between objects and boundaries
@@ -363,8 +366,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
-						Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getBitmapHeight()/2);
 						Random r = new Random();
+						Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -enemy.getBitmapHeight()/2);
 						asteroid.setVy(r.nextInt(2)+2);
 						asteroid.setVx(r.nextInt(3)-1);
 						asteroid.setMoveDown(true);
@@ -388,8 +391,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
 				
-				Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getBitmapHeight()/2);
 				Random r = new Random();
+				Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -enemy.getBitmapHeight()/2);
 				asteroid.setVy(r.nextInt(2)+2);
 				asteroid.setVx(r.nextInt(3)-1);
 				asteroid.setMoveDown(true);
