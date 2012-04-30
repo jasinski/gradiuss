@@ -56,14 +56,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Enemies
 	public List<Enemy> enemies;
 	
-	
 	// Explosions
 	public List<Explosion> explosions;
 	float explosionFrameTime; // Measures how long time an explosion-frame last.
 	
 	// Bitmaps
 	// Background
-//	Bitmap bmBackgroundBack;
 	Rect rectBackground;
 	Bitmap bmSpaceShip;
 	Bitmap bmTypeOneProjectile1;
@@ -129,7 +127,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		setFocusable(true);
 	}
 
-	public void initBackground(Bitmap... bitmap) {
+	public void initBackground() {
 		
 		Bitmap bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
 		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
@@ -418,7 +416,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void updateExplosions() {
 		// Den första if-satsen är onödig eftersom foreach loopen hoppas över att köras om listan är tom
-//		if(!explosions.isEmpty()) {
 		for(Explosion explosion : explosions) {
 			if(totalGameTime - explosion.previousExplosionFrame > explosionFrameTime) {
 				explosion.previousExplosionFrame = totalGameTime;
@@ -428,7 +425,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 		}
-//		}
 	}
 
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::

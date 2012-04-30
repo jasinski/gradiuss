@@ -40,13 +40,15 @@ public class GameViewActivity extends Activity {
         
         // Setting onTouch listeners
         bLeftPad.setOnTouchListener(new OnTouchListener() {
-			
+        	
 			public boolean onTouch(View v, MotionEvent event) {
 				
 				// Move spaceship left
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bLeftPad.setPressed(true);
-					gameView.spaceShip.setMoveLeft(true);
+//					if (gameView.spaceShip.isTouchingEdge()) {
+						gameView.spaceShip.setMoveLeft(true);
+//					}
 				}
 				
 				// Stop moving spaceship left
