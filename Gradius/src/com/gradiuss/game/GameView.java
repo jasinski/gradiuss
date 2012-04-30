@@ -41,7 +41,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long totalGameTime = 0;
 	
 	// Background
-//	List<Background[]> bgLayers;
 	ParallaxBackground parallaxBackground;
 	
 	// SpaceShip
@@ -61,7 +60,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public List<Explosion> explosions;
 	float explosionFrameTime; // Measures how long time an explosion-frame last.
 	
-	// Bitmaps
+	// BITMAPS
 	// Background
 	Rect rectBackground;
 	Bitmap bmSpaceShip;
@@ -69,15 +68,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
 	// Array of Explosion Frames
-	
-	// TEST
 	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
-	// TEST
-	
-//	Bitmap[] bmExplosionFrames = new Bitmap[9];
-	
-	
-	
+		
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
 		initGameView();
@@ -128,8 +120,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		setFocusable(true);
 	}
 
-	public void initBackground(Bitmap... bitmap) {
-		
+	public void initBackground() {
 		Bitmap bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
 		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
 		
@@ -157,21 +148,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	private void initSpaceShip() {
-		// SpaceShip
 		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall2);
 		
-		// TODO - DISKUTERA: Diskutera om inte detta gör att skärmar med olika "ratio" mellan höjd och bredd ändrar rymdskeppets form.
+		// TODO - Common resolutions for smartphone screens vary from 240Ã—320 to 720Ã—1280, with many flagship Android phones at 
+		// 480Ã—800 or 540Ã—960, the iPhone 4/4S at 640Ã—960 and Galaxy Nexus and HTC Rezound at 720Ã—1280 (Wikipedia). By these figures
+		// the target standard for the spaceship size and other game-objects size should be calculated.
 		Bitmap bm = Bitmap.createScaledBitmap(bmSpaceShip, (int)width/8, (int)height/6, true);
 		
 		spaceShip = new SpaceShip(bm, width/2, height-bmSpaceShip.getHeight(), 5, 5);
 		spaceShip.setVx(10);
 		spaceShip.setVisible(true);
 		
-		// TODO - REMOVE: This line makes the spaceship shoot projectiles automatically until the firebutton is pressed.
 	}
 	
 	private void initProjectiles() {
-		// Projectiles
 		bmTypeOneProjectile1 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile1);
 		bmTypeOneProjectile2 = BitmapFactory.decodeResource(getResources(), R.drawable.projectile2);
 		projectiles = new ArrayList<Projectile>();
@@ -191,7 +181,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
 		asteroid.setLife(100);
-		
 		// add enemies to list of enemies
 
 		enemies.add(asteroid);
@@ -209,18 +198,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion7));
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8));
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9));
-//		bmExplosionFrames[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion1);
-//		bmExplosionFrames[1] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion2);
-//		bmExplosionFrames[2] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion3);
-//		bmExplosionFrames[3] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion4);
-//		bmExplosionFrames[4] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion5);
-//		bmExplosionFrames[5] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion6);
-//		bmExplosionFrames[6] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion7);
-//		bmExplosionFrames[7] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8);
-//		bmExplosionFrames[8] = BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9);
 	}
-
-	
 
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
@@ -228,19 +206,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Updating the states for all the game objects
 	public void updateState() {
-		// Background
 		updateBackground();
+		
 		// Update SpaceShip
 		updateSpaceShip();
 		updateProjectiles();
 		
-		// Update Enemies
 		updateEnemies();
-		
-		// Update collisions
 		updateCollisions();	
-		
-		// Update Explosions
 		updateExplosions();
 	}
 
@@ -267,7 +240,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	
 	public void addProjectile(float x, float y) {
-		// Adding projectiles
 		Projectile projectile;
 		switch (projectileType) {
 		case 0:
@@ -304,9 +276,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Create an Explosion in position x, y, with an explosion area
 	private void addExplosion(float x, float y, Rect explosionArea) { 
 		Explosion explosion = new Explosion(bmExplosionFrames, x, y, explosionArea);
-//		explosion.setFrames(bmExplosionFrames);
 		explosion.setVisible(true);
-		//give the Explosion instance Resources so it can access the "png" files of them explosion frames
 		explosions.add(explosion);
 		Log.d(TAG, "adding explosion");
 	}
@@ -376,7 +346,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
-						Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getHeight()/2);
+						Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getBitmapHeight()/2);
 						Random r = new Random();
 						asteroid.setVy(r.nextInt(2)+2);
 						asteroid.setVx(r.nextInt(3)-1);
@@ -394,14 +364,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		// Collision: Enemies and screen edges
 		for (Enemy enemy : enemies) {
-			if (enemy.getX() <= 0 - enemy.getWidth()/2 || enemy.getX() >= getWidth() + enemy.getWidth()/2 || enemy.getY() <= 0 - enemy.getHeight()/2  || enemy.getY() >= getHeight() + enemy.getHeight()/2) {
+			if (enemy.getX() <= 0 - enemy.getBitmapWidth()/2 || enemy.getX() >= getWidth() + enemy.getBitmapWidth()/2 || enemy.getY() <= 0 - enemy.getBitmapHeight()/2  || enemy.getY() >= getHeight() + enemy.getBitmapHeight()/2) {
 				enemy.setVisible(false);
 				enemies.remove(enemy);
 				
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
 				
-				Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getHeight()/2);
+				Asteroid asteroid = new Asteroid(bmAsteroid, width/2, -enemy.getBitmapHeight()/2);
 				Random r = new Random();
 				asteroid.setVy(r.nextInt(2)+2);
 				asteroid.setVx(r.nextInt(3)-1);
@@ -415,7 +385,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	} //updateCollison()
 	
 	private void updateExplosions() {
-		// Den första if-satsen är onödig eftersom foreach loopen hoppas över att köras om listan är tom
 		for(Explosion explosion : explosions) {
 			if(totalGameTime - explosion.previousExplosionFrame > explosionFrameTime) {
 				explosion.previousExplosionFrame = totalGameTime;
@@ -431,7 +400,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
-//		canvas.drawColor(Color.WHITE);
 		renderBackground(canvas);
 		renderSpaceShip(canvas);
 		renderProjectiles(canvas);
@@ -439,31 +407,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		renderExplosions(canvas);
 	}
 	
-	// Render background
 	public void renderBackground(Canvas canvas) {
 		parallaxBackground.draw(canvas);
 	}
-	
-	// Render the Spaceship
+
 	public void renderSpaceShip(Canvas canvas) {
 		spaceShip.draw(canvas);
 	}
-	
-	// Render All Projectiles
+
 	public void renderProjectiles(Canvas canvas) {
 		for (Projectile projectile : projectiles) {
 			projectile.draw(canvas);
 		}
 	}
-	
-	// Render All Enemies
+
 	public void renderEnemies(Canvas canvas) {
 		for(Enemy enemy : enemies){
 			enemy.draw(canvas);
 		}
 	}
-	
-	// Render All Explosions
+
 	public void renderExplosions(Canvas canvas) {
 		for(Explosion explosion : explosions) {
 			explosion.draw(canvas);

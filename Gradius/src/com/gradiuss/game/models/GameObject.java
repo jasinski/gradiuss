@@ -34,7 +34,12 @@ public abstract class GameObject {
 		if (rectangle == null) {
 			throw new IllegalArgumentException();
 		}
-		this.bitmaps = bitmaps;
+		//scale the bitmaps according to the specification of the rectangle if the passed bitmaps are not empty
+		List<Bitmap> scaledBitmaps = new ArrayList<Bitmap>();
+		for(Bitmap bm : bitmaps) {
+			scaledBitmaps.add(Bitmap.createScaledBitmap(bm, rectangle.width(), rectangle.height(), true));
+		}
+		this.bitmaps = scaledBitmaps;
 		this.x = x;
 		this.y = y;
 		this.rectangle = rectangle;
@@ -64,11 +69,11 @@ public abstract class GameObject {
 		return y;
 	}
 	
-	public int getHeight() {
+	public int getBitmapHeight() {
 		return bitmaps.get(0).getHeight();
 	}
 	
-	public int getWidth() {
+	public int getBitmapWidth() {
 		return bitmaps.get(0).getWidth();
 	}
 	
@@ -151,7 +156,7 @@ public abstract class GameObject {
 	public void updateState() {
 		
 		// Update rectangle
-		getRect().set((int) getX() - getWidth()/2, (int) getY() - getHeight()/2, (int) getX() + getWidth()/2, (int) (getY()) + getHeight()/2);
+		getRect().set((int) getX() - getBitmapWidth()/2, (int) getY() - getBitmapHeight()/2, (int) getX() + getBitmapWidth()/2, (int) (getY()) + getBitmapHeight()/2);
 	}
 	
 	// Paint the new image with the middle at the coordinates and not the edge
@@ -159,15 +164,16 @@ public abstract class GameObject {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
-			// TODO: TEMPORÄRT "get(0)"
+			// TODO: TEMPORARY "get(0)"
 			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
-			
-			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
+			//canvas.drawBitmap(bitmaps.get(animationPointer), getRect(), getRect(), null);
+
+			// TODO - TEMPORARY: paint the rectangle green, just for testing 
 			Paint paint = new Paint();
 			paint.setColor(Color.GREEN);
 			paint.setStyle(Style.STROKE);
 			canvas.drawRect(rectangle, paint);
-			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
+			// TODO - TEMPORARY: paint the rectangle green, just for testing 
 			
 		}
 	}
