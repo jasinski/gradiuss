@@ -3,7 +3,6 @@ package com.gradiuss.game.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,16 +10,14 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
-public class GameObject {
+public abstract class GameObject {
 	
 	private float x; // The X coordinate
 	private float y; // The Y coordinate
-//	private Bitmap bitmap; // The bitmap
 	private List<Bitmap> bitmaps; // The animations
 	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
-//	private Resources res;
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {
@@ -28,7 +25,6 @@ public class GameObject {
 		}
 		this.bitmaps = new ArrayList<Bitmap>(1);
 		this.bitmaps.add(bitmap);
-//		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
 		this.rectangle = rectangle;
@@ -70,12 +66,10 @@ public class GameObject {
 	
 	public int getHeight() {
 		return bitmaps.get(0).getHeight();
-//		return bitmap.getHeight();
 	}
 	
 	public int getWidth() {
 		return bitmaps.get(0).getWidth();
-//		return bitmap.getWidth();
 	}
 	
 	public int getRectWidth() {
@@ -167,7 +161,6 @@ public class GameObject {
 		if (visible) {
 			// TODO: TEMPORÄRT "get(0)"
 			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
-//			canvas.drawBitmap(bitmap, x - getRectWidth()/2, y - getRectHeight()/2, null);
 			
 			// TODO - TEMPORARY: paint the rectangle green, just for testing (Låt stå bra att ha nu under utvecklingen)
 			Paint paint = new Paint();

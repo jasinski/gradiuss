@@ -167,7 +167,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		spaceShip.setVisible(true);
 		
 		// TODO - REMOVE: This line makes the spaceship shoot projectiles automatically until the firebutton is pressed.
-//		spaceShip.setShooting(true);
 	}
 	
 	private void initProjectiles() {
