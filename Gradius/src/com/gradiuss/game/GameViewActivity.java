@@ -18,6 +18,7 @@ public class GameViewActivity extends Activity {
 	Button bRightPad; // Move spaceship right
 	Button bUpPad; // Move spaceship up
 	Button bDownPad; // Move spaceship down
+	Button bChangeWeapon;
 	Button bFire; // Fire projectiles
 	
 	@Override
@@ -36,7 +37,9 @@ public class GameViewActivity extends Activity {
         bRightPad = (Button) findViewById(R.id.bRightPad);
         bUpPad = (Button) findViewById(R.id.bUpPad);
         bDownPad = (Button) findViewById(R.id.bDownPad);
+        bChangeWeapon = (Button) findViewById(R.id.bChangeWeapon);
         bFire = (Button) findViewById(R.id.bFire);
+        
         
         // Setting onTouch listeners
         bLeftPad.setOnTouchListener(new OnTouchListener() {
@@ -46,9 +49,7 @@ public class GameViewActivity extends Activity {
 				// Move spaceship left
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bLeftPad.setPressed(true);
-//					if (gameView.spaceShip.isTouchingEdge()) {
 						gameView.spaceShip.setMoveLeft(true);
-//					}
 				}
 				
 				// Stop moving spaceship left
@@ -91,7 +92,7 @@ public class GameViewActivity extends Activity {
 					gameView.spaceShip.setMoveUp(true);
 					
 					// TODO - TEMPORARY: Changes the projectiles to type = 1 (just used for testing)
-					gameView.projectileType = 1;
+					gameView.projectileTypePointer = 1;
 				}
 				
 				// Stop moving spaceship up
@@ -113,13 +114,31 @@ public class GameViewActivity extends Activity {
 					gameView.spaceShip.setMoveDown(true);
 					
 					// TODO - TEMPORARY: Changes the projectiles to type = 0 (just used for testing)
-					gameView.projectileType = 0;
+					gameView.projectileTypePointer = 0;
 				}
 				
 				// Stop moving spaceship down
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.spaceShip.setMoveDown(false);
 					bDownPad.setPressed(false);
+				}
+				return true;
+			}
+		});
+        
+        bChangeWeapon.setOnTouchListener(new OnTouchListener() {
+			
+			public boolean onTouch(View v, MotionEvent event) {
+				
+				// Start shooting
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					
+				}
+				
+				// Stop shooting
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					gameView.changeWeapon();
+					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
 			}
