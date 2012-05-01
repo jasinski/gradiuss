@@ -1,5 +1,7 @@
 package com.gradiuss.game;
 
+import com.gradiuss.game.models.SpaceShip;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +52,7 @@ public class GameViewActivity extends Activity {
 				// Move spaceship left
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bLeftPad.setPressed(true);
-						gameView.spaceShip.setMoveLeft(true);
+					gameView.spaceShip.setMoveLeft(true);
 				}
 				
 				// Stop moving spaceship left

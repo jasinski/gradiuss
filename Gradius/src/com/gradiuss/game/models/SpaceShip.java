@@ -44,7 +44,6 @@ public class SpaceShip extends MovingObject {
 		return shooting;
 	}
 	
-	
 	@Override
 	public void updateState() {
 		// Update movement

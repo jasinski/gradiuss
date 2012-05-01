@@ -50,10 +50,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Projectiles
 	public List<Projectile> projectiles;
 	public List<Projectile> projectileTypes;
-	Projectile proj1;
-	Projectile proj2;
-	Projectile proj3;
-	Projectile proj4;
+	private Projectile proj1;
+	private Projectile proj2;
+//	private Projectile proj3;
+//	private Projectile proj4;
 	int projectileTypePointer = 0;
 	float fireTime; // Measures how often a projectile will be fired
 	long previousFireTime = 0; // Measures the last time a projectile was fired
@@ -310,20 +310,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void updateCollisions() {
 		
 		// Collision: Spaceship and screen edges
-		// TODO - BUG: If the user keeps pressing the move button in the direction of the wall
-		// then the spaceship will eventually move through it! FIX THIS!
-		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= width) {
-			spaceShip.setMoveRight(false);
+		// Right Edge
+		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= width + spaceShip.getBitmap().getWidth()/2) {
+			spaceShip.setX(width);
+//			spaceShip.setMoveRight(false);
 		}
-		if (spaceShip.getX() - spaceShip.getBitmap().getWidth()/2 <= 0) {
-			spaceShip.setMoveLeft(false);
+		// Left Edge
+		if (spaceShip.getX() - spaceShip.getBitmap().getWidth()/2 <= 0 - spaceShip.getBitmap().getWidth()/2) {
+			spaceShip.setX(0);
+//			spaceShip.setMoveLeft(false);
 		}
-		if (spaceShip.getY() - spaceShip.getBitmap().getHeight()/2 <= 0) {
-			spaceShip.setMoveUp(false);
+		// Top Edge
+		if (spaceShip.getY() - spaceShip.getBitmap().getHeight()/2 <= 0 - spaceShip.getBitmap().getHeight()/2) {
+			spaceShip.setY(0);
+//			spaceShip.setMoveUp(false);
 		}
-		if (spaceShip.getY() + spaceShip.getBitmap().getHeight()/2 >= height) {
-			spaceShip.setMoveDown(false);
-		}
+		// Bottom Edge
+		if (spaceShip.getY() + spaceShip.getBitmap().getHeight()/2 >= height + spaceShip.getBitmap().getHeight()/2) {
+			spaceShip.setY(height);
+//			spaceShip.setMoveDown(false);
+		} 
+
 		
 		// Collision: Spaceship and Enemies
 		// TODO - TEMPORARY SOLUTION: The spaceship should lose lifepower
