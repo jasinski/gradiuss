@@ -11,7 +11,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
 public abstract class GameObject {
-	
+	private static final String TAG = GameObject.class.getSimpleName();
 	private float x; // The X coordinate
 	private float y; // The Y coordinate
 	private List<Bitmap> bitmaps; // The animations
@@ -35,11 +35,10 @@ public abstract class GameObject {
 			throw new IllegalArgumentException();
 		}
 		//scale the bitmaps according to the specification of the rectangle if the passed bitmaps are not empty
-		List<Bitmap> scaledBitmaps = new ArrayList<Bitmap>();
+		this.bitmaps = new ArrayList<Bitmap>();
 		for(Bitmap bm : bitmaps) {
-			scaledBitmaps.add(Bitmap.createScaledBitmap(bm, rectangle.width(), rectangle.height(), true));
+			this.bitmaps.add(Bitmap.createScaledBitmap(bm, rectangle.width(), rectangle.height(), false));
 		}
-		this.bitmaps = scaledBitmaps;
 		this.x = x;
 		this.y = y;
 		this.rectangle = rectangle;
@@ -47,6 +46,10 @@ public abstract class GameObject {
 
 	public GameObject(Bitmap bitmap, float x, float y) throws IllegalArgumentException {
 		this(bitmap, x, y, new Rect((int) x - bitmap.getWidth()/2, (int) y - bitmap.getHeight()/2, (int) x + bitmap.getWidth()/2, (int) y + bitmap.getHeight()/2));
+	}
+	
+	public GameObject(List<Bitmap> bitmaps, float x, float y) throws IllegalArgumentException {
+		this(bitmaps, x, y, new Rect((int) x - bitmaps.get(0).getWidth()/2, (int) y - bitmaps.get(0).getHeight()/2, (int) x + bitmaps.get(0).getWidth()/2, (int) y + bitmaps.get(0).getHeight()/2));
 	}
 	
 	public GameObject() {
@@ -173,7 +176,6 @@ public abstract class GameObject {
 			paint.setColor(Color.GREEN);
 			paint.setStyle(Style.STROKE);
 			canvas.drawRect(rectangle, paint);
-			// TODO - TEMPORARY: paint the rectangle green, just for testing 
 			
 		}
 	}

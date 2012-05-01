@@ -70,6 +70,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Background
 	Rect rectBackground;
 	Bitmap bmSpaceShip;
+	Bitmap bmSpaceShipHit;
 	Bitmap bmTypeOneProjectile1;
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
@@ -156,15 +157,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private void initSpaceShip() {
 		bmSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall2);
+		bmSpaceShipHit = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.spaceshipsnysmall2_hit);
 		
 		// TODO - Common resolutions for smartphone screens vary from 240×320 to 720×1280, with many flagship Android phones at 
 		// 480×800 or 540×960, the iPhone 4/4S at 640×960 and Galaxy Nexus and HTC Rezound at 720×1280 (Wikipedia). By these figures
 		// the target standard for the spaceship size and other game-objects size should be calculated.
-		Bitmap bm = Bitmap.createScaledBitmap(bmSpaceShip, (int)width/8, (int)height/6, true);
+		Bitmap bmSpaceShipRightSize = Bitmap.createScaledBitmap(bmSpaceShip, (int)width/8, (int)height/6, true);
+		Bitmap bmSpaceShipHitRightSize = Bitmap.createScaledBitmap(bmSpaceShipHit, (int)width/8, (int)height/6, true);
 		
-		spaceShip = new SpaceShip(bm, width/2, height-bmSpaceShip.getHeight(), 5, 5);
+		List<Bitmap> spaceShipAnimations = new ArrayList<Bitmap>();
+		spaceShipAnimations.add(bmSpaceShipRightSize);
+		spaceShipAnimations.add(bmSpaceShipHitRightSize);
+		
+//		spaceShip = new SpaceShip(bmSpaceShipRightSize, width/2, height-bmSpaceShip.getHeight(), 5, 5);
+		spaceShip = new SpaceShip(spaceShipAnimations, width/2, height-bmSpaceShip.getHeight());
 		spaceShip.setVx(10);
+		spaceShip.setVy(10);
 		spaceShip.setVisible(true);
+		spaceShip.setLife(100);
 		
 	}
 	
@@ -263,6 +273,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 	
+	private void addAsteroid() {
+		Random r = new Random();
+		Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -bmAsteroid.getHeight()/2);
+		asteroid.setVy(r.nextInt(2)+2);
+		asteroid.setVx(r.nextInt(3)-1);
+		asteroid.setMoveDown(true);
+		asteroid.setMoveRight(true);
+		asteroid.setVisible(true);
+		asteroid.setLife(100);
+		asteroid.setDamage(80);
+		enemies.add(asteroid);
+	}
+	
 	private void updateSpaceShip() {
 		spaceShip.updateState();
 	}
@@ -295,6 +318,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	// Create an Explosion in position x, y, with an explosion area
 	private void addExplosion(float x, float y, Rect explosionArea) { 
+		Log.d(TAG, "explosionArea=" + explosionArea);
 		Explosion explosion = new Explosion(bmExplosionFrames, x, y, explosionArea);
 		explosion.setVisible(true);
 		explosions.add(explosion);
@@ -311,24 +335,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		// Collision: Spaceship and screen edges
 		// Right Edge
-		if (spaceShip.getX() + spaceShip.getBitmap().getWidth()/2 >= width + spaceShip.getBitmap().getWidth()/2) {
+		if (spaceShip.getX() >= width) {
 			spaceShip.setX(width);
-//			spaceShip.setMoveRight(false);
 		}
 		// Left Edge
-		if (spaceShip.getX() - spaceShip.getBitmap().getWidth()/2 <= 0 - spaceShip.getBitmap().getWidth()/2) {
+		if (spaceShip.getX() <= 0) {
 			spaceShip.setX(0);
-//			spaceShip.setMoveLeft(false);
 		}
 		// Top Edge
-		if (spaceShip.getY() - spaceShip.getBitmap().getHeight()/2 <= 0 - spaceShip.getBitmap().getHeight()/2) {
+		if (spaceShip.getY() <= 0) {
 			spaceShip.setY(0);
-//			spaceShip.setMoveUp(false);
 		}
 		// Bottom Edge
-		if (spaceShip.getY() + spaceShip.getBitmap().getHeight()/2 >= height + spaceShip.getBitmap().getHeight()/2) {
+		if (spaceShip.getY() >= height) {
 			spaceShip.setY(height);
-//			spaceShip.setMoveDown(false);
 		} 
 
 		
@@ -336,9 +356,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO - TEMPORARY SOLUTION: The spaceship should lose lifepower
 		// and when it hits zero the game is over.
 		for (Enemy enemy : enemies) {
-			if (spaceShip.collisionDetection(enemy)) {
-				spaceShip.setVisible(false);
-				// TODO - method for explosion should be applied if enemy kills the spaceship.
+			if (enemy.collisionDetection(spaceShip)) {
+//			if (spaceShip.collisionDetection(enemy)) {
+				
+				// Remove lifepower from the spaceship
+				spaceShip.setLife(spaceShip.getLife() - enemy.getDamage());
+				spaceShip.setHit(true);
+				
+				// Save information about the enemy for the explosion
+				enemy.setVisible(false);
+				float x = enemy.getX();
+				float y = enemy.getY();
+				Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
+				enemies.remove(enemy);
+				addExplosion(x, y, rect);
+				addAsteroid();
+				
+				if (spaceShip.getLife() <= 0) {
+					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
+					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
+					spaceShip.setVisible(false);
+				}
 			}
 		}
 		
@@ -368,21 +406,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						enemy.setVisible(false);
 						float x = enemy.getX();
 						float y = enemy.getY();
-						Rect rect = enemy.getRect();
+						Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
+						Log.d(TAG, "rect=" + rect.toShortString());
 						enemies.remove(enemy);
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
-						Random r = new Random();
-						Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -enemy.getBitmapHeight()/2);
-						asteroid.setVy(r.nextInt(2)+2);
-						asteroid.setVx(r.nextInt(3)-1);
-						asteroid.setMoveDown(true);
-						asteroid.setMoveRight(true);
-						asteroid.setVisible(true);
-						asteroid.setLife(100);
-						enemies.add(asteroid);
-
+						// Add a new asteroid
+						addAsteroid();
 					}
 				} 
 			}
@@ -398,15 +429,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
 				
-				Random r = new Random();
-				Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -enemy.getBitmapHeight()/2);
-				asteroid.setVy(r.nextInt(2)+2);
-				asteroid.setVx(r.nextInt(3)-1);
-				asteroid.setMoveDown(true);
-				asteroid.setMoveRight(true);
-				asteroid.setVisible(true);
-				asteroid.setLife(100);
-				enemies.add(asteroid);
+				// Add a new asteroid
+				addAsteroid();
 			}
 		}
 	} //updateCollison()

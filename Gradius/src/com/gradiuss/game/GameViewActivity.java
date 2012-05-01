@@ -1,7 +1,5 @@
 package com.gradiuss.game;
 
-import com.gradiuss.game.models.SpaceShip;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,13 +14,13 @@ import android.widget.ImageButton;
 public class GameViewActivity extends Activity {
 	
 	private static final String TAG = GameViewActivity.class.getSimpleName();
-	GameView gameView;
-	Button bLeftPad; // Move spaceship left
-	Button bRightPad; // Move spaceship right
-	Button bUpPad; // Move spaceship up
-	Button bDownPad; // Move spaceship down
+	private GameView gameView;
+	private Button bLeftPad; // Move spaceship left
+	private Button bRightPad; // Move spaceship right
+	private Button bUpPad; // Move spaceship up
+	private Button bDownPad; // Move spaceship down
 	public static ImageButton bChangeWeapon;
-	Button bFire; // Fire projectiles
+	private Button bFire; // Fire projectiles
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {

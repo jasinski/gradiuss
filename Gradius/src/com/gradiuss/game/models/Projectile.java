@@ -5,8 +5,8 @@ import android.graphics.Rect;
 
 public class Projectile extends MovingObject {
 	
+	private static final String TAG = Projectile.class.getSimpleName();
 	public static final float FIRE_TIME_STANDARD = 100000000;
-	
 	private int damage = 0;
 	private float fireInterval = FIRE_TIME_STANDARD;
 

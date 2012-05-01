@@ -5,7 +5,8 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class Asteroid extends Enemy {
-	
+	private static final String TAG = Asteroid.class.getSimpleName();
+
 	private int previousLife;
 	
 	public Asteroid(Bitmap bitmap, int x, int y) {
@@ -38,12 +39,15 @@ public class Asteroid extends Enemy {
 		if (isHit()) {
 			float damage = previousLife - getLife();
 			float shrinkPercentage = (100/damage-1)/(100/damage);
-			Log.d("ASTEROID TEST: shrinkPercentage = ", shrinkPercentage + "");
+			Log.d(TAG, "ASTEROID TEST: shrinkPercentage = " + shrinkPercentage);
 			//setBitmap(0, Bitmap.createBitmap(getBitmap(), 0, 0, Math.round(shrinkPercentage*getBitmap().getWidth()), 
 				//	Math.round(shrinkPercentage*getBitmap().getHeight())));
 			setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), Math.round(shrinkPercentage*(getRect().width())), 
 					Math.round(shrinkPercentage*(getRect().height())), true));
-
+			
+			setDamage(shrinkPercentage*getDamage());
+			Log.d(TAG, "damage=" + getDamage());
+			
 			setHit(false);
 		}
 		
