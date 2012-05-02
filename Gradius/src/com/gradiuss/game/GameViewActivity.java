@@ -1,6 +1,7 @@
 package com.gradiuss.game;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,6 +22,9 @@ public class GameViewActivity extends Activity {
 	private Button bDownPad; // Move spaceship down
 	public static ImageButton bChangeWeapon;
 	private Button bFire; // Fire projectiles
+	MediaPlayer gameSong;
+	MediaPlayer shootsound;
+
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,10 @@ public class GameViewActivity extends Activity {
         
         // Inflating layout
         setContentView(R.layout.gamelayout);
-       
+        
+        //Starting song
+       gameSong = MediaPlayer.create(GameViewActivity.this, R.raw.gamesong);
+       gameSong.start();
         // Initializing view
         gameView = (GameView) findViewById(R.id.gameView);
         bLeftPad = (Button) findViewById(R.id.bLeftPad);
@@ -136,7 +143,8 @@ public class GameViewActivity extends Activity {
 				return true;
 			}
 		});
-        
+	     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
+      
         bFire.setOnTouchListener(new OnTouchListener() {
 			
 			public boolean onTouch(View v, MotionEvent event) {
@@ -145,6 +153,9 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					gameView.spaceShip.setShooting(true);
 					Log.d(TAG, "shooting...");
+//				     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
+				     shootsound.start();
+					
 				}
 				
 				// Stop shooting
@@ -163,6 +174,7 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Pausing...");
 		super.onPause();
 		gameView.gameLoop.pauseThread();
+		gameSong.release();
 	}
 	
 	@Override

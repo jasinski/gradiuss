@@ -9,6 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -25,6 +28,11 @@ import com.gradiuss.game.models.TypeOneProjectile;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+	/** Sound variables */
+	private SoundPool sounds;
+	private int sExplosion;
+	MediaPlayer explosion;
+
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
