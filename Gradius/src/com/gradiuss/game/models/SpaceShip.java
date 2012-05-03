@@ -6,10 +6,10 @@ import android.graphics.Bitmap;
 public class SpaceShip extends MovingObject {
 
 	private boolean isAlive;
-	private int life;
+	private int life = 100;
 	private boolean shooting;
 	
-	public SpaceShip(Bitmap bitmap, int x, int y) {
+	public SpaceShip(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
 		setVisible(true);
 	}
@@ -21,7 +21,7 @@ public class SpaceShip extends MovingObject {
 	}
 	
 	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
+		this.isAlive = life > 0 ? isAlive : false;	
 	}
 	
 	public boolean isAlive() {
@@ -33,7 +33,7 @@ public class SpaceShip extends MovingObject {
 	}
 	
 	public int getLife() {
-		return life;
+		return (life > 100) ? 100 : life;
 	}
 	
 	public void setShooting(boolean shooting) {
@@ -49,16 +49,16 @@ public class SpaceShip extends MovingObject {
 	public void updateState() {
 		// Update movement
 		if (moveLeft) {	
-			setX((int) (getX() - (getVx() * getDirectionX()) ));
+			setX((getX() + (getVx() * MovingObject.DIRECTION_LEFT)));
 		}
 		if (moveRight) {	
-			setX((int) (getX() + (getVx() * getDirectionX()) ));
+			setX((getX() + (getVx() * MovingObject.DIRECTION_RIGHT)));
 		}
 		if (moveUp) {	
-			setY((int) (getY() - (getVy() * getDirectionY()) ));
+			setY((getY() + (getVy() * MovingObject.DIRECTION_UP)));
 		}
 		if (moveDown) {	
-			setY((int) (getY() + (getVy() * getDirectionY()) ));
+			setY((getY() + (getVy() * MovingObject.DIRECTION_DOWN)));
 		}
 
 		// Calls the superclass method that updates the rectangle automatically.
