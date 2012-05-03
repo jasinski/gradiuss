@@ -16,7 +16,7 @@
         android:id="@+id/bStartGame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
+        android:textColor="@drawable/text_color"
         android:text="@string/start_game"       
         android:onClick="StartGameMethod"
         android:textSize="30dp"
@@ -60,11 +60,13 @@
         android:id="@+id/bHelp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
+        android:textColor="@drawable/text_color"
+        android:state_pressed="true" android:color="#705090" 
         android:text="@string/help"
         android:onClick="HelpMethod"
         android:textSize="30dp"
         android:typeface="monospace"
         android:background="@null" />
+        
             
 </LinearLayout>

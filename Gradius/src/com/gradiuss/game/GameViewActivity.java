@@ -1,6 +1,7 @@
 package com.gradiuss.game;
 
 import android.app.Activity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -9,17 +10,21 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class GameViewActivity extends Activity {
 	
 	private static final String TAG = GameViewActivity.class.getSimpleName();
-	GameView gameView;
-	Button bLeftPad; // Move spaceship left
-	Button bRightPad; // Move spaceship right
-	Button bUpPad; // Move spaceship up
-	Button bDownPad; // Move spaceship down
-	Button bChangeWeapon;
-	Button bFire; // Fire projectiles
+	private GameView gameView;
+	private Button bLeftPad; // Move spaceship left
+	private Button bRightPad; // Move spaceship right
+	private Button bUpPad; // Move spaceship up
+	private Button bDownPad; // Move spaceship down
+	public static ImageButton bChangeWeapon;
+	private Button bFire; // Fire projectiles
+	MediaPlayer gameSong;
+	MediaPlayer shootsound;
+
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,14 +35,17 @@ public class GameViewActivity extends Activity {
         
         // Inflating layout
         setContentView(R.layout.gamelayout);
-       
+        
+        //Starting song
+       gameSong = MediaPlayer.create(GameViewActivity.this, R.raw.gamesong);
+       gameSong.start();
         // Initializing view
         gameView = (GameView) findViewById(R.id.gameView);
         bLeftPad = (Button) findViewById(R.id.bLeftPad);
         bRightPad = (Button) findViewById(R.id.bRightPad);
         bUpPad = (Button) findViewById(R.id.bUpPad);
         bDownPad = (Button) findViewById(R.id.bDownPad);
-        bChangeWeapon = (Button) findViewById(R.id.bChangeWeapon);
+        bChangeWeapon = (ImageButton) findViewById(R.id.bChangeWeapon);
         bFire = (Button) findViewById(R.id.bFire);
         
         
@@ -49,7 +57,7 @@ public class GameViewActivity extends Activity {
 				// Move spaceship left
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bLeftPad.setPressed(true);
-						gameView.spaceShip.setMoveLeft(true);
+					gameView.spaceShip.setMoveLeft(true);
 				}
 				
 				// Stop moving spaceship left
@@ -90,9 +98,6 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bUpPad.setPressed(true);
 					gameView.spaceShip.setMoveUp(true);
-					
-					// TODO - TEMPORARY: Changes the projectiles to type = 1 (just used for testing)
-					gameView.projectileTypePointer = 1;
 				}
 				
 				// Stop moving spaceship up
@@ -112,9 +117,6 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bDownPad.setPressed(true);
 					gameView.spaceShip.setMoveDown(true);
-					
-					// TODO - TEMPORARY: Changes the projectiles to type = 0 (just used for testing)
-					gameView.projectileTypePointer = 0;
 				}
 				
 				// Stop moving spaceship down
@@ -130,12 +132,10 @@ public class GameViewActivity extends Activity {
 			
 			public boolean onTouch(View v, MotionEvent event) {
 				
-				// Start shooting
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					
 				}
 				
-				// Stop shooting
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.changeWeapon();
 					Log.d(TAG, "...stopped shooting");
@@ -143,7 +143,8 @@ public class GameViewActivity extends Activity {
 				return true;
 			}
 		});
-        
+	     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
+      
         bFire.setOnTouchListener(new OnTouchListener() {
 			
 			public boolean onTouch(View v, MotionEvent event) {
@@ -152,6 +153,9 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					gameView.spaceShip.setShooting(true);
 					Log.d(TAG, "shooting...");
+//				     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
+				     shootsound.start();
+					
 				}
 				
 				// Stop shooting
@@ -170,6 +174,7 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Pausing...");
 		super.onPause();
 		gameView.gameLoop.pauseThread();
+		gameSong.release();
 	}
 	
 	@Override

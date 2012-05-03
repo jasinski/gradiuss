@@ -1,5 +1,7 @@
 package com.gradiuss.game;
 
+import com.gradiuss.game.highscore.SQLViewActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +10,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class StartGameActivity extends Activity implements View.OnClickListener {
-    /** Called when the activity is first created. */
-    @Override
+	private static final String TAG = StartGameActivity.class.getSimpleName();
+	
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startgame);

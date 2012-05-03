@@ -3,7 +3,7 @@ package com.gradiuss.game.models;
 import android.graphics.Bitmap;
 
 public class Background {
-	
+	private static final String TAG = Background.class.getSimpleName();
 	private float x;
 	private float y;
 	private Bitmap bitmap;

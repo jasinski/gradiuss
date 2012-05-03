@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 public class ParallaxBackground extends MovingObject {
-
+	private static final String TAG = ParallaxBackground.class.getSimpleName();
 	private List<Background[]> bitmaps;
 	private float[] speeds;
 	private int screenHeight;
@@ -70,7 +70,7 @@ public class ParallaxBackground extends MovingObject {
 			for (Background background : bgArray) {
 				background.setY(background.getY() + background.getMovementSpeed());
 				
-				Log.d("TESTING", "screen height(ParallaxBg) = " + screenHeight + ", test = " + background.getBitmap().getHeight()/2);
+//				Log.d(TAG, "screen height(ParallaxBg) = " + screenHeight + ", test = " + background.getBitmap().getHeight()/2);
 				
 				if (background.getY() >= 2*screenHeight/* + background.getBitmap().getHeight()/2*/) {
 					background.setY((int) background.getY() - background.getRedrawPosition());

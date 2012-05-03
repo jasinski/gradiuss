@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.gradiuss.game.R;
+import com.gradiuss.game.models.TypeOneProjectile;
 
 public class SQLViewActivity extends Activity{
+	private static final String TAG = SQLViewActivity.class.getSimpleName();
 	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);

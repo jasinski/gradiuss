@@ -13,20 +13,20 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.50" >
+        android:layout_height="62dp" >
 
         <Button
             android:id="@+id/bLeftPad"
             android:layout_width="50dp"
-            android:layout_height="70dp"
+            android:layout_height="100dp"
             android:layout_alignParentLeft="true"
+            android:layout_below="@+id/bUpPad"
             android:background="@drawable/leftbutton_toggler" />
 
         <Button
             android:id="@+id/bUpPad"
             android:layout_width="50dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_toRightOf="@id/bLeftPad"
             android:background="@drawable/upbutton_toggler" >
         </Button>
@@ -41,13 +41,6 @@
         </Button>
 
         <Button
-            android:id="@+id/bRightPad"
-            android:layout_width="50dp"
-            android:layout_height="70dp"
-            android:layout_toRightOf="@id/bUpPad"
-            android:background="@drawable/rightbutton_toggler" />
-
-        <Button
             android:id="@+id/bFire"
             android:layout_width="50dp"
             android:layout_height="70dp"
@@ -55,13 +48,23 @@
             android:background="@drawable/firebutton_toggler" >
         </Button>
 
-        <Button
+        <ImageButton
             android:id="@+id/bChangeWeapon"
             android:layout_width="50dp"
             android:layout_height="70dp"
             android:layout_toLeftOf="@id/bFire"
-            android:background="@drawable/change_weaon_temporary" >
-        </Button>
+            android:background="@drawable/change_weaon_temporary_test" >
+        </ImageButton>
+
+        <Button
+            android:id="@+id/bRightPad"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/bUpPad"
+            android:layout_toRightOf="@+id/bDownPad"
+            android:background="@drawable/rightbutton_toggler" />
+
     </RelativeLayout>
 
 </LinearLayout>

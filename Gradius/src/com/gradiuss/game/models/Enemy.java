@@ -4,10 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 public abstract class Enemy extends MovingObject {
-	
+	private static final String TAG = Enemy.class.getSimpleName();
 	private boolean isAlive;
 	private int life;
 	private boolean hit;
+	private float damage;
 	
 	public Enemy(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
@@ -39,6 +40,14 @@ public abstract class Enemy extends MovingObject {
 	
 	public boolean isHit() {
 		return hit;
+	}
+	
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+	public float getDamage() {
+		return damage;
 	}
 
 }

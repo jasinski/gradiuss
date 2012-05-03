@@ -4,7 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 public class TypeOneProjectile extends Projectile {
-
+	private static final String TAG = TypeOneProjectile.class.getSimpleName();
+	
 	public TypeOneProjectile(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
 	}
@@ -19,6 +20,16 @@ public class TypeOneProjectile extends Projectile {
 	
 	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle, int damage) {
 		super(bitmap, x, y, rectangle, damage);
+	}
+	
+	public TypeOneProjectile(Projectile projectile) {
+		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
+		this.setDamage(projectile.getDamage());
+		this.setFireInterval(projectile.getFireInterval());	
+		this.setVisible(projectile.isVisible());
+		this.setMoveUp(projectile.isMovingUp());
+		this.setVy(projectile.getVy());
+		this.setFireInterval(projectile.getFireInterval());
 	}
 
 	@Override

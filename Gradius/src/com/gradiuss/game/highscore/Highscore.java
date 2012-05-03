@@ -1,5 +1,7 @@
 package com.gradiuss.game.highscore;
 
+import com.gradiuss.game.models.TypeOneProjectile;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class Highscore {
-	
+	private static final String TAG = Highscore.class.getSimpleName();
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_NAME = "persons_name";
 	public static final String KEY_HIGHSCORE = "persons_highscore";

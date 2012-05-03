@@ -1,13 +1,21 @@
 package com.gradiuss.game.models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 
 public class SpaceShip extends MovingObject {
-
+	private static final String TAG = SpaceShip.class.getSimpleName();
 	private boolean isAlive;
 	private int life = 100;
 	private boolean shooting;
+	private boolean hit;
+	int counter;
 	
 	public SpaceShip(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
@@ -18,6 +26,14 @@ public class SpaceShip extends MovingObject {
 		super(bitmap, x, y);
 		this.setVx(xSpeed);
 		this.setVy(ySpeed);
+	}
+	
+	public SpaceShip(List<Bitmap> bitmaps, float x, float y, Rect rectangle) {
+		super(bitmaps, x, y, rectangle);
+	}
+	
+	public SpaceShip(List<Bitmap> bitmaps, float x, float y) {
+		super(bitmaps, x, y);
 	}
 	
 	public void setAlive(boolean isAlive) {
@@ -44,6 +60,13 @@ public class SpaceShip extends MovingObject {
 		return shooting;
 	}
 	
+	public void setHit(boolean hit) {
+		this.hit = hit;
+	}
+	
+	public boolean isHit() {
+		return hit;
+	}
 	
 	@Override
 	public void updateState() {
@@ -60,9 +83,29 @@ public class SpaceShip extends MovingObject {
 		if (moveDown) {	
 			setY((getY() + (getVy() * MovingObject.DIRECTION_DOWN)));
 		}
+		
+		// Spaceship is hit
+		if (hit) {
+			setAnimationPointer(1);
+			counter = 0;
+			hit = false;
+		}
+		
+		if (getAnimationPointer() == 1) {
+			if (counter == 2) {
+				setAnimationPointer(0);
+			} else {
+				counter++;
+			}
+		}
 
 		// Calls the superclass method that updates the rectangle automatically.
 		super.updateState(); 
+	}
+	
+	@Override
+	public void draw(Canvas canvas) {
+		super.draw(canvas);
 	}
 	
 
