@@ -1,6 +1,7 @@
 package com.gradiuss.game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class GameViewActivity extends Activity {
 	MediaPlayer gameSong;
 	MediaPlayer shootsound;
 
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,6 +167,8 @@ public class GameViewActivity extends Activity {
 			}
 		});
         
+        
+        
     }
 	
 	@Override
@@ -193,5 +197,6 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Stopping...");
 		super.onStop();
 	}
+
 	
 }

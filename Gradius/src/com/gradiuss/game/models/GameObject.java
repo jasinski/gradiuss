@@ -18,6 +18,7 @@ public abstract class GameObject {
 	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
+
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {

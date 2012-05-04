@@ -16,7 +16,7 @@ import com.gradiuss.game.models.TypeOneProjectile;
 public class SqlLiteActivity extends Activity implements OnClickListener {
 	private static final String TAG = SqlLiteActivity.class.getSimpleName();
 	Button sqlUpdate, sqlView;
-	EditText sqlName, sqlHotness;
+	EditText sqlName, sqlScore;
 	
 	
     @Override
@@ -25,7 +25,7 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
         setContentView(R.layout.sqlliteexample);
         sqlUpdate = (Button) findViewById(R.id.bSQLUpdate);
         sqlName = (EditText) findViewById(R.id.etSQLName);
-        sqlHotness = (EditText) findViewById(R.id.etSQLHotness);
+        sqlScore = (EditText) findViewById(R.id.etSQLHotness);//Det står hotness men borde vara score, kan inte ändra i R..
         
         sqlView = (Button) findViewById(R.id.bSQLOpenView);
         sqlView.setOnClickListener(this);
@@ -43,11 +43,11 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 			try{
 			
 			String name = sqlName.getText().toString();
-			String hotness = sqlHotness.getText().toString();
+			String score = sqlScore.getText().toString();
 			
 			Highscore entry = new Highscore(SqlLiteActivity.this);
 			entry.open();
-			entry.createEntry(name, hotness);
+			entry.createEntry(name, score);
 			entry.close();
 			}catch (Exception e){
 				didItWork = false;
