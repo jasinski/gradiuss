@@ -5,18 +5,17 @@ import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.ImageButton;
 
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
@@ -32,7 +31,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private SoundPool sounds;
 	private int sExplosion;
 	MediaPlayer explosion;
-
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
@@ -50,7 +48,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long totalGameTime = 0;
 	
 	// Background
-	ParallaxBackground parallaxBackground;
+	private ParallaxBackground parallaxBackground;
 	
 	// SpaceShip
 	public SpaceShip spaceShip;
@@ -361,6 +359,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		
 		// Collision: Spaceship and Enemies
+
 		// TODO - TEMPORARY SOLUTION: The spaceship should lose lifepower
 		// and when it hits zero the game is over.
 		for (Enemy enemy : enemies) {
@@ -385,6 +384,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
 					spaceShip.setVisible(false);
 				}
+
 			}
 		}
 		
@@ -457,6 +457,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	
+
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
 		renderBackground(canvas);

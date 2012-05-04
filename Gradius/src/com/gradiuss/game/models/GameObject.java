@@ -18,6 +18,7 @@ public abstract class GameObject {
 	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
+
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {
@@ -171,7 +172,7 @@ public abstract class GameObject {
 			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
 			//canvas.drawBitmap(bitmaps.get(animationPointer), getRect(), getRect(), null);
 
-			// TODO - TEMPORARY: paint the rectangle green, just for testing 
+			// TODO - TEMPORARY: paint the rectangle green, just for collision-testing 
 			Paint paint = new Paint();
 			paint.setColor(Color.GREEN);
 			paint.setStyle(Style.STROKE);
