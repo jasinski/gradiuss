@@ -72,16 +72,16 @@ public class SpaceShip extends MovingObject {
 	public void updateState() {
 		// Update movement
 		if (moveLeft) {	
-			setX((int) (getX() - (getVx() * getDirectionX()) ));
+			setX((int) (getX() + (getVx() * MovingObject.DIRECTION_LEFT) ));
 		}
 		if (moveRight) {	
-			setX((int) (getX() + (getVx() * getDirectionX()) ));
+			setX((int) (getX() + (getVx() * MovingObject.DIRECTION_RIGHT) ));
 		}
 		if (moveUp) {	
-			setY((int) (getY() - (getVy() * getDirectionY()) ));
+			setY((int) (getY() + (getVy() * MovingObject.DIRECTION_UP) ));
 		}
 		if (moveDown) {	
-			setY((int) (getY() + (getVy() * getDirectionY()) ));
+			setY((int) (getY() + (getVy() * MovingObject.DIRECTION_DOWN) ));
 		}
 		
 		// Spaceship is hit

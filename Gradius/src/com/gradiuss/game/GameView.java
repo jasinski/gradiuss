@@ -9,14 +9,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.ImageButton;
 
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
@@ -32,7 +30,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private SoundPool sounds;
 	private int sExplosion;
 	MediaPlayer explosion;
-
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
@@ -50,7 +47,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	long totalGameTime = 0;
 	
 	// Background
-	ParallaxBackground parallaxBackground;
+	private ParallaxBackground parallaxBackground;
 	
 	// SpaceShip
 	public SpaceShip spaceShip;

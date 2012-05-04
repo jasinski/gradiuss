@@ -28,6 +28,8 @@ public class Projectile extends MovingObject {
 		this.damage = damage;
 	}
 	
+	public Projectile() {}
+	
 	public Projectile(Projectile projectile) {
 		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
 		this.damage = projectile.damage;
