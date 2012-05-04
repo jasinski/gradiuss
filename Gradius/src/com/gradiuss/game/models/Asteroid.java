@@ -37,7 +37,7 @@ public class Asteroid extends Enemy {
 		
 		// Size of the asteroid when hit
 		if (isHit()) {
-			float damage = previousLife - getLife();
+			int damage = previousLife - getLife();
 			float shrinkPercentage = (100/damage-1)/(100/damage);
 			Log.d(TAG, "ASTEROID TEST: shrinkPercentage = " + shrinkPercentage);
 			//setBitmap(0, Bitmap.createBitmap(getBitmap(), 0, 0, Math.round(shrinkPercentage*getBitmap().getWidth()), 
@@ -45,7 +45,7 @@ public class Asteroid extends Enemy {
 			setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), Math.round(shrinkPercentage*(getRect().width())), 
 					Math.round(shrinkPercentage*(getRect().height())), true));
 			
-			setDamage(shrinkPercentage*getDamage());
+			setDamage((int)((int)shrinkPercentage*getDamage()));
 			Log.d(TAG, "damage=" + getDamage());
 			
 			setHit(false);

@@ -365,7 +365,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 //			if (spaceShip.collisionDetection(enemy)) {
 				
 				// Remove lifepower from the spaceship
-				spaceShip.setLife(spaceShip.getLife() - enemy.getDamage());
+				spaceShip.setLife((int) (spaceShip.getLife() - enemy.getDamage()));
 				spaceShip.setHit(true);
 				
 				// Save information about the enemy for the explosion

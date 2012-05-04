@@ -12,7 +12,7 @@ import android.graphics.Rect;
 public class SpaceShip extends MovingObject {
 	private static final String TAG = SpaceShip.class.getSimpleName();
 	private boolean isAlive;
-	private float life;
+	private int life = 100;
 	private boolean shooting;
 	private boolean hit;
 	int counter;
@@ -37,19 +37,19 @@ public class SpaceShip extends MovingObject {
 	}
 	
 	public void setAlive(boolean isAlive) {
-		this.isAlive = isAlive;
+		this.isAlive = life > 0 ? isAlive : false;	
 	}
 	
 	public boolean isAlive() {
 		return isAlive;
 	}
 	
-	public void setLife(float life) {
+	public void setLife(int life) {
 		this.life = life;
 	}
 	
-	public float getLife() {
-		return life;
+	public int getLife() {
+		return (life > 100) ? 100 : life;
 	}
 	
 	public void setShooting(boolean shooting) {
@@ -72,16 +72,16 @@ public class SpaceShip extends MovingObject {
 	public void updateState() {
 		// Update movement
 		if (moveLeft) {	
-			setX((int) (getX() + (getVx() * MovingObject.DIRECTION_LEFT) ));
+			setX((getX() + (getVx() * MovingObject.DIRECTION_LEFT)));
 		}
 		if (moveRight) {	
-			setX((int) (getX() + (getVx() * MovingObject.DIRECTION_RIGHT) ));
+			setX((getX() + (getVx() * MovingObject.DIRECTION_RIGHT)));
 		}
 		if (moveUp) {	
-			setY((int) (getY() + (getVy() * MovingObject.DIRECTION_UP) ));
+			setY((getY() + (getVy() * MovingObject.DIRECTION_UP)));
 		}
 		if (moveDown) {	
-			setY((int) (getY() + (getVy() * MovingObject.DIRECTION_DOWN) ));
+			setY((getY() + (getVy() * MovingObject.DIRECTION_DOWN)));
 		}
 		
 		// Spaceship is hit

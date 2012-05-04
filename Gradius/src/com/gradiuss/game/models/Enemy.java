@@ -42,7 +42,7 @@ public abstract class Enemy extends MovingObject {
 		return hit;
 	}
 	
-	public void setDamage(float damage) {
+	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 	
