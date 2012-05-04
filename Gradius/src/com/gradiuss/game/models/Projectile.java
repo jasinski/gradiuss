@@ -3,10 +3,10 @@ package com.gradiuss.game.models;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-public abstract class Projectile extends MovingObject {
+public class Projectile extends MovingObject {
 	
+	private static final String TAG = Projectile.class.getSimpleName();
 	public static final float FIRE_TIME_STANDARD = 100000000;
-	
 	private int damage = 0;
 	private float fireInterval = FIRE_TIME_STANDARD;
 
@@ -26,6 +26,18 @@ public abstract class Projectile extends MovingObject {
 	public Projectile(Bitmap bitmap, float x, float y, Rect rectangle, int damage) {
 		super(bitmap, x, y, rectangle);
 		this.damage = damage;
+	}
+	
+	public Projectile() {}
+	
+	public Projectile(Projectile projectile) {
+		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
+		this.damage = projectile.damage;
+		this.fireInterval = projectile.fireInterval;	
+		this.setVisible(projectile.isVisible());
+		this.setMoveUp(projectile.isMovingUp());
+		this.setVy(projectile.getVy());
+		this.setFireInterval(projectile.getFireInterval());
 	}
 	
 	public void setDamage(int damage) {

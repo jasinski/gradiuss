@@ -11,10 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gradiuss.game.R;
+import com.gradiuss.game.models.TypeOneProjectile;
 
 public class SqlLiteActivity extends Activity implements OnClickListener {
-    /** Called when the activity is first created. */
-	
+	private static final String TAG = SqlLiteActivity.class.getSimpleName();
 	Button sqlUpdate, sqlView;
 	EditText sqlName, sqlScore;
 	

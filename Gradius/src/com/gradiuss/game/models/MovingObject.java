@@ -1,11 +1,13 @@
 package com.gradiuss.game.models;
 
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 
 public abstract class MovingObject extends GameObject {
-
+	private static final String TAG = MovingObject.class.getSimpleName();
 	public static final int DIRECTION_LEFT	= -1;
 	public static final int DIRECTION_RIGHT	= 1;
 	public static final int DIRECTION_UP	= -1;
@@ -22,9 +24,6 @@ public abstract class MovingObject extends GameObject {
 	protected boolean moveUp;
 	protected boolean moveDown;
 	
-	public MovingObject(){
-		
-	}
 	
 	public MovingObject(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
@@ -32,6 +31,17 @@ public abstract class MovingObject extends GameObject {
 	
 	public MovingObject(Bitmap bitmap, float x, float y, Rect rectangle) {
 		super(bitmap, x, y, rectangle);
+	}
+	
+	public MovingObject() {
+	}
+	
+	public MovingObject(List<Bitmap> bitmaps, float x, float y, Rect rectangle) {
+		super(bitmaps, x, y, rectangle);
+	}
+	
+	public MovingObject(List<Bitmap> bitmaps, float x, float y) {
+		super(bitmaps, x, y);
 	}
 	
 	public void setMoveLeft(boolean moveLeft) {
@@ -97,5 +107,6 @@ public abstract class MovingObject extends GameObject {
 	public int getDirectionY() {
 		return directionY;
 	}
+	
 
 }
