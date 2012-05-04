@@ -13,6 +13,10 @@ public abstract class Enemy extends MovingObject {
 		super(bitmap, x, y);
 	}
 	
+	public Enemy(){
+		
+	}
+	
 	public Enemy(Bitmap bitmap, int x, int y, Rect rectangle) {
 		super(bitmap, x, y, rectangle);
 	}

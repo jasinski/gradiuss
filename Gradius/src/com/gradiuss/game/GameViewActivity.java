@@ -1,6 +1,7 @@
 package com.gradiuss.game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ public class GameViewActivity extends Activity {
 	Button bUpPad; // Move spaceship up
 	Button bDownPad; // Move spaceship down
 	Button bFire; // Fire projectiles
+	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +144,8 @@ public class GameViewActivity extends Activity {
 			}
 		});
         
+        
+        
     }
 	
 	@Override
@@ -169,5 +173,6 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Stopping...");
 		super.onStop();
 	}
+
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -251,9 +252,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// Collision: Spaceship and Enemies
 		// TODO - TEMPORARY SOLUTION: The spaceship should loose lifepower
 		// and when it hits zero the game is over
+		//If collision happens a new gameoverscreen appears
 		for (Enemy enemy : enemies) {
 			if (spaceShip.collisionDetection(enemy)) {
 				spaceShip.setVisible(false);
+				
 			}
 		}
 		
@@ -321,8 +324,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	
+	
+	
+
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	
+
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);

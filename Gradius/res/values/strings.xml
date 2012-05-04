@@ -6,9 +6,14 @@
     <!-- StartGame -->
     <string name="start_game">Startgame</string>
     <string name="options">Options</string>
-    <string name="high_scores">High Scores</string>
+    <string name="high_scores">HighScores</string>
   	<!-- Highscore -->
     <string name="highscore">Highscore</string>
     <string name="user">Player</string>
+    <!-- GameOver -->
+    <string name="restart">Restart</string>
+    <string name="main">Main Menu</string>
+    <string name="gameover">Game Over</string>
+    
 
 </resources>

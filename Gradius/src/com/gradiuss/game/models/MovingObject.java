@@ -22,6 +22,10 @@ public abstract class MovingObject extends GameObject {
 	protected boolean moveUp;
 	protected boolean moveDown;
 	
+	public MovingObject(){
+		
+	}
+	
 	public MovingObject(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
 	}

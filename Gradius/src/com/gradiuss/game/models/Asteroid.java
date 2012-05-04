@@ -12,6 +12,10 @@ public class Asteroid extends Enemy {
 		super(bitmap, x, y);
 	}
 	
+	public Asteroid(){
+		
+	}
+	
 	public Asteroid(Bitmap bitmap, int x, int y, Rect rectangle) {
 		super(bitmap, x, y, rectangle);
 	}

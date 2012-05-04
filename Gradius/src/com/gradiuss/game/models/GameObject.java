@@ -15,6 +15,10 @@ public abstract class GameObject {
 	private Rect rectangle;
 	private boolean visible;
 	
+	public GameObject(){
+		
+	}
+	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		if (rectangle == null) {
 			throw new IllegalArgumentException();
@@ -29,7 +33,7 @@ public abstract class GameObject {
 		this(bitmap, x, y, new Rect((int) x - bitmap.getWidth()/2, (int) y - bitmap.getHeight()/2, (int) x + bitmap.getWidth()/2, (int) y + bitmap.getHeight()/2));
 	}
 
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 	
@@ -37,7 +41,7 @@ public abstract class GameObject {
 		return x;
 	}
 	
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 	
