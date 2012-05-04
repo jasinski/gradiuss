@@ -153,9 +153,7 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					gameView.spaceShip.setShooting(true);
 					Log.d(TAG, "shooting...");
-//				     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
-				     shootsound.start();
-					
+				     shootsound.start();					
 				}
 				
 				// Stop shooting
