@@ -8,7 +8,7 @@ public class Background {
 	private float y;
 	private Bitmap bitmap;
 	private int movementSpeed;
-	private int redrawPosition;
+	private float redrawPosition;
 	
 	public Background(Bitmap bitmap, int movementSpeed, int nrOfBackgroundCopies) {
 		this.bitmap = bitmap;
@@ -48,11 +48,11 @@ public class Background {
 		return movementSpeed;
 	}
 	
-	public void setRedrawPosition(int redrawPosition) {
+	public void setRedrawPosition(float redrawPosition) {
 		this.redrawPosition = redrawPosition;
 	}
 	
-	public int getRedrawPosition() {
+	public float getRedrawPosition() {
 		return redrawPosition;
 	}
 	
