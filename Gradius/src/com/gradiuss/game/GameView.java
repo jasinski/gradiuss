@@ -226,7 +226,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
-		asteroid.setLife(100);
+//		asteroid.setLife(100);
 		// add enemies to list of enemies
 		enemies.add(asteroid);
 	}
@@ -287,8 +287,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
-		asteroid.setLife(100);
-		asteroid.setDamage(80);
+//		asteroid.setLife(100);
+//		asteroid.setDamage(80);
 		enemies.add(asteroid);
 	}
 	
