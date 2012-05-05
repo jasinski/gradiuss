@@ -35,7 +35,7 @@ public class TypeOneProjectile extends Projectile {
 	@Override
 	public void updateState() {
 		
-		// Movement upwards
+		// MovemenSt upwards
 		if (moveUp) {	
 			setY((int) (getY() - (getVy() * getDirectionY()) ));
 		}
