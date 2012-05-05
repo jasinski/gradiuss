@@ -12,7 +12,7 @@ import android.graphics.Rect;
 public class SpaceShip extends MovingObject {
 	private static final String TAG = SpaceShip.class.getSimpleName();
 	private boolean isAlive;
-	private int life = 100;
+	private float life = 100;
 	private boolean shooting;
 	private boolean hit;
 	int counter;
@@ -44,11 +44,11 @@ public class SpaceShip extends MovingObject {
 		return isAlive;
 	}
 	
-	public void setLife(int life) {
+	public void setLife(float life) {
 		this.life = life;
 	}
 	
-	public int getLife() {
+	public float getLife() {
 		return (life > 100) ? 100 : life;
 	}
 	

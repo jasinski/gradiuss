@@ -14,11 +14,11 @@ public class TypeOneProjectile extends Projectile {
 		super(bitmap, x, y, rectangle);
 	}
 	
-	public TypeOneProjectile(Bitmap bitmap, float x, float y, int damage) {
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, float damage) {
 		super(bitmap, x, y, damage);
 	}
 	
-	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle, int damage) {
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle, float damage) {
 		super(bitmap, x, y, rectangle, damage);
 	}
 	

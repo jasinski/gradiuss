@@ -11,13 +11,13 @@ public class ParallaxBackground extends MovingObject {
 	private static final String TAG = ParallaxBackground.class.getSimpleName();
 	private List<Background[]> bitmaps;
 	private float[] speeds;
-	private int screenHeight;
-	private int screenWidth;
+	private float screenHeight;
+	private float screenWidth;
 	int nrOfBackgroundCopies;
 	
 	int tmp = 1;
 	
-	public ParallaxBackground(int screenHeight, int screenWidth) throws IllegalArgumentException {
+	public ParallaxBackground(float screenHeight, float screenWidth) throws IllegalArgumentException {
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		setVisible(true);
@@ -28,7 +28,11 @@ public class ParallaxBackground extends MovingObject {
 		this.screenHeight = screenHeight;
 	}
 	
-	public void addBackground(Bitmap bitmap, int movementSpeed) {
+	public float getScreenHeight() {
+		return this.screenHeight;
+	}
+	
+	public void addBackground(Bitmap bitmap, float movementSpeed) {
 		int nrOfBgImages = calculateBgImages(bitmap.getHeight());
 		Background[] bgArray = new Background[nrOfBgImages];
 		for (int i = 0; i < bgArray.length; i++) {
@@ -51,7 +55,7 @@ public class ParallaxBackground extends MovingObject {
 	
 	private int calculateBgImages(int bitmapHeight) {
 		// Calculate how many background images are needed to cover the whole screen
-		return (int) Math.ceil((float) screenHeight/(float) bitmapHeight) + 1;
+		return (int) Math.ceil(screenHeight/bitmapHeight) + 1;
 	}
 	
 //	public void initParallaxBackground() {

@@ -39,8 +39,9 @@ public class GameViewActivity extends Activity {
         setContentView(R.layout.gamelayout);
         
         //Starting song
-       gameSong = MediaPlayer.create(GameViewActivity.this, R.raw.gamesong);
-       gameSong.start();
+//      gameSong = MediaPlayer.create(GameViewActivity.this, R.raw.gamesong);
+//      gameSong.start();
+       
         // Initializing view
         gameView = (GameView) findViewById(R.id.gameView);
         bLeftPad = (Button) findViewById(R.id.bLeftPad);
@@ -156,7 +157,7 @@ public class GameViewActivity extends Activity {
 					gameView.spaceShip.setShooting(true);
 					Log.d(TAG, "shooting...");
 //				     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
-				     shootsound.start();
+//				     shootsound.start();
 					
 				}
 				
@@ -178,7 +179,7 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Pausing...");
 		super.onPause();
 		gameView.gameLoop.pauseThread();
-		gameSong.release();
+//		gameSong.release();
 	}
 	
 	@Override
