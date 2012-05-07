@@ -45,8 +45,9 @@ public class ProjectileTest extends InstrumentationTestCase {
 
 	public void testProjectileConstructors() {
 		Projectile projectile1 = new Projectile();
-		projectile1.setBitmap(0, bitmap1);
 		Assert.assertNotNull(projectile1);
+
+		projectile1.setBitmap(0, bitmap1);
 		
 		Projectile projectile2 = new Projectile(projectile1);
 		Assert.assertNotNull(projectile2);
@@ -65,10 +66,10 @@ public class ProjectileTest extends InstrumentationTestCase {
 	
 	public void testGetDamage() {
 		testProjectile1.setDamage(25);
-		Assert.assertEquals(25, testProjectile1.getDamage());
+		Assert.assertEquals(25, testProjectile1.getDamage(), 0);
 		
 		testProjectile1.setDamage(-100);
-		Assert.assertEquals(-100, testProjectile1.getDamage());
+		Assert.assertEquals(-100, testProjectile1.getDamage(), 0);
 	}
 	
 	public void testGetFireInterval() {

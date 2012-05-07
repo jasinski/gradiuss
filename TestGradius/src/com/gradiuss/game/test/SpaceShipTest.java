@@ -108,14 +108,15 @@ public class SpaceShipTest extends InstrumentationTestCase {
 
 	public void testSetAlive() {
 		testSpSh.setLife(100);
-		Assert.assertFalse("testSpSh should live.", testSpSh.isAlive());
+		testSpSh.setAlive(true);
+		Assert.assertTrue("testSpSh should live.", testSpSh.isAlive());
 		reset(); //sets among other things life to 0.
-		Assert.assertEquals(false, testSpSh.isAlive());
+		Assert.assertEquals(true, testSpSh.isAlive());
 	}
 
 	public void testSetLife() {
-		testSpSh.setLife(105);
-		Assert.assertEquals(100, testSpSh.getLife());
+		testSpSh.setLife(15);
+		Assert.assertEquals(15, testSpSh.getLife(), 0);
 		reset();
 	}
 
