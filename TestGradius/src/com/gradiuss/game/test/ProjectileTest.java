@@ -45,6 +45,7 @@ public class ProjectileTest extends InstrumentationTestCase {
 
 	public void testProjectileConstructors() {
 		Projectile projectile1 = new Projectile();
+		projectile1.setBitmap(0, bitmap1);
 		Assert.assertNotNull(projectile1);
 		
 		Projectile projectile2 = new Projectile(projectile1);
@@ -57,8 +58,8 @@ public class ProjectileTest extends InstrumentationTestCase {
 	}
 	
 	public void tearDown() throws Exception {
-		testProjectile1 = null;
-		testProjectile2 = null;
+//		testProjectile1 = null;
+//		testProjectile2 = null;
 		super.tearDown();
 	}
 	
