@@ -13,6 +13,8 @@ import android.test.InstrumentationTestCase;
 import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.Projectile;
 
+
+
 public class ProjectileTest extends InstrumentationTestCase {
 	
 	Projectile testProjectile1;

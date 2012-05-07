@@ -1,12 +1,15 @@
 package com.gradiuss.game.test;
 
+import junit.framework.Assert;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
+
 import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.SpaceShip;
-import junit.framework.Assert;
+
+
 
 //methods not directly tested are isAlive() isShooting() and get
 
