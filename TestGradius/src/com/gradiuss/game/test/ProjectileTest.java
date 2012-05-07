@@ -47,7 +47,7 @@ public class ProjectileTest extends InstrumentationTestCase {
 		Projectile projectile1 = new Projectile();
 		Assert.assertNotNull(projectile1);
 
-		projectile1.setBitmap(0, bitmap1);
+		projectile1.addBitmap(0, bitmap1);
 		
 		Projectile projectile2 = new Projectile(projectile1);
 		Assert.assertNotNull(projectile2);

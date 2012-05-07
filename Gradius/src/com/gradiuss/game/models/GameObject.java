@@ -54,7 +54,7 @@ public abstract class GameObject {
 	}
 	
 	public GameObject() {
-		this.bitmaps = new ArrayList<Bitmap>(1);
+		this.bitmaps = new ArrayList<Bitmap>(10);
 	}
 
 	public void setX(float x) {
@@ -94,7 +94,11 @@ public abstract class GameObject {
 	}
 	
 	public void setBitmap(int position, Bitmap bitmap) {
-		this.bitmaps.set(position, bitmap);
+			this.bitmaps.set(position, bitmap);
+	}
+	
+	public void addBitmap(int position, Bitmap bitmap) {
+		this.bitmaps.add(position, bitmap);
 	}
 	
 	public Bitmap getBitmap() {

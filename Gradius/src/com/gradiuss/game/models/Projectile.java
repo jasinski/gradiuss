@@ -1,5 +1,7 @@
 package com.gradiuss.game.models;
 
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
@@ -28,7 +30,9 @@ public class Projectile extends MovingObject {
 		this.damage = damage;
 	}
 	
-	public Projectile() {}
+	public Projectile() {
+		setAnimations(new ArrayList<Bitmap>(1));
+	}
 	
 	public Projectile(Projectile projectile) {
 		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
