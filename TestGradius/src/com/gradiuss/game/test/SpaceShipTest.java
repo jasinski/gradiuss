@@ -65,7 +65,6 @@ public class SpaceShipTest extends InstrumentationTestCase {
 		Assert.assertEquals(5, testSpSh.getY(), 0);
 		Assert.assertEquals(10, testSpSh.getVx(), 0);
 		Assert.assertEquals(10, testSpSh.getVy(), 0);
-		reset();
 	}
 
 	public void testUpdateState() {
