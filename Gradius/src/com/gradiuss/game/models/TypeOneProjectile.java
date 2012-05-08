@@ -6,6 +6,10 @@ import android.graphics.Rect;
 public class TypeOneProjectile extends Projectile {
 	private static final String TAG = TypeOneProjectile.class.getSimpleName();
 	
+	public TypeOneProjectile() {
+		super();
+	}
+	
 	public TypeOneProjectile(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
 	}
