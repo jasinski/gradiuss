@@ -12,6 +12,7 @@ import android.test.InstrumentationTestCase;
 
 import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.Projectile;
+import com.gradiuss.game.models.TypeOneProjectile;
 
 
 
@@ -26,8 +27,8 @@ public class ProjectileTest extends InstrumentationTestCase {
 	private List<Bitmap> listBitmaps;
 
 	public void setUp() throws Exception {
-		testProjectile1 = new Projectile();
-		testProjectile2 = new Projectile();
+		testProjectile1 = new TypeOneProjectile();
+		testProjectile2 = new TypeOneProjectile();
 		rect = new Rect(30, 30, 35, 35);
 	
 		res = getInstrumentation().getContext().getResources();
@@ -44,15 +45,15 @@ public class ProjectileTest extends InstrumentationTestCase {
 	}
 
 	public void testProjectileConstructors() {
-		Projectile projectile1 = new Projectile();
+		Projectile projectile1 = new TypeOneProjectile();
 		Assert.assertNotNull(projectile1);
 
 		projectile1.addBitmap(0, bitmap1);
 		
-		Projectile projectile2 = new Projectile(projectile1);
+		Projectile projectile2 = new TypeOneProjectile(projectile1);
 		Assert.assertNotNull(projectile2);
 		
-		Projectile projectile3 = new Projectile(bitmap1, 40, 10);
+		Projectile projectile3 = new TypeOneProjectile(bitmap1, 40, 10);
 		Assert.assertEquals(bitmap1, projectile3.getBitmap());
 		Assert.assertEquals(40, projectile3.getX(), 0);
 		Assert.assertEquals(10, projectile3.getY(), 0);

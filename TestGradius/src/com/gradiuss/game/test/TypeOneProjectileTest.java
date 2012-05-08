@@ -60,7 +60,6 @@ public class TypeOneProjectileTest extends InstrumentationTestCase {
 		Assert.assertEquals(bitmap1, testProjetile.getBitmap());
 		Assert.assertEquals(50, testProjetile.getX(), 0);
 		Assert.assertEquals(60, testProjetile.getY(), 0);
-		Assert.assertEquals(rect, testProjetile.getRect());
 		Assert.assertEquals(13, testProjetile.getDamage(), 0);
 	}
 

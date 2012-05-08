@@ -33,6 +33,10 @@ public class TypeOneProjectile extends Projectile {
 		this.setFireInterval(projectile.getFireInterval());
 	}
 	
+	public TypeOneProjectile() {
+		super();
+	}
+	
 	@Override
 	public void updateState() {
 		
