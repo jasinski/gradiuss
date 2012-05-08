@@ -201,5 +201,18 @@ public class GameViewActivity extends Activity {
 		super.onStop();
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG, "Saving state...");
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d(TAG, "Restoring state...");
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+
 	
 }

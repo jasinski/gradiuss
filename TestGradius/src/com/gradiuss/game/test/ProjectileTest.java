@@ -17,13 +17,13 @@ import com.gradiuss.game.models.Projectile;
 
 public class ProjectileTest extends InstrumentationTestCase {
 	
-	Projectile testProjectile1;
-	Projectile testProjectile2;
-	Rect rect;
-	Resources res;
-	Bitmap bitmap1;
-	Bitmap bitmap2;
-	List<Bitmap> listBitmaps;
+	private Projectile testProjectile1;
+	private Projectile testProjectile2;
+	private Rect rect;
+	private Resources res;
+	private Bitmap bitmap1;
+	private Bitmap bitmap2;
+	private List<Bitmap> listBitmaps;
 
 	public void setUp() throws Exception {
 		testProjectile1 = new Projectile();

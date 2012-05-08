@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-public class Projectile extends MovingObject {
+public abstract class Projectile extends MovingObject {
 	
 	private static final String TAG = Projectile.class.getSimpleName();
 	public static final float FIRE_TIME_STANDARD = 100000000;
