@@ -1,12 +1,15 @@
 package com.gradiuss.game.test;
 
+import junit.framework.Assert;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
+
 import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.SpaceShip;
-import junit.framework.Assert;
+
+
 
 //methods not directly tested are isAlive() isShooting() and get
 
@@ -104,14 +107,15 @@ public class SpaceShipTest extends InstrumentationTestCase {
 
 	public void testSetAlive() {
 		testSpSh.setLife(100);
-		Assert.assertFalse("testSpSh should live.", testSpSh.isAlive());
+		testSpSh.setAlive(true);
+		Assert.assertTrue("testSpSh should live.", testSpSh.isAlive());
 		reset(); //sets among other things life to 0.
-		Assert.assertEquals(false, testSpSh.isAlive());
+		Assert.assertEquals(true, testSpSh.isAlive());
 	}
 
 	public void testSetLife() {
-		testSpSh.setLife(105);
-		Assert.assertEquals(100, testSpSh.getLife());
+		testSpSh.setLife(15);
+		Assert.assertEquals(15, testSpSh.getLife(), 0);
 		reset();
 	}
 

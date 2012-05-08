@@ -63,16 +63,16 @@ public class BakgroundTest extends InstrumentationTestCase {
 
 	public void testSetMovementSpeed() {
 		testBg.setMovementSpeed(50);
-		Assert.assertEquals(50, testBg.getMovementSpeed()); //Test getMovementSpeed()
+		Assert.assertEquals(50, testBg.getMovementSpeed(), 0); //Test getMovementSpeed()
 		testBg.setMovementSpeed(-4);
-		Assert.assertEquals(-4, testBg.getMovementSpeed()); //Test getMovementSpeed()
+		Assert.assertEquals(-4, testBg.getMovementSpeed(), 0); //Test getMovementSpeed()
 	}
 
 	public void testSetRedrawPosition() {
 		testBg.setRedrawPosition(40);
-		Assert.assertEquals(40, testBg.getRedrawPosition()); //Test getRedrawPosition()
+		Assert.assertEquals(40, testBg.getRedrawPosition(), 0); //Test getRedrawPosition()
 		testBg.setRedrawPosition(-10);
-		Assert.assertEquals(-10, testBg.getRedrawPosition()); //Test getRedrawPosition()
+		Assert.assertEquals(-10, testBg.getRedrawPosition(), 0); //Test getRedrawPosition()
 	}
 
 }

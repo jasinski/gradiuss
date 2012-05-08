@@ -6,7 +6,7 @@ public class AlienShip extends Enemy {
 	private static final String TAG = AlienShip.class.getSimpleName();
 
 	
-	public AlienShip(Bitmap bitmap, int x, int y) {
+	public AlienShip(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
 	}
 

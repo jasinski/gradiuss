@@ -32,7 +32,7 @@ public class ParallaxBackground extends MovingObject {
 		return this.screenHeight;
 	}
 	
-	public void addBackground(Bitmap bitmap, int movementSpeed) {
+	public void addBackground(Bitmap bitmap, float movementSpeed) {
 		int nrOfBgImages = calculateBgImages(bitmap.getHeight());
 		Background[] bgArray = new Background[nrOfBgImages];
 		for (int i = 0; i < bgArray.length; i++) {

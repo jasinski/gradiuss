@@ -13,6 +13,8 @@ import android.test.InstrumentationTestCase;
 import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.Projectile;
 
+
+
 public class ProjectileTest extends InstrumentationTestCase {
 	
 	Projectile testProjectile1;
@@ -44,6 +46,8 @@ public class ProjectileTest extends InstrumentationTestCase {
 	public void testProjectileConstructors() {
 		Projectile projectile1 = new Projectile();
 		Assert.assertNotNull(projectile1);
+
+		projectile1.addBitmap(0, bitmap1);
 		
 		Projectile projectile2 = new Projectile(projectile1);
 		Assert.assertNotNull(projectile2);
@@ -55,17 +59,17 @@ public class ProjectileTest extends InstrumentationTestCase {
 	}
 	
 	public void tearDown() throws Exception {
-		testProjectile1 = null;
-		testProjectile2 = null;
+//		testProjectile1 = null;
+//		testProjectile2 = null;
 		super.tearDown();
 	}
 	
 	public void testGetDamage() {
 		testProjectile1.setDamage(25);
-		Assert.assertEquals(25, testProjectile1.getDamage());
+		Assert.assertEquals(25, testProjectile1.getDamage(), 0);
 		
 		testProjectile1.setDamage(-100);
-		Assert.assertEquals(-100, testProjectile1.getDamage());
+		Assert.assertEquals(-100, testProjectile1.getDamage(), 0);
 	}
 	
 	public void testGetFireInterval() {
