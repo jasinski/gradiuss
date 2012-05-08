@@ -26,8 +26,8 @@ public class ProjectileTest extends InstrumentationTestCase {
 	private List<Bitmap> listBitmaps;
 
 	public void setUp() throws Exception {
-		testProjectile1 = new Projectile();
-		testProjectile2 = new Projectile();
+		testProjectile1 = new TypeOneProjectile();
+		testProjectile2 = new TypeOneProjectile();
 		rect = new Rect(30, 30, 35, 35);
 	
 		res = getInstrumentation().getContext().getResources();
