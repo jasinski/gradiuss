@@ -1,12 +1,9 @@
 package com.gradiuss.game.models;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 
 public class SpaceShip extends MovingObject {
