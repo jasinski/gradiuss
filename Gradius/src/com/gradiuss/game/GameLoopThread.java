@@ -1,7 +1,6 @@
 package com.gradiuss.game;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 // :::::::::::::::::::::::::::::::::::::::::::::: GameLoopThread ::::::::::::::::::::::::::::::::::::::::::::::
@@ -77,7 +76,7 @@ public class GameLoopThread extends Thread {
 					}
 					
 					// Game time
-					long old = gameView.totalGameTime;
+//					long old = gameView.totalGameTime;
 					gameView.totalGameTime = System.nanoTime() - gameView.startGameTime;
 
 					
@@ -112,6 +111,10 @@ public class GameLoopThread extends Thread {
 	
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+	
+	public boolean isRunning() {
+		return running;
 	}
 	
 	public void pauseThread() {
