@@ -8,14 +8,10 @@ public abstract class Enemy extends MovingObject {
 	private boolean isAlive;
 	private int life;
 	private boolean hit;
-	private float damage;
+	private int damage;
 	
 	public Enemy(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
-	}
-	
-	public Enemy(){
-		
 	}
 	
 	public Enemy(Bitmap bitmap, int x, int y, Rect rectangle) {
@@ -50,7 +46,7 @@ public abstract class Enemy extends MovingObject {
 		this.damage = damage;
 	}
 	
-	public float getDamage() {
+	public int getDamage() {
 		return damage;
 	}
 
