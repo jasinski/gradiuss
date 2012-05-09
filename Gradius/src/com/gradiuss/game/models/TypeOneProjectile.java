@@ -14,16 +14,17 @@ public class TypeOneProjectile extends Projectile {
 		super(bitmap, x, y, rectangle);
 	}
 	
-	public TypeOneProjectile(Bitmap bitmap, float x, float y, int damage) {
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, float damage) {
 		super(bitmap, x, y, damage);
 	}
 	
-	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle, int damage) {
+	public TypeOneProjectile(Bitmap bitmap, float x, float y, Rect rectangle, float damage) {
 		super(bitmap, x, y, rectangle, damage);
 	}
 	
 	public TypeOneProjectile(Projectile projectile) {
 		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
+//		this.setRect(projectile.getRect());
 		this.setDamage(projectile.getDamage());
 		this.setFireInterval(projectile.getFireInterval());	
 		this.setVisible(projectile.isVisible());
@@ -31,13 +32,17 @@ public class TypeOneProjectile extends Projectile {
 		this.setVy(projectile.getVy());
 		this.setFireInterval(projectile.getFireInterval());
 	}
-
+	
+	public TypeOneProjectile() {
+		super();
+	}
+	
 	@Override
 	public void updateState() {
 		
-		// Movement upwards
+		// MovemenSt upwards
 		if (moveUp) {	
-			setY((int) (getY() - (getVy() * getDirectionY()) ));
+			setY(getY() + getVy() * MovingObject.DIRECTION_UP);
 		}
 		
 		// Destroy if touches upper screen boundary

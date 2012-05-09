@@ -11,7 +11,6 @@
         android:layout_weight="0.50" />
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="62dp" >
 
@@ -19,6 +18,7 @@
             android:id="@+id/bLeftPad"
             android:layout_width="50dp"
             android:layout_height="100dp"
+            android:layout_alignBaseline="@+id/bFire"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/bUpPad"
             android:background="@drawable/leftbutton_toggler" />
@@ -60,11 +60,11 @@
             android:id="@+id/bRightPad"
             android:layout_width="50dp"
             android:layout_height="30dp"
+            android:layout_alignBaseline="@id/bFire"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/bUpPad"
             android:layout_toRightOf="@+id/bDownPad"
             android:background="@drawable/rightbutton_toggler" />
-
     </RelativeLayout>
 
 </LinearLayout>

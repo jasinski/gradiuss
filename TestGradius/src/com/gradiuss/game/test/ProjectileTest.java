@@ -12,20 +12,23 @@ import android.test.InstrumentationTestCase;
 
 import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.Projectile;
+import com.gradiuss.game.models.TypeOneProjectile;
+
+
 
 public class ProjectileTest extends InstrumentationTestCase {
 	
-	Projectile testProjectile1;
-	Projectile testProjectile2;
-	Rect rect;
-	Resources res;
-	Bitmap bitmap1;
-	Bitmap bitmap2;
-	List<Bitmap> listBitmaps;
+	private Projectile testProjectile1;
+	private Projectile testProjectile2;
+	private Rect rect;
+	private Resources res;
+	private Bitmap bitmap1;
+	private Bitmap bitmap2;
+	private List<Bitmap> listBitmaps;
 
 	public void setUp() throws Exception {
-		testProjectile1 = new Projectile();
-		testProjectile2 = new Projectile();
+		testProjectile1 = new TypeOneProjectile();
+		testProjectile2 = new TypeOneProjectile();
 		rect = new Rect(30, 30, 35, 35);
 	
 		res = getInstrumentation().getContext().getResources();
@@ -42,30 +45,32 @@ public class ProjectileTest extends InstrumentationTestCase {
 	}
 
 	public void testProjectileConstructors() {
-		Projectile projectile1 = new Projectile();
+		Projectile projectile1 = new TypeOneProjectile();
 		Assert.assertNotNull(projectile1);
+
+		projectile1.addBitmap(0, bitmap1);
 		
-		Projectile projectile2 = new Projectile(projectile1);
+		Projectile projectile2 = new TypeOneProjectile(projectile1);
 		Assert.assertNotNull(projectile2);
 		
-		Projectile projectile3 = new Projectile(bitmap1, 40, 10);
+		Projectile projectile3 = new TypeOneProjectile(bitmap1, 40, 10);
 		Assert.assertEquals(bitmap1, projectile3.getBitmap());
 		Assert.assertEquals(40, projectile3.getX(), 0);
 		Assert.assertEquals(10, projectile3.getY(), 0);
 	}
 	
 	public void tearDown() throws Exception {
-		testProjectile1 = null;
-		testProjectile2 = null;
+//		testProjectile1 = null;
+//		testProjectile2 = null;
 		super.tearDown();
 	}
 	
 	public void testGetDamage() {
 		testProjectile1.setDamage(25);
-		Assert.assertEquals(25, testProjectile1.getDamage());
+		Assert.assertEquals(25, testProjectile1.getDamage(), 0);
 		
 		testProjectile1.setDamage(-100);
-		Assert.assertEquals(-100, testProjectile1.getDamage());
+		Assert.assertEquals(-100, testProjectile1.getDamage(), 0);
 	}
 	
 	public void testGetFireInterval() {

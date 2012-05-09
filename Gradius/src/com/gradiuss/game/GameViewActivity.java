@@ -1,7 +1,6 @@
 package com.gradiuss.game;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,10 +22,6 @@ public class GameViewActivity extends Activity {
 	private Button bDownPad; // Move spaceship down
 	public static ImageButton bChangeWeapon;
 	private Button bFire; // Fire projectiles
-	MediaPlayer gameSong;
-	MediaPlayer shootsound;
-
-	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,10 +32,7 @@ public class GameViewActivity extends Activity {
         
         // Inflating layout
         setContentView(R.layout.gamelayout);
-        
-        //Starting song
-       gameSong = MediaPlayer.create(GameViewActivity.this, R.raw.gamesong);
-       gameSong.start();
+       
         // Initializing view
         gameView = (GameView) findViewById(R.id.gameView);
         bLeftPad = (Button) findViewById(R.id.bLeftPad);
@@ -59,12 +51,12 @@ public class GameViewActivity extends Activity {
 				// Move spaceship left
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bLeftPad.setPressed(true);
-					gameView.spaceShip.setMoveLeft(true);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveLeft(true);
 				}
 				
 				// Stop moving spaceship left
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					gameView.spaceShip.setMoveLeft(false);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveLeft(false);
 					bLeftPad.setPressed(false);
 				}
 				return true;
@@ -80,12 +72,12 @@ public class GameViewActivity extends Activity {
 				// Move spaceship right
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bRightPad.setPressed(true);
-					gameView.spaceShip.setMoveRight(true);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveRight(true);
 				}
 				
 				// Stop moving spaceship right
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					gameView.spaceShip.setMoveRight(false);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveRight(false);
 					bRightPad.setPressed(false);
 				}
 				return true;
@@ -99,12 +91,12 @@ public class GameViewActivity extends Activity {
 				// Move spaceship up
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bUpPad.setPressed(true);
-					gameView.spaceShip.setMoveUp(true);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveUp(true);
 				}
 				
 				// Stop moving spaceship up
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					gameView.spaceShip.setMoveUp(false);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveUp(false);
 					bUpPad.setPressed(false);
 				}
 				return true;
@@ -118,12 +110,12 @@ public class GameViewActivity extends Activity {
 				// Move spaceship down
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bDownPad.setPressed(true);
-					gameView.spaceShip.setMoveDown(true);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveDown(true);
 				}
 				
 				// Stop moving spaceship down
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					gameView.spaceShip.setMoveDown(false);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setMoveDown(false);
 					bDownPad.setPressed(false);
 				}
 				return true;
@@ -139,13 +131,12 @@ public class GameViewActivity extends Activity {
 				}
 				
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					gameView.changeWeapon();
+					gameView.levels.get(gameView.levelPointer).changeWeapon();
 					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
 			}
 		});
-	     shootsound= MediaPlayer.create(GameViewActivity.this, R.raw.shootsound);
       
         bFire.setOnTouchListener(new OnTouchListener() {
 			
@@ -153,14 +144,14 @@ public class GameViewActivity extends Activity {
 				
 				// Start shooting
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
-					gameView.spaceShip.setShooting(true);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setShooting(true);
 					Log.d(TAG, "shooting...");
-				     shootsound.start();					
+
 				}
 				
 				// Stop shooting
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					gameView.spaceShip.setShooting(false);
+					gameView.levels.get(gameView.levelPointer).getSpaceShip().setShooting(false);
 					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
@@ -176,7 +167,7 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Pausing...");
 		super.onPause();
 		gameView.gameLoop.pauseThread();
-		gameSong.release();
+//		gameSong.release();
 	}
 	
 	@Override
@@ -197,6 +188,19 @@ public class GameViewActivity extends Activity {
 		Log.d(TAG, "Stopping...");
 		super.onStop();
 	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG, "Saving state...");
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d(TAG, "Restoring state...");
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
 
 	
 }

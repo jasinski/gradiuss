@@ -34,6 +34,7 @@ public abstract class MovingObject extends GameObject {
 	}
 	
 	public MovingObject() {
+		super();
 	}
 	
 	public MovingObject(List<Bitmap> bitmaps, float x, float y, Rect rectangle) {

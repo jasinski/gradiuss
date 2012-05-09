@@ -6,15 +6,19 @@ import android.graphics.Rect;
 public abstract class Enemy extends MovingObject {
 	private static final String TAG = Enemy.class.getSimpleName();
 	private boolean isAlive;
-	private int life;
+	private float life;
 	private boolean hit;
-	private int damage;
+	private float damage;
 	
-	public Enemy(Bitmap bitmap, int x, int y) {
+	public Enemy(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
 	}
 	
-	public Enemy(Bitmap bitmap, int x, int y, Rect rectangle) {
+	public Enemy(){
+		
+	}
+	
+	public Enemy(Bitmap bitmap, float x, float y, Rect rectangle) {
 		super(bitmap, x, y, rectangle);
 	}
 
@@ -26,11 +30,11 @@ public abstract class Enemy extends MovingObject {
 		return isAlive;
 	}
 	
-	public void setLife(int life) {
+	public void setLife(float life) {
 		this.life = life;
 	}
 	
-	public int getLife() {
+	public float getLife() {
 		return life;
 	}
 	
@@ -42,11 +46,11 @@ public abstract class Enemy extends MovingObject {
 		return hit;
 	}
 	
-	public void setDamage(int damage) {
+	public void setDamage(float damage) {
 		this.damage = damage;
 	}
 	
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 
