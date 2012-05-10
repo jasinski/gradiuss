@@ -44,8 +44,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public GameLoopThread gameLoop;
 	
 	// GameView
-	int width;
-	int height;
+	public static float width;
+	public static float height;
 	
 	// Game time
 	long startGameTime;
@@ -223,7 +223,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void initEnemies() {
 		bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.rocksmall);
-		Bitmap bmAlienSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.attacker);
+		Bitmap bmAlienSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.attackers);
 		bmAlienShip = Bitmap.createScaledBitmap(bmAlienSpaceShip, (int)width/8, (int)height/6, true);
 		enemies = new ArrayList<Enemy>();
 		
@@ -234,7 +234,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
-//		asteroid.setLife(100);
+		asteroid.setLife(100);
 		// add enemies to list of enemies
 		enemies.add(asteroid);
 	}
@@ -242,6 +242,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private void initExplosions() {
 		explosions = new ArrayList<Explosion>(); 
 		explosionFrameTime = Explosion.STANDARD_FRAME_TIME;
+		//adding the different states of the explosions to a array of bitmaps to loop through 
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion1));
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion2));
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion3));
@@ -288,11 +289,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void addAsteroid() {
-		Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -bmAsteroid.getHeight()/2);
+		Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt((int)width), -bmAsteroid.getHeight()/2);
 		asteroid.setVy(r.nextInt(2)+2);
 		asteroid.setVx(r.nextInt(3)-1);
 		asteroid.setMoveDown(true);
-		asteroid.setMoveRight(true);
+		if(r.nextBoolean())
+			asteroid.setMoveRight(true);
+		else
+			asteroid.setMoveLeft(true);
 		asteroid.setVisible(true);
 //		asteroid.setLife(100);
 //		asteroid.setDamage(80);
@@ -300,23 +304,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void addAlien() {
-//		Projectile proj = new TypeOneProjectile();
-//		int oneOrTwo = r.nextInt(2)+1; // number, either one or two.
-//		switch (oneOrTwo) { //TODO - TEMPORARY solution if random int is one or two the alienship should get a different projectile
-//		case 1:
-//			proj = new TypeOneProjectile();
-//		case 2:
-//			proj = new TypeOneProjectile();
-//		}
-		
-		AlienShip alien = new AlienShip(bmAlienShip, r.nextInt(width), -bmAlienShip.getHeight()/2, spaceShip);
-		alien.setVy(r.nextInt(2)+2);
-		alien.setVx(r.nextInt(3)-1);
+		AlienShip alien = new AlienShip(bmAlienShip, r.nextInt((int)width), -bmAlienShip.getHeight()/2, spaceShip);
+		alien.setVy(2);
+		alien.setVx(2);
 		alien.setMoveDown(true);
 		alien.setVisible(true);
-//		asteroid.setLife(100);
-//		asteroid.setDamage(80);
+//		alien.setLife(100);
+//		alien.setDamage(80);
 		enemies.add(alien);
+		Log.d(TAG, "adding alien");
 	}
 	
 	private void updateSpaceShip() {
@@ -404,10 +400,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
 				enemies.remove(enemy);
 				addExplosion(x, y, rect);
-				if(r.nextBoolean())
+				if(r.nextBoolean()) {
+					Log.d(TAG, "adding alien in updatingcollision");
 					addAlien();
-				else
+				} else {
 					addAsteroid();
+				}
 				
 				if (spaceShip.getLife() <= 0) {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
@@ -449,9 +447,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						enemies.remove(enemy);
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
+						if(r.nextBoolean()) {
+							addAsteroid();
+						} else {
+							addAlien();
+						}
+						Log.d(TAG, "adding alien in collision between alien and projectile");
 						
-						// Add a new asteroid
-						addAsteroid();
 					}
 				} 
 			}
@@ -460,15 +462,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		// Collision: Enemies and screen edges
 		for (Enemy enemy : enemies) {
-			if (enemy.getX() <= 0 - enemy.getBitmapWidth()/2 || enemy.getX() >= getWidth() + enemy.getBitmapWidth()/2 || enemy.getY() <= 0 - enemy.getBitmapHeight()/2  || enemy.getY() >= getHeight() + enemy.getBitmapHeight()/2) {
+			if (enemy.getX() <= 0 - enemy.getBitmapWidth()/2 || enemy.getX() >= getWidth() + enemy.getBitmapWidth()/2 || 
+					enemy.getY() <= 0 - enemy.getBitmapHeight()/2  || enemy.getY() >= getHeight() + enemy.getBitmapHeight()/2) {
 				enemy.setVisible(false);
 				enemies.remove(enemy);
 				
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
 				
-				// Add a new asteroid
-				addAsteroid();
+				if(r.nextBoolean()) {
+					addAsteroid();
+				} else {
+					addAlien();
+				}
+				Log.d(TAG, "adding alien in collision between enemy and screenedges");
 			}
 		}
 	} //updateCollison()
@@ -485,8 +492,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
-	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering :::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 	// Rendering the game state
 	public void renderState(Canvas canvas) {
@@ -514,6 +522,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void renderEnemies(Canvas canvas) {
 		for(Enemy enemy : enemies){
 			enemy.draw(canvas);
+//			Log.d(TAG, "rendering enemy" + enemy.toString());
 		}
 	}
 
