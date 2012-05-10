@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 
@@ -100,9 +101,18 @@ public abstract class Level {
 	public abstract void renderLevel(Canvas canvas);
 	
 	/**
-	 * Change weapon
+	 * Changes the weapon of the spaceShip.
 	 */
 	public abstract void changeWeapon();
+	
+	/**
+	 * 
+	 * @param intent
+	 */
+	public void gameOver(/*Intent intent*/) {
+		Intent intent = new Intent("android.intent.action.GAMEOVERACTIVITY");
+		context.startActivity(intent);
+	}
 
 	/**
 	 * TODO: NOT USED YET! IF THE LEVELS GET LARGER, THIS CLASS WILL HANDLE DIFFERENT STATES.

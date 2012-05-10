@@ -22,52 +22,23 @@ import com.gradiuss.game.models.SpaceShip;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	/** Sound variables */
-	private SoundPool sounds;
-	private int sExplosion;
-	MediaPlayer explosion;
+	
+	private static final String TAG = GameView.class.getSimpleName();
 	
 	// Levels
 	public ArrayList<Level> levels;
 	public int levelPointer;
-	// Levels
 	
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	
-	private static final String TAG = GameView.class.getSimpleName();
+	// Game Loop
 	public GameLoopThread gameLoop;
 	
 	// GameView
 	int width;
 	int height;
 	
-	// Resources
-//	Resources resources;
-	
 	// Game time
 	long startGameTime;
 	long totalGameTime = 0;
-	
-	// FLYTTAD
-	// Background
-	private ParallaxBackground parallaxBackground;
-	// FLYTTAD
-	
-	// SpaceShip
-	public SpaceShip spaceShip;
-	
-	// Projectiles
-	public List<Projectile> projectiles;
-	public List<Projectile> projectileTypes;
-	private Projectile proj1;
-	private Projectile proj2;
-//	private Projectile proj3;
-//	private Projectile proj4;
-	int projectileTypePointer = 0;
-	float fireTime; // Measures how often a projectile will be fired
-	long previousFireTime = 0; // Measures the last time a projectile was fired
 	
 	// Enemies
 	public List<Enemy> enemies;

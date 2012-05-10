@@ -96,7 +96,7 @@ public class LevelOne extends Level {
 		GameMusic.playMusic();
 	}
 
-	/**
+	/*
 	 * Initializing ParallaxBackground.
 	 */
 	private void initBackground() {
@@ -109,7 +109,7 @@ public class LevelOne extends Level {
 		parallaxBackground.addBackground(bmBackgroundFront, 2);
 	}
 	
-	/**
+	/*
 	 * Initializing SpaceShip.
 	 */
 	private void initSpaceShip() {
@@ -420,6 +420,7 @@ public class LevelOne extends Level {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
 					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
 					getSpaceShip().setVisible(false);
+					gameOver();
 				}
 			}
 		}
