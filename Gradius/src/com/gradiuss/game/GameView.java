@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,6 +16,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.gradiuss.game.models.AlienShip;
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
@@ -27,14 +27,18 @@ import com.gradiuss.game.models.TypeOneProjectile;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	/** Sound variables */
-	private SoundPool sounds;
-	private int sExplosion;
-	MediaPlayer explosion;
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
+	//Sound variables 
+	private SoundPool sounds;
+	private int sExplosion;
+	MediaPlayer explosion;
+	
+	//Random generator
+	Random r;
 	
 	private static final String TAG = GameView.class.getSimpleName();
 	public GameLoopThread gameLoop;
@@ -64,7 +68,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	float fireTime; // Measures how often a projectile will be fired
 	long previousFireTime = 0; // Measures the last time a projectile was fired
 	
-	
 	// Enemies
 	public List<Enemy> enemies;
 	
@@ -80,6 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	Bitmap bmTypeOneProjectile1;
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
+	Bitmap bmAlienShip;
 	
 	// Array of Explosion Frames
 	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
@@ -146,6 +150,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
  
 	public void initGameObjects() {
+		//Random generator
+		r = new Random();
 		
 		// Background
 		initBackground();
@@ -217,12 +223,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void initEnemies() {
 		bmAsteroid = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.rocksmall);
+		Bitmap bmAlienSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.attacker);
+		bmAlienShip = Bitmap.createScaledBitmap(bmAlienSpaceShip, (int)width/8, (int)height/6, true);
 		enemies = new ArrayList<Enemy>();
 		
 		// TODO - TEMPORARY: Initializing the first enemy to the list (MAKE THIS TIME-DEPENDANT!)
 		Asteroid asteroid = new Asteroid(bmAsteroid, width/2, 0);
-		asteroid.setVy(new Random().nextInt(2) + 1);
-		asteroid.setVx(new Random().nextInt(1));
+		asteroid.setVy(r.nextInt(2) + 1);
+		asteroid.setVx(r.nextInt(1));
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
@@ -280,7 +288,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	private void addAsteroid() {
-		Random r = new Random();
 		Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(width), -bmAsteroid.getHeight()/2);
 		asteroid.setVy(r.nextInt(2)+2);
 		asteroid.setVx(r.nextInt(3)-1);
@@ -292,6 +299,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		enemies.add(asteroid);
 	}
 	
+	private void addAlien() {
+//		Projectile proj = new TypeOneProjectile();
+//		int oneOrTwo = r.nextInt(2)+1; // number, either one or two.
+//		switch (oneOrTwo) { //TODO - TEMPORARY solution if random int is one or two the alienship should get a different projectile
+//		case 1:
+//			proj = new TypeOneProjectile();
+//		case 2:
+//			proj = new TypeOneProjectile();
+//		}
+		
+		AlienShip alien = new AlienShip(bmAlienShip, r.nextInt(width), -bmAlienShip.getHeight()/2, spaceShip);
+		alien.setVy(r.nextInt(2)+2);
+		alien.setVx(r.nextInt(3)-1);
+		alien.setMoveDown(true);
+		alien.setVisible(true);
+//		asteroid.setLife(100);
+//		asteroid.setDamage(80);
+		enemies.add(alien);
+	}
+	
 	private void updateSpaceShip() {
 		spaceShip.updateState();
 	}
@@ -299,7 +326,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void addProjectile(float x, float y) {
 		Projectile projectile = new TypeOneProjectile(projectileTypes.get(projectileTypePointer));
 		projectile.setX(x);
-		projectile.setY(y - spaceShip.getBitmap().getHeight()/2);
+		projectile.setY(y - spaceShip.getBitmap().getHeight()/2); //TODO - should be more general not according to spaceShip bitmap
 		
 		fireTime = projectile.getFireInterval();
 		projectiles.add(projectile);
@@ -377,11 +404,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
 				enemies.remove(enemy);
 				addExplosion(x, y, rect);
-				addAsteroid();
+				if(r.nextBoolean())
+					addAlien();
+				else
+					addAsteroid();
 				
 				if (spaceShip.getLife() <= 0) {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
-					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
+					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spaceship has multiple lives
 					spaceShip.setVisible(false);
 				}
 

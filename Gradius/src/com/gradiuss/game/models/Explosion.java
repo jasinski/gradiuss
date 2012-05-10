@@ -1,15 +1,12 @@
 package com.gradiuss.game.models;
 
 import java.util.List;
-
 import com.gradiuss.game.GameViewActivity;
 import com.gradiuss.game.R;
-
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer;
-
 
 public class Explosion extends GameObject {
 	private static final String TAG = Explosion.class.getSimpleName();

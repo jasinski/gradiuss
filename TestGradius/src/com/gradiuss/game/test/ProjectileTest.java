@@ -14,8 +14,6 @@ import com.gradiuss.game.models.MovingObject;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.TypeOneProjectile;
 
-
-
 public class ProjectileTest extends InstrumentationTestCase {
 	
 	private Projectile testProjectile1;
