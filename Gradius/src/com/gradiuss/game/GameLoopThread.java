@@ -1,5 +1,7 @@
 package com.gradiuss.game;
 
+import com.gradiuss.game.audio.GameMusic;
+
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -76,8 +78,7 @@ public class GameLoopThread extends Thread {
 					}
 					
 					// Game time
-//					long old = gameView.totalGameTime;
-					gameView.totalGameTime = System.nanoTime() - gameView.startGameTime;
+					gameView.levels.get(gameView.levelPointer).setTotalGameTime(System.nanoTime() - gameView.levels.get(gameView.levelPointer).getStartGameTime());
 
 					
 					// TODO - REMOVE: LOGGIN GAME TIME
@@ -99,14 +100,20 @@ public class GameLoopThread extends Thread {
 	 * Wrapper for the actual update method in the game view.
 	 */
 	public void updateGameState() {
-		gameView.updateState();
+		// TESTING
+		gameView.levels.get(gameView.levelPointer).updateLevel();
+		// TESTING
+//		gameView.updateState();
 	}
 	
 	/**
 	 * Wrapper for the actual rendering method in the game view.
 	 */
 	public void renderGameState(Canvas canvas) {
-		gameView.renderState(canvas);
+		// TESTING
+		gameView.levels.get(gameView.levelPointer).renderLevel(canvas);
+		// TESTING
+//		gameView.renderState(canvas);
 	}
 	
 	public void setRunning(boolean running) {
@@ -118,6 +125,9 @@ public class GameLoopThread extends Thread {
 	}
 	
 	public void pauseThread() {
+		// TODO: TEMPORARY
+		GameMusic.stopMusic();
+		
 		running = false;
 		while (true) {
 			try {
