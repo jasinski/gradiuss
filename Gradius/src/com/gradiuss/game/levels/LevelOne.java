@@ -103,20 +103,18 @@ public class LevelOne extends Level {
 		GameMusic.playMusic();
 	}
 
-	/*
+	/**
 	 * Initializing ParallaxBackground.
 	 */
 	private void initBackground() {
 		parallaxBackground = new ParallaxBackground(getScreenHeight(), getScreenWidth());
-		
 		Bitmap bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
 		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
-		
 		parallaxBackground.addBackground(bmBackgroundBack, 1);
 		parallaxBackground.addBackground(bmBackgroundFront, 2);
 	}
 	
-	/*
+	/**
 	 * Initializing SpaceShip.
 	 */
 	private void initSpaceShip() {

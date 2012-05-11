@@ -35,17 +35,14 @@ public class TypeOneProjectile extends Projectile {
 	
 	@Override
 	public void updateState() {
-		
 		// MovemenSt upwards
 		if (moveUp) {	
 			setY(getY() + getVy() * MovingObject.DIRECTION_UP);
 		}
-		
 		// Destroy if touches upper screen boundary
 		if (getY() < 0) {
 			setVisible(false);
 		}
-		
 		// Calls the superclass method that updates the rectangle automatically.
 		super.updateState(); 
 	}

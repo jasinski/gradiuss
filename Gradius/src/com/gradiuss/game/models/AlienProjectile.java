@@ -20,6 +20,17 @@ public class AlienProjectile extends Projectile {
 		super(bitmap, x, y, rectangle, damage);
 	}
 	
+	public AlienProjectile(Projectile projectile) {
+		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
+//		this.setRect(projectile.getRect());
+		this.setDamage(projectile.getDamage());
+		this.setFireInterval(projectile.getFireInterval());	
+		this.setVisible(projectile.isVisible());
+		this.setMoveDown(projectile.isMovingDown());
+		this.setVy(projectile.getVy());
+		this.setFireInterval(projectile.getFireInterval());
+	}
+	
 	
 	@Override
 	public void updateState() {
