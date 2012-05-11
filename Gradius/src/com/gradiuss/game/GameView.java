@@ -2,6 +2,7 @@ package com.gradiuss.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,58 +17,44 @@ import com.gradiuss.game.levels.Level;
 import com.gradiuss.game.levels.LevelOne;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
-import com.gradiuss.game.models.ParallaxBackground;
-import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	/** Sound variables */
-	private SoundPool sounds;
-	private int sExplosion;
-	MediaPlayer explosion;
-	
-	// Levels
-	public ArrayList<Level> levels;
-	public int levelPointer;
-	// Levels
+
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+	
+	//Sound variables 
+	private SoundPool sounds;
+	private int sExplosion;
+	MediaPlayer explosion;
+	
+	//Random generator
+	Random r;
 	
 	private static final String TAG = GameView.class.getSimpleName();
+	
+	// Levels
+	public ArrayList<Level> levels;
+	public int levelPointer;
+	
+	// Game Loop
 	public GameLoopThread gameLoop;
 	
 	// GameView
-	int width;
-	int height;
-	
-	// Resources
-//	Resources resources;
+	public static int width;
+	public static int height;
 	
 	// Game time
 	long startGameTime;
 	long totalGameTime = 0;
 	
-	// FLYTTAD
-	// Background
-	private ParallaxBackground parallaxBackground;
-	// FLYTTAD
-	
 	// SpaceShip
 	public SpaceShip spaceShip;
-	
-	// Projectiles
-	public List<Projectile> projectiles;
-	public List<Projectile> projectileTypes;
-	private Projectile proj1;
-	private Projectile proj2;
-//	private Projectile proj3;
-//	private Projectile proj4;
-	int projectileTypePointer = 0;
-	float fireTime; // Measures how often a projectile will be fired
-	long previousFireTime = 0; // Measures the last time a projectile was fired
 	
 	// Enemies
 	public List<Enemy> enemies;
@@ -83,6 +70,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	Bitmap bmTypeOneProjectile1;
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
+	Bitmap bmAlienShip;
 	
 	// Array of Explosion Frames
 	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
@@ -131,6 +119,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 
+	
+
 	public void initLevels() {
 		levels = new ArrayList<Level>();
 		LevelOne levelOne = new LevelOne(this.getContext(), width, height);
@@ -139,6 +129,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		levelPointer = 0;
 	}
 	
+
 	public void updateLevel() {
 		levels.get(levelPointer).initializeLevel();
 	}
@@ -152,6 +143,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		gameLoop = new GameLoopThread(getHolder(), this);
 		setFocusable(true);
 	}
-
-
+        
 }

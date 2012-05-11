@@ -38,9 +38,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			startActivity(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
 			break;
 		case R.id.bOptions:
-			tmpToast = Toast.makeText(this, "Options Screen! (Not Working yet!)", Toast.LENGTH_SHORT);
-			tmpToast.show();
-			showOptions(null);
+			startActivity(new Intent("android.intent.action.OPTIONSACTIVITY"));
 			break;
 		case R.id.bHighScore:
 			startActivity(new Intent("android.intent.action.SQLVIEWACTIVITY"));

@@ -70,5 +70,10 @@ public class Asteroid extends Enemy {
 		previousLife = getLife();
 		super.setLife(life);
 	}
+	
+	@Override
+	public String toString() {
+		return "ASTEROID";
+	}
 
 }

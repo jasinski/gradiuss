@@ -1,6 +1,7 @@
 package com.gradiuss.game.audio;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 
 public class GameMusic {

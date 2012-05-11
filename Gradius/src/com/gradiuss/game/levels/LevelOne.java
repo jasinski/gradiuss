@@ -11,10 +11,13 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.gradiuss.game.GameView;
 import com.gradiuss.game.GameViewActivity;
 import com.gradiuss.game.R;
 import com.gradiuss.game.audio.GameMusic;
+import com.gradiuss.game.audio.OptionsActivity;
 import com.gradiuss.game.audio.SoundEffects;
+import com.gradiuss.game.models.AlienShip;
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
@@ -26,6 +29,9 @@ import com.gradiuss.game.models.TypeOneProjectile;
 
 public class LevelOne extends Level {
 	private static final String TAG = LevelOne.class.getSimpleName();
+	
+	//Random generator
+	private Random r;
 	
 	// Projectiles
 	private List<Projectile> projectiles;
@@ -46,6 +52,7 @@ public class LevelOne extends Level {
 
 	// Bitmaps
 	private Bitmap bmAsteroid;
+	private Bitmap bmAlienShip;
 	
 	// Background
 	private ParallaxBackground parallaxBackground;
@@ -63,7 +70,7 @@ public class LevelOne extends Level {
 	
 	@Override
 	public void initializeLevel() {
-		
+		r = new Random();
 		// Initialize Backgrounds
 		initBackground();
 		
@@ -89,10 +96,14 @@ public class LevelOne extends Level {
 		soundEffects = new SoundEffects(getContext());
 		soundEffects.setShootSound(R.raw.shootsound, (float) 0.05);
 		soundEffects.setExplosionSound(R.raw.explosion, (float) 1);
+		float effects_volume = ((float) getContext().getSharedPreferences(OptionsActivity.filename, 0).getInt("effects_volume", 50))/100;
+		SoundEffects.setVolume(effects_volume);
 		
 		// Music
 		GameMusic.setContext(getContext());
 		GameMusic.setMusic(R.raw.gamesong);
+		float music_volume = ((float) getContext().getSharedPreferences(OptionsActivity.filename, 0).getInt("music_volume", 50))/100;
+		GameMusic.setVolume(music_volume);
 		GameMusic.playMusic();
 	}
 
@@ -101,10 +112,8 @@ public class LevelOne extends Level {
 	 */
 	private void initBackground() {
 		parallaxBackground = new ParallaxBackground(getScreenHeight(), getScreenWidth());
-		
 		Bitmap bmBackgroundBack = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng);
 		Bitmap bmBackgroundFront = BitmapFactory.decodeResource(getResources(), R.drawable.spelbakgrundnypng_front_big);
-		
 		parallaxBackground.addBackground(bmBackgroundBack, 1);
 		parallaxBackground.addBackground(bmBackgroundFront, 2);
 	}
@@ -175,12 +184,14 @@ public class LevelOne extends Level {
 	 */
 	private void initEnemies() {
 		bmAsteroid = BitmapFactory.decodeResource(getResources(), R.drawable.rocksmall);
+		Bitmap bmAlienSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.attackers);
+		bmAlienShip = Bitmap.createScaledBitmap(bmAlienSpaceShip, (int)GameView.width/8, (int)GameView.height/6, true);
 		enemies = new ArrayList<Enemy>();
 		
 		// TODO - TEMPORARY: Initializing the first enemy to the list (MAKE THIS TIME-DEPENDANT!)
 		Asteroid asteroid = new Asteroid(bmAsteroid, getScreenWidth()/2, 0);
-		asteroid.setVy(new Random().nextInt(2) + 1);
-		asteroid.setVx(new Random().nextInt(1));
+		asteroid.setVy(r.nextInt(2) + 1);
+		asteroid.setVx(r.nextInt(1));
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
@@ -282,8 +293,8 @@ public class LevelOne extends Level {
 	/**
 	 * Add projectiles to the list.
 	 * 
-	 * @param x initial X-position of projectile
-	 * @param y initial Y-position of projectile
+	 * @param x initial X-position of projectile.
+	 * @param y initial Y-position of projectile.
 	 */
 	private void addProjectile(float x, float y) {
 		Projectile projectile = new TypeOneProjectile(projectileTypes.get(projectileTypePointer));
@@ -296,7 +307,7 @@ public class LevelOne extends Level {
 	}
 	
 	/**
-	 * Update enemies
+	 * Update enemies.
 	 */
 	private void updateEnemies() {
 		for(Enemy e: enemies){
@@ -308,7 +319,6 @@ public class LevelOne extends Level {
 	 * Add asteroid-enemies.
 	 */
 	private void addAsteroid() {
-		Random r = new Random();
 		Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(getScreenWidth()), -bmAsteroid.getHeight()/2);
 		asteroid.setVy(r.nextInt(2)+2);
 		asteroid.setVx(r.nextInt(3)-1);
@@ -316,6 +326,21 @@ public class LevelOne extends Level {
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
 		enemies.add(asteroid);
+	}
+	
+	/**
+	 * Add alien-enemies.
+	 */
+	private void addAlien() {
+		AlienShip alien = new AlienShip(bmAlienShip, r.nextInt((int)GameView.width), -bmAlienShip.getHeight()/2, getSpaceShip());
+		alien.setVy(2);
+		alien.setVx(2);
+		alien.setMoveDown(true);
+		alien.setVisible(true);
+//		alien.setLife(100);
+//		alien.setDamage(80);
+		enemies.add(alien);
+		Log.d(TAG, "adding alien");
 	}
 	
 	/**
@@ -414,12 +439,18 @@ public class LevelOne extends Level {
 				Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
 				enemies.remove(enemy);
 				addExplosion(x, y, rect);
-				addAsteroid();
+				if(r.nextBoolean()) {
+					Log.d(TAG, "adding alien in updatingcollision");
+					addAlien();
+				} else {
+					addAsteroid();
+				}
 				
 				if (getSpaceShip().getLife() <= 0) {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
 					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
-					getSpaceShip().setVisible(false);
+					getSpaceShip().setVisible(false); 
+					gameOver();
 				}
 			}
 		}
@@ -460,8 +491,12 @@ public class LevelOne extends Level {
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
-						// Add a new asteroid
-						addAsteroid();
+						if(r.nextBoolean()) {
+							Log.d(TAG, "adding alien in Projectiles and enemies collision");
+							addAlien();
+						} else {
+							addAsteroid();
+						}
 					}
 				} 
 			}
@@ -482,8 +517,12 @@ public class LevelOne extends Level {
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
 				
-				// Add a new asteroid
-				addAsteroid();
+				if(r.nextBoolean()) {
+					Log.d(TAG, "adding alien in updatingcollision");
+					addAlien();
+				} else {
+					addAsteroid();
+				}
 			}
 		}
 	}
@@ -502,7 +541,7 @@ public class LevelOne extends Level {
 	}
 
 	/**
-	 * 
+	 * Renders the background objects moving in parallel.
 	 * @param canvas
 	 */
 	private void renderBackground(Canvas canvas) {
@@ -510,7 +549,7 @@ public class LevelOne extends Level {
 	}
 
 	/**
-	 * 
+	 * Renders the Spaceship.
 	 * @param canvas
 	 */
 	private void renderSpaceShip(Canvas canvas) {
@@ -518,7 +557,7 @@ public class LevelOne extends Level {
 	}
 
 	/**
-	 * 
+	 * Renders the Projectiles.
 	 * @param canvas
 	 */
 	private void renderProjectiles(Canvas canvas) {
@@ -528,7 +567,7 @@ public class LevelOne extends Level {
 	}
 
 	/**
-	 * 
+	 * Renders the enemies, rocks, aliens and more.
 	 * @param canvas
 	 */
 	private void renderEnemies(Canvas canvas) {
@@ -538,7 +577,7 @@ public class LevelOne extends Level {
 	}
 
 	/**
-	 * 
+	 * Renders the explosion frames of different states of explosion
 	 * @param canvas
 	 */
 	private void renderExplosions(Canvas canvas) {

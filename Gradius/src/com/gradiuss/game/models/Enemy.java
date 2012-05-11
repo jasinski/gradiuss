@@ -14,7 +14,7 @@ public abstract class Enemy extends MovingObject {
 		super(bitmap, x, y);
 	}
 	
-	public Enemy(){
+	public Enemy() {
 		
 	}
 	
