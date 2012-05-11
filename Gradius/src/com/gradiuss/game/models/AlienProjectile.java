@@ -31,6 +31,11 @@ public class AlienProjectile extends Projectile {
 		this.setFireInterval(projectile.getFireInterval());
 	}
 	
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public void updateState() {
@@ -48,6 +53,5 @@ public class AlienProjectile extends Projectile {
 		// Calls the superclass method that updates the rectangle automatically.
 		super.updateState(); 
 	}
-
 
 }

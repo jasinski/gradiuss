@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.os.Bundle;
 
 import com.gradiuss.game.models.SpaceShip;
 
@@ -109,8 +110,9 @@ public abstract class Level {
 	 * 
 	 * @param intent
 	 */
-	public void gameOver(/*Intent intent*/) {
+	public void gameOver(Bundle bundle) {
 		Intent intent = new Intent("android.intent.action.GAMEOVERACTIVITY");
+		intent.putExtras(bundle);
 		context.startActivity(intent);
 	}
 

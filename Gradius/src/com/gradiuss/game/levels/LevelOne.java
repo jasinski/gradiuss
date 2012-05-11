@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.gradiuss.game.GameView;
@@ -21,8 +22,10 @@ import com.gradiuss.game.models.AlienShip;
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
+import com.gradiuss.game.models.LifeBar;
 import com.gradiuss.game.models.ParallaxBackground;
 import com.gradiuss.game.models.Projectile;
+import com.gradiuss.game.models.ScoreCounter;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
 
@@ -31,7 +34,7 @@ public class LevelOne extends Level {
 	private static final String TAG = LevelOne.class.getSimpleName();
 	
 	//Random generator
-	private Random r;
+	private Random random;
 	
 	// Projectiles
 	private List<Projectile> projectiles;
@@ -57,8 +60,15 @@ public class LevelOne extends Level {
 	// Background
 	private ParallaxBackground parallaxBackground;
 	
+	// Status bar objects
+	private LifeBar lifeBar;
+	private ScoreCounter scoreCounter;
+	private Bundle scoreBundle;
+	
 	// Audio
-	SoundEffects soundEffects;
+	private SoundEffects soundEffects;
+
+	
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
@@ -70,7 +80,10 @@ public class LevelOne extends Level {
 	
 	@Override
 	public void initializeLevel() {
-		r = new Random();
+		
+		// Initialize variables
+		initVariables();
+		
 		// Initialize Backgrounds
 		initBackground();
 		
@@ -86,10 +99,35 @@ public class LevelOne extends Level {
 		// Initialize Explosions
 		initExplosions();
 		
+		// Initialize variables
+		initStatusBar();
+		
 		// Initialize Audio
 		initAudio();
 	}
 	
+	private void initStatusBar() {
+		// Life bar
+		List<Bitmap> lifeBarBitmaps = new ArrayList<Bitmap>(2);
+		Bitmap bmlifeBar = BitmapFactory.decodeResource(getResources(), R.drawable.life_bar);
+		Bitmap bmlifeBarFrame = BitmapFactory.decodeResource(getResources(), R.drawable.life_bar_frame);
+		lifeBarBitmaps.add(bmlifeBar);
+		lifeBarBitmaps.add(bmlifeBarFrame);
+		lifeBar = new LifeBar(lifeBarBitmaps, 0, 0);
+		lifeBar.setVisible(true);
+		
+		// Score counter
+		scoreCounter = new ScoreCounter();
+		scoreCounter.setX(getScreenWidth() - 50);
+		scoreCounter.setY(0 + 50);
+		scoreCounter.setVisible(true);
+	}
+
+	private void initVariables() {
+		random = new Random();
+		scoreBundle = new Bundle();
+	}
+
 	// TODO: TEMPORARY! LET EVERY PROJECTILE HAVE ITS OWN SoundEffect OBJEKT!
 	private void initAudio() {
 		// Sound Effects
@@ -190,8 +228,8 @@ public class LevelOne extends Level {
 		
 		// TODO - TEMPORARY: Initializing the first enemy to the list (MAKE THIS TIME-DEPENDANT!)
 		Asteroid asteroid = new Asteroid(bmAsteroid, getScreenWidth()/2, 0);
-		asteroid.setVy(r.nextInt(2) + 1);
-		asteroid.setVx(r.nextInt(1));
+		asteroid.setVy(random.nextInt(2) + 1);
+		asteroid.setVx(random.nextInt(1));
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
@@ -240,9 +278,18 @@ public class LevelOne extends Level {
 		updateCollisions();	
 		
 		// Update Explosions
-		updateExplosions();		
+		updateExplosions();
+		
+		// Update Status bar
+		updateStatusBar();
+		
 	}
 	
+	private void updateStatusBar() {
+		lifeBar.updateState();
+		scoreCounter.updateState();
+	}
+
 	/**
 	 * Update SpaceShip.
 	 */
@@ -319,9 +366,9 @@ public class LevelOne extends Level {
 	 * Add asteroid-enemies.
 	 */
 	private void addAsteroid() {
-		Asteroid asteroid = new Asteroid(bmAsteroid, r.nextInt(getScreenWidth()), -bmAsteroid.getHeight()/2);
-		asteroid.setVy(r.nextInt(2)+2);
-		asteroid.setVx(r.nextInt(3)-1);
+		Asteroid asteroid = new Asteroid(bmAsteroid, random.nextInt(getScreenWidth()), -bmAsteroid.getHeight()/2);
+		asteroid.setVy(random.nextInt(2)+2);
+		asteroid.setVx(random.nextInt(3)-1);
 		asteroid.setMoveDown(true);
 		asteroid.setMoveRight(true);
 		asteroid.setVisible(true);
@@ -332,7 +379,7 @@ public class LevelOne extends Level {
 	 * Add alien-enemies.
 	 */
 	private void addAlien() {
-		AlienShip alien = new AlienShip(bmAlienShip, r.nextInt((int)GameView.width), -bmAlienShip.getHeight()/2, getSpaceShip());
+		AlienShip alien = new AlienShip(bmAlienShip, random.nextInt((int)GameView.width), -bmAlienShip.getHeight()/2, getSpaceShip());
 		alien.setVy(2);
 		alien.setVx(2);
 		alien.setMoveDown(true);
@@ -431,6 +478,8 @@ public class LevelOne extends Level {
 				// Remove lifepower from the spaceship
 				getSpaceShip().setLife((int) (getSpaceShip().getLife() - enemy.getDamage()));
 				getSpaceShip().setHit(true);
+				lifeBar.setHit(true);
+				lifeBar.setLifeBar(lifeBar.getLifeBar() - enemy.getDamage());
 				
 				// Save information about the enemy for the explosion
 				enemy.setVisible(false);
@@ -439,7 +488,7 @@ public class LevelOne extends Level {
 				Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
 				enemies.remove(enemy);
 				addExplosion(x, y, rect);
-				if(r.nextBoolean()) {
+				if(random.nextBoolean()) {
 					Log.d(TAG, "adding alien in updatingcollision");
 					addAlien();
 				} else {
@@ -450,7 +499,10 @@ public class LevelOne extends Level {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
 					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
 					getSpaceShip().setVisible(false); 
-					gameOver();
+					
+					// TODO - TEMPORARY CODE: This should stop the gameloop somehow first.
+					scoreBundle.putInt("score", scoreCounter.getScore());
+					gameOver(scoreBundle);
 				}
 			}
 		}
@@ -482,6 +534,7 @@ public class LevelOne extends Level {
 					// TODO - TEMPORARY SOLUTION: Destroy the enemy if lifebar <= 0 and add a new one to the top of the screen 
 					// and add an explosion on previous position
 					if (enemy.getLife() <= 0) {
+						scoreCounter.addScore(enemy.SCORE);
 						enemy.setVisible(false);
 						float x = enemy.getX();
 						float y = enemy.getY();
@@ -491,7 +544,7 @@ public class LevelOne extends Level {
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
-						if(r.nextBoolean()) {
+						if(random.nextBoolean()) {
 							Log.d(TAG, "adding alien in Projectiles and enemies collision");
 							addAlien();
 						} else {
@@ -517,7 +570,7 @@ public class LevelOne extends Level {
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
 				
-				if(r.nextBoolean()) {
+				if(random.nextBoolean()) {
 					Log.d(TAG, "adding alien in updatingcollision");
 					addAlien();
 				} else {
@@ -538,6 +591,12 @@ public class LevelOne extends Level {
 		renderProjectiles(canvas);
 		renderEnemies(canvas);
 		renderExplosions(canvas);
+		renderStatusBar(canvas);
+	}
+
+	private void renderStatusBar(Canvas canvas) {
+		lifeBar.draw(canvas);
+		scoreCounter.draw(canvas);
 	}
 
 	/**
