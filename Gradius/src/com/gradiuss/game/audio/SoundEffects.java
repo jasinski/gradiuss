@@ -13,6 +13,7 @@ public class SoundEffects {
 	private int explosion = 0;
 	private float shootVolume = 0;
 	private float explosionVolume = 0;
+	private static float effectsVolume;
 	
 	
 	public SoundEffects(Context context) {
@@ -34,14 +35,18 @@ public class SoundEffects {
 	// Play sound
 	public void playShootSound() {
 		if (projectileTypeOne != 0) {
-			soundPool.play(projectileTypeOne, (float) shootVolume, (float) shootVolume, 0, 0, 1); // Volume = 0.01
+			soundPool.play(projectileTypeOne, (float) effectsVolume, (float) effectsVolume, 0, 0, 1); // Volume = 0.01
 		}
 	}
 	
 	public void playExplosionSound() {
 		if (explosion != 0) {
-			soundPool.play(explosion, (float) explosionVolume, (float) explosionVolume, 0, 0, 1); // Volume = 0.25
+			soundPool.play(explosion, (float) effectsVolume, (float) effectsVolume, 0, 0, 1); // Volume = 0.25
 		}
+	}
+	
+	public static void setVolume(float volume) {
+		effectsVolume = volume;
 	}
 
 }

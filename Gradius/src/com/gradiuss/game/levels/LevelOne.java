@@ -15,7 +15,9 @@ import com.gradiuss.game.GameView;
 import com.gradiuss.game.GameViewActivity;
 import com.gradiuss.game.R;
 import com.gradiuss.game.audio.GameMusic;
+import com.gradiuss.game.audio.OptionsActivity;
 import com.gradiuss.game.audio.SoundEffects;
+import com.gradiuss.game.models.AlienShip;
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
@@ -23,8 +25,6 @@ import com.gradiuss.game.models.ParallaxBackground;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
-import com.gradiuss.game.models.AlienShip;
-import com.gradiuss.game.models.Asteroid;
 
 
 public class LevelOne extends Level {
@@ -96,10 +96,14 @@ public class LevelOne extends Level {
 		soundEffects = new SoundEffects(getContext());
 		soundEffects.setShootSound(R.raw.shootsound, (float) 0.05);
 		soundEffects.setExplosionSound(R.raw.explosion, (float) 1);
+		float effects_volume = ((float) getContext().getSharedPreferences(OptionsActivity.filename, 0).getInt("effects_volume", 50))/100;
+		SoundEffects.setVolume(effects_volume);
 		
 		// Music
 		GameMusic.setContext(getContext());
 		GameMusic.setMusic(R.raw.gamesong);
+		float music_volume = ((float) getContext().getSharedPreferences(OptionsActivity.filename, 0).getInt("music_volume", 50))/100;
+		GameMusic.setVolume(music_volume);
 		GameMusic.playMusic();
 	}
 
@@ -445,7 +449,7 @@ public class LevelOne extends Level {
 				if (getSpaceShip().getLife() <= 0) {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
 					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
-					getSpaceShip().setVisible(false);
+					getSpaceShip().setVisible(false); 
 					gameOver();
 				}
 			}
