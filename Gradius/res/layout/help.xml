@@ -9,7 +9,7 @@
         android:id="@+id/editText1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
+        android:textSize="3dp"
         android:text=" " />
     
     <TextView
@@ -18,10 +18,24 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="center_horizontal"
-        android:textSize="15dp"
+        android:textSize="13dp"
         android:textColor="#705090"
         android:typeface="monospace"
-        android:text="The main goal is to avoid the flying asteroids and the attacking plains by either moving the spaceship or shooting at the flying objects. Pushing the arrow-buttons on the bottom of the screen will make the spaceship go in the direction of the arrow. Pushing the red button down in the right corner will make the spaceship shoot. In order for a asteroid or plane to be destroyed 10 shoots must hit the target  " 
+        android:text="The aim is to fly the spaceship as far as possible. There will be asteroids in the way and attacking ships that will try to shot the spaceship down. To avoid these obstacles the user has to use the control buttons and/or the fire button to destroy the obstacles. The user can also change the weapon by pushing the button to the left of the fire button. The blue weapon will fire faster but hits a smaller area, the yellow weapon will hit a bigger area but fires slower."
         android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/editText1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="5dp"
+        android:text=" " />
+    
+    <TextView
+        android:id="@+id/editText1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/howtoplay" />
+   
     
     </LinearLayout>

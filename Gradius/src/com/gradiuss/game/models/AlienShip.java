@@ -19,15 +19,13 @@ public class AlienShip extends Enemy {
 		setLife(INITIAL_LIFE);
 		setDamage(INITIAL_DAMAGE);
 		this.target = target;
+		initialize();
 	}
 
-//	public void setShooting(boolean shooting) {
-//		this.shooting = shooting;
-//	}
-//	
-//	public boolean isShooting() {
-//		return shooting;
-//	}
+	@Override
+	public void initialize() {
+		SCORE = 50;		
+	}
 	
 	public void setHit(boolean hit) {
 		this.hit = hit;

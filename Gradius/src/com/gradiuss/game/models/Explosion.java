@@ -18,6 +18,12 @@ public class Explosion extends GameObject {
 		nextAnimation();
 		super.updateState();
 	}
+	
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
 		
 	public boolean lastFrame() {
 		return getAnimationPointer() == getAnimations().size()-1;
