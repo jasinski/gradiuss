@@ -24,6 +24,12 @@ public class ParallaxBackground extends MovingObject {
 		bitmaps = new ArrayList<Background[]>();
 	}
 	
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void setScreenHeight(int screenHeight) {
 		this.screenHeight = screenHeight;
 	}

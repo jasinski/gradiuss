@@ -2,71 +2,71 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/startbildny2">
+    android:background="@drawable/startbildny2"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/editText1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="100dp"
-        android:text=" " />
-    
+        android:text=" "
+        android:textSize="100dp" />
+
     <Button
         android:id="@+id/bStartGame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@drawable/text_color"
-        android:text="@string/start_game"       
+        android:background="@null"
         android:onClick="StartGameMethod"
+        android:text="@string/start_game"
+        android:textColor="@drawable/text_color"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:background="@null" />
+        android:typeface="monospace" />
 
     <Button
         android:id="@+id/bHighScore"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
-        android:text="@string/highscore"
+        android:background="@null"
         android:onClick="HighscoreMethod"
+        android:text="@string/highscore"
+        android:textColor="#705090"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:background="@null" />
+        android:typeface="monospace" />
 
-        <Button
+    <Button
         android:id="@+id/bOptions"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
-        android:text="@string/options"
+        android:background="@null"
         android:onClick="OptionsMethod"
+        android:text="@string/options"
+        android:textColor="#705090"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:background="@null" />
-        
-            <Button
+        android:typeface="monospace" />
+
+    <Button
         android:id="@+id/bAbout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
-        android:text="@string/about"
+        android:background="@null"
         android:onClick="AboutMethod"
+        android:text="@string/about"
+        android:textColor="#705090"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:background="@null" />
-            
-            <Button
+        android:typeface="monospace" />
+
+    <Button
         android:id="@+id/bHelp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@drawable/text_color"
-        android:state_pressed="true" android:color="#705090" 
-        android:text="@string/help"
+        android:background="@null"
         android:onClick="HelpMethod"
+        android:state_pressed="true"
+        android:text="@string/help"
+        android:textColor="@drawable/text_color"
         android:textSize="30dp"
         android:typeface="monospace"
-        android:background="@null" />
-        
-            
+        android:color="#705090" />
+
 </LinearLayout>

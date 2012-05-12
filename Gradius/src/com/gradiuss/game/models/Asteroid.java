@@ -15,10 +15,16 @@ public class Asteroid extends Enemy {
 		super(bitmap, x, y);
 		setLife(INITIAL_LIFE);
 		setDamage(INITIAL_DAMAGE);
+		initialize();
 	}
 	
 	public Asteroid() {
 		// Only for testing, should not be used otherwise.
+	}
+	
+	@Override
+	public void initialize() {
+		SCORE = 100;
 	}
 	
 	public Asteroid(Bitmap bitmap, float x, float y, Rect rectangle) {
@@ -69,6 +75,11 @@ public class Asteroid extends Enemy {
 	public void setLife(float life) {
 		previousLife = getLife();
 		super.setLife(life);
+	}
+	
+	@Override
+	public String toString() {
+		return "ASTEROID";
 	}
 
 }

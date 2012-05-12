@@ -5,7 +5,6 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-
 public class Explosion extends GameObject {
 	private static final String TAG = Explosion.class.getSimpleName();
 	public static final float STANDARD_FRAME_TIME = 50000000; //Measure for how long time frame should be shown
@@ -18,6 +17,12 @@ public class Explosion extends GameObject {
 	public void updateState() {
 		nextAnimation();
 		super.updateState();
+	}
+	
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
 	}
 		
 	public boolean lastFrame() {

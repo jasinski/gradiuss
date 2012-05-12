@@ -2,6 +2,7 @@ package com.gradiuss.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,12 +17,24 @@ import com.gradiuss.game.levels.Level;
 import com.gradiuss.game.levels.LevelOne;
 import com.gradiuss.game.models.Enemy;
 import com.gradiuss.game.models.Explosion;
-import com.gradiuss.game.models.ParallaxBackground;
-import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.SpaceShip;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+
+	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+	
+	//Sound variables 
+	private SoundPool sounds;
+	private int sExplosion;
+	MediaPlayer explosion;
+	
+	//Random generator
+	Random r;
 	
 	private static final String TAG = GameView.class.getSimpleName();
 	
@@ -33,12 +46,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public GameLoopThread gameLoop;
 	
 	// GameView
-	int width;
-	int height;
+	public static int width;
+	public static int height;
 	
 	// Game time
 	long startGameTime;
 	long totalGameTime = 0;
+	
+	// SpaceShip
+	public SpaceShip spaceShip;
 	
 	// Enemies
 	public List<Enemy> enemies;
@@ -54,6 +70,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	Bitmap bmTypeOneProjectile1;
 	Bitmap bmTypeOneProjectile2;
 	Bitmap bmAsteroid;
+	Bitmap bmAlienShip;
 	
 	// Array of Explosion Frames
 	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
@@ -102,6 +119,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	}
 
+	
+
 	public void initLevels() {
 		levels = new ArrayList<Level>();
 		LevelOne levelOne = new LevelOne(this.getContext(), width, height);
@@ -110,6 +129,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		levelPointer = 0;
 	}
 	
+
 	public void updateLevel() {
 		levels.get(levelPointer).initializeLevel();
 	}
@@ -123,6 +143,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		gameLoop = new GameLoopThread(getHolder(), this);
 		setFocusable(true);
 	}
-
-
+        
 }

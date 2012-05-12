@@ -27,9 +27,7 @@ public class GameLoopThread extends Thread {
 	
 	@Override
 	public void run() {
-		
 		Canvas canvas;
-		
 		// FPS
 		long startTime;
 		long endTime;
@@ -40,12 +38,9 @@ public class GameLoopThread extends Thread {
 		while (running) {
 			canvas = null;
 			try {
-				
 				// Locking canvas so that objects can draw themselves on it
 				canvas = this.surfaceHolder.lockCanvas();
-				
 				synchronized (surfaceHolder) {
-					
 					// Start timer
 					startTime = System.currentTimeMillis();
 					

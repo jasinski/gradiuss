@@ -56,6 +56,8 @@ public abstract class GameObject {
 	public GameObject() {
 		this.bitmaps = new ArrayList<Bitmap>(10);
 	}
+	
+	public abstract void initialize();
 
 	public void setX(float x) {
 		this.x = x;
