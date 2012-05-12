@@ -34,6 +34,12 @@ public class TypeOneProjectile extends Projectile {
 	}
 	
 	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void updateState() {
 		// MovemenSt upwards
 		if (moveUp) {	

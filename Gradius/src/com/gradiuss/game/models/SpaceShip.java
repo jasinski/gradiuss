@@ -33,6 +33,12 @@ public class SpaceShip extends MovingObject {
 		super(bitmaps, x, y);
 	}
 	
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;	
 	}

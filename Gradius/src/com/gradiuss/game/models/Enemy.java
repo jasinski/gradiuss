@@ -9,6 +9,7 @@ public abstract class Enemy extends MovingObject {
 	private float life;
 	private boolean hit;
 	private float damage;
+	public int SCORE = 0;
 	
 	public Enemy(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
