@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Buttons and EditTexts connected to the xml
         setContentView(R.layout.sqlliteexample);
         sqlUpdate = (Button) findViewById(R.id.bSQLUpdate);
         sqlName = (EditText) findViewById(R.id.etSQLName);
@@ -36,8 +38,9 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 
 	public void onClick(View v) {
 		
-		// TODO Auto-generated method stub
+		
 		switch (v.getId()){
+		// Adding the given values from the editText and inserting them to the table
 		case R.id.bSQLUpdate:
 			boolean didItWork = true;
 			try{
@@ -48,7 +51,9 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 			Highscore entry = new Highscore(SqlLiteActivity.this);
 			entry.open();
 			entry.createEntry(name, score);
+			Log.d(TAG,entry.getData());
 			entry.close();
+			
 			}catch (Exception e){
 				didItWork = false;
 				String error = e.toString();
@@ -60,7 +65,7 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 				d.show();
 				
 			}finally{
-				
+				//Popup messages after inserting a value in the table
 				if(didItWork){
 					Dialog d = new Dialog(this);
 					d.setTitle("Heck Yea!");
@@ -73,8 +78,11 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 
 			
 			break;
+		
+		//Viewing the highscores table in a view	
 		case R.id.bSQLOpenView:
-			Intent i = new Intent("your.highscore.sqlliteexample.SQLVIEW");
+			
+			Intent i = new Intent("android.intent.action.SQLVIEWACTIVITY");
 			startActivity(i);
 			
 			break;
