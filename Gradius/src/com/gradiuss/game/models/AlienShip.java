@@ -2,10 +2,11 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class AlienShip extends Enemy {
 	private static final String TAG = AlienShip.class.getSimpleName();
-	private boolean shooting;
+//	private boolean shooting;
 	private boolean hit;
 	private float previousLife;
 	private static final int INITIAL_LIFE = 100;
@@ -20,13 +21,13 @@ public class AlienShip extends Enemy {
 		this.target = target;
 	}
 
-	public void setShooting(boolean shooting) {
-		this.shooting = shooting;
-	}
-	
-	public boolean isShooting() {
-		return shooting;
-	}
+//	public void setShooting(boolean shooting) {
+//		this.shooting = shooting;
+//	}
+//	
+//	public boolean isShooting() {
+//		return shooting;
+//	}
 	
 	public void setHit(boolean hit) {
 		this.hit = hit;
@@ -51,12 +52,16 @@ public class AlienShip extends Enemy {
 			setMoveLeft(true);
 			if(xDiff < 0.02 * target.getBitmapWidth()) {
 				setMoveLeft(false);
+				setShooting(true);
+				Log.d(TAG, "shooting");
 			}
 		} else if(xDiff < (0.3 * target.getBitmapWidth())) {
 			setMoveLeft(false);
 			setMoveRight(true);
 			if(xDiff > 0.02 * target.getBitmapWidth()) {
 				setMoveRight(false);
+				Log.d(TAG, "shooting");
+				setShooting(true);
 			}
 		} else {
 			setMoveRight(false);

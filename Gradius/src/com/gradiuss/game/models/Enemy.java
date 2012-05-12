@@ -6,9 +6,12 @@ import android.graphics.Rect;
 public abstract class Enemy extends MovingObject {
 	private static final String TAG = Enemy.class.getSimpleName();
 	private boolean isAlive;
+	private boolean shooting = false;
 	private float life;
 	private boolean hit;
 	private float damage;
+	public float enemyFireTime = Projectile.FIRE_TIME_STANDARD;// Measures how often a alienprojectile will be fired
+	public long previousEnemyFireTime = 0; // Measures the last time a alien was shooting
 	
 	public Enemy(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
@@ -28,6 +31,14 @@ public abstract class Enemy extends MovingObject {
 	
 	public boolean isAlive() {
 		return isAlive;
+	}
+	
+	public void setShooting(boolean shooting) {
+		this.shooting = shooting;
+	}
+	
+	public boolean isShooting() {
+		return shooting;
 	}
 	
 	public void setLife(float life) {
