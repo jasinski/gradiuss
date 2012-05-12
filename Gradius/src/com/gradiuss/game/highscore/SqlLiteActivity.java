@@ -11,12 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gradiuss.game.GameViewActivity;
 import com.gradiuss.game.R;
+import com.gradiuss.game.StartGameActivity;
 import com.gradiuss.game.models.TypeOneProjectile;
 
 public class SqlLiteActivity extends Activity implements OnClickListener {
 	private static final String TAG = SqlLiteActivity.class.getSimpleName();
-	Button sqlUpdate, sqlView;
+	Button sqlUpdate, sqlMain, sqlRestart;
 	EditText sqlName, sqlScore;
 	
 	
@@ -28,10 +30,14 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
         sqlUpdate = (Button) findViewById(R.id.bSQLUpdate);
         sqlName = (EditText) findViewById(R.id.etSQLName);
         sqlScore = (EditText) findViewById(R.id.etSQLHotness);//Det står hotness men borde vara score, kan inte ändra i R..
+        sqlMain = (Button) findViewById(R.id.sqlMain);
+        sqlRestart = (Button) findViewById(R.id.sqlRestart);
+
         
-        sqlView = (Button) findViewById(R.id.bSQLOpenView);
-        sqlView.setOnClickListener(this);
-        sqlUpdate.setOnClickListener(this);
+        sqlUpdate.setOnClickListener(this);  
+		sqlMain.setOnClickListener(this);
+        sqlRestart.setOnClickListener(this);  
+
         
     }
 
@@ -54,39 +60,32 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 			Log.d(TAG,entry.getData());
 			entry.close();
 			
+			
 			}catch (Exception e){
 				didItWork = false;
 				String error = e.toString();
-				Dialog d = new Dialog(this);
-				d.setTitle("Dang it!");
-				TextView tv = new TextView(this);
-				tv.setText("Success");
-				d.setContentView(tv);
-				d.show();
+				
 				
 			}finally{
 				//Popup messages after inserting a value in the table
 				if(didItWork){
-					Dialog d = new Dialog(this);
-					d.setTitle("Heck Yea!");
-					TextView tv = new TextView(this);
-					tv.setText("Success");
-					d.setContentView(tv);
-					d.show();
+					Intent i = new Intent("android.intent.action.SQLVIEWACTIVITY");
+					startActivity(i);
 				}
 			}
+			
 
 			
 			break;
-		
-		//Viewing the highscores table in a view	
-		case R.id.bSQLOpenView:
+		case R.id.sqlMain:
+			startActivity(new Intent(this, StartGameActivity.class));
+			break;
 			
-			Intent i = new Intent("android.intent.action.SQLVIEWACTIVITY");
-			startActivity(i);
-			
+		case R.id.sqlRestart:
+			startActivity(new Intent(this, GameViewActivity.class));
 			break;
 			
 		}
+		
 	}
 }
