@@ -42,6 +42,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			break;
 		case R.id.bHighScore:
 			startActivity(new Intent("android.intent.action.SQLVIEWACTIVITY"));
+			//startActivity(new Intent("android.intent.action.SQLLITEACTIVITY"));
 			break;
 		case R.id.bAbout:
 			showAbout(new Intent("android.intent.action.ABOUTACTIVITY"));

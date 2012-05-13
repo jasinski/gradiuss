@@ -111,7 +111,7 @@ public abstract class Level {
 	 * @param intent
 	 */
 	public void gameOver(Bundle bundle) {
-		Intent intent = new Intent("android.intent.action.GAMEOVERACTIVITY");
+		Intent intent = new Intent("android.intent.action.SQLLITEACTIVITY");
 		intent.putExtras(bundle);
 		context.startActivity(intent);
 	}
