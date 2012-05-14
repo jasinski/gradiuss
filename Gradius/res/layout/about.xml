@@ -16,11 +16,89 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:gravity="center_horizontal"
         android:textSize="15dp"
         android:textColor="#705090"
         android:typeface="monospace"
-        android:text="Project management: Patrik Nygren Requirements: Michael Jasinski Change management: Martin Bäckman Development: Michael Jasinski Architecture: Patrik Nygren   Test: Martin Bäckman       General:Rehan Butt Design management: Rehan Butt" 
+        android:text="Project management: Patrik Nygren"
         android:textStyle="bold" />
+    
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Requirements: Michael Jasinski"
+        android:textStyle="bold" />
+        
+            <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Change management: Martin Bäckman"
+        android:textStyle="bold" />
+            
+                <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Change management: Martin Bäckman"
+        android:textStyle="bold" />
+                
+                    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Development: Michael Jasinski"
+        android:textStyle="bold" />
+                    
+       <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Architecture: Patrik Nygren" />
+        
+            <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Test: Patrik Nygren" 
+        android:textStyle="bold" />
+            
+          <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="Design management: Martin Bäckman" 
+        android:textStyle="bold" />  
+            
+            <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="15dp"
+        android:textColor="#705090"
+        android:typeface="monospace"
+        android:text="General: Rehan Butt" 
+        android:textStyle="bold" />    
     
     </LinearLayout>
