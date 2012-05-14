@@ -2,10 +2,11 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class AlienShip extends Enemy {
 	private static final String TAG = AlienShip.class.getSimpleName();
-	private boolean shooting;
+//	private boolean shooting;
 	private boolean hit;
 	private float previousLife;
 	private static final int INITIAL_LIFE = 100;
@@ -26,14 +27,6 @@ public class AlienShip extends Enemy {
 		SCORE = 50;		
 	}
 	
-	public void setShooting(boolean shooting) {
-		this.shooting = shooting;
-	}
-	
-	public boolean isShooting() {
-		return shooting;
-	}
-	
 	public void setHit(boolean hit) {
 		this.hit = hit;
 	}
@@ -50,23 +43,30 @@ public class AlienShip extends Enemy {
 
 	@Override
 	public void updateState() {
+		setShooting(false);
 		float xDiff = getX() - target.getX();
-//		float yDiff = getY() - target.getY();
-		if(xDiff > (0.3 * target.getBitmapWidth())) {
-			setMoveRight(false);
-			setMoveLeft(true);
-			if(xDiff < 0.02 * target.getBitmapWidth()) {
+		float yDiff = getY() - target.getY();
+		if(yDiff < 0) {
+			if(xDiff > (0.3 * target.getBitmapWidth())) {
+				setMoveRight(false);
+				setMoveLeft(true);
+				if(xDiff < 0.02 * target.getBitmapWidth()) {
+					setMoveLeft(false);
+					setShooting(true);
+					Log.d(TAG, "shooting");
+				}
+			} else if(xDiff < (0.3 * target.getBitmapWidth())) {
+				setMoveLeft(false);
+				setMoveRight(true);
+				if(xDiff > 0.02 * target.getBitmapWidth()) {
+					setMoveRight(false);
+					Log.d(TAG, "shooting");
+					setShooting(true);
+				}
+			} else {
+				setMoveRight(false);
 				setMoveLeft(false);
 			}
-		} else if(xDiff < (0.3 * target.getBitmapWidth())) {
-			setMoveLeft(false);
-			setMoveRight(true);
-			if(xDiff > 0.02 * target.getBitmapWidth()) {
-				setMoveRight(false);
-			}
-		} else {
-			setMoveRight(false);
-			setMoveLeft(false);
 		}
 //		if((int)yDiff < GameView.height)
 //			
@@ -87,11 +87,9 @@ public class AlienShip extends Enemy {
 		}
 		if (isHit()) {
 			float damage = previousLife - getLife();
-
 			setDamage((int)(damage));
 			setHit(false);
 		}
-		
 		super.updateState();
 	}
 	

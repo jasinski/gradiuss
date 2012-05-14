@@ -38,7 +38,6 @@ public class OptionsActivity extends Activity implements
 		seekBarEffects.setOnSeekBarChangeListener(this);
 	}
 
-	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		
 		volumePreferences = getSharedPreferences(filename, 0);
@@ -59,13 +58,11 @@ public class OptionsActivity extends Activity implements
 		
 	}
 
-	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		// TODO Auto-generated method stub
 

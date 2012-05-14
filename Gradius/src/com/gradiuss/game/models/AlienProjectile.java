@@ -2,8 +2,10 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class AlienProjectile extends Projectile {
+	private static final String TAG = AlienProjectile.class.getSimpleName();
 	
 	public AlienProjectile(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
@@ -37,16 +39,16 @@ public class AlienProjectile extends Projectile {
 		
 	}
 	
+	
 	@Override
 	public void updateState() {
-		
 		// MovemenSt upwards
 		if (moveDown) {	
-			setY(getY() + getVy() * MovingObject.DIRECTION_UP);
+			setY(getY() + getVy() * MovingObject.DIRECTION_DOWN);
 		}
 		
 		// Destroy if touches upper screen boundary
-		if (getY() < 0) {
+		if (getY() > this.windowheight) {
 			setVisible(false);
 		}
 		

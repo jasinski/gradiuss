@@ -6,8 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.util.Log;
 
 public class LifeBar extends GameObject {
@@ -62,15 +62,18 @@ public class LifeBar extends GameObject {
 		
 		if (hit) {
 			damage = (starting_bar - (starting_bar - lifeBar))/starting_bar;
-			if (damage <= 0) {
-				damage = (float) 0.01;
+//			if (damage <= 0) {
+//				damage = 0.01f;
+//			}
+			int newWidth = (int) (damage*((float) initialBitmapWidth));
+			if (newWidth < 1) {
+				newWidth = 1;
 			}
-			
 			// TODO - REMOVE LOGGING
 			Log.d(TAG, "damage=" + damage);
 			
-			setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), (int) (damage*((float) initialBitmapWidth)), (int) getBitmapHeight(), true));
-
+			setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), newWidth, (int) getBitmapHeight(), true));
+			
 			hit = false;
 		}
 	}

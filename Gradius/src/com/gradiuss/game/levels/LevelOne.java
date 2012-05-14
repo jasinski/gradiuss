@@ -18,6 +18,7 @@ import com.gradiuss.game.R;
 import com.gradiuss.game.audio.GameMusic;
 import com.gradiuss.game.audio.OptionsActivity;
 import com.gradiuss.game.audio.SoundEffects;
+import com.gradiuss.game.models.AlienProjectile;
 import com.gradiuss.game.models.AlienShip;
 import com.gradiuss.game.models.Asteroid;
 import com.gradiuss.game.models.Enemy;
@@ -45,6 +46,12 @@ public class LevelOne extends Level {
 	private float fireTime; // Measures how often a projectile will be fired
 	private long previousFireTime = 0; // Measures the last time a projectile was fired
 	
+	// Enemy projectiles
+	private List<Projectile> enemyProjectiles;
+	private List<Projectile> enemyProjectileTypes;
+	private Projectile enemyProj1;
+	private int enemyProjectileTypePointer = 0;
+	
 	// Enemies
 	private List<Enemy> enemies;
 	
@@ -68,8 +75,6 @@ public class LevelOne extends Level {
 	// Audio
 	private SoundEffects soundEffects;
 
-	
-	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -77,6 +82,11 @@ public class LevelOne extends Level {
 	public LevelOne(Context context, int screenHeight, int screenWidth) {
 		super(context, screenHeight, screenWidth);
 	}
+	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
 	
 	@Override
 	public void initializeLevel() {
@@ -187,7 +197,9 @@ public class LevelOne extends Level {
 
 		// List of projectile types
 		projectileTypes = new ArrayList<Projectile>();
+		enemyProjectileTypes = new ArrayList<Projectile>();
 		projectileTypePointer = 0;
+		enemyProjectileTypePointer = 0;
 		fireTime = Projectile.FIRE_TIME_STANDARD;
 		
 		// Single Laser gun
@@ -210,11 +222,21 @@ public class LevelOne extends Level {
 		proj2.setFireInterval((5 / 2) * Projectile.FIRE_TIME_STANDARD);
 		projectileTypes.add(proj2);
 		
+		// Aliens projectile type
+		Bitmap bmAlienProjectile = BitmapFactory.decodeResource(getResources(), R.drawable.projectile_alien);
+		enemyProj1 = new AlienProjectile(bmAlienProjectile, 0, 0);
+		enemyProj1.setVisible(true);
+		enemyProj1.setMoveDown(true);
+		enemyProj1.setVy(10);
+		enemyProj1.setDamage(20);
+		enemyProjectileTypes.add(enemyProj1);
+		
 		// Initializing ChangeWeapon-icon
 		GameViewActivity.bChangeWeapon.setImageBitmap(projectileTypes.get(projectileTypePointer).getBitmap());
 		
 		// Projectiles ArrayList
 		projectiles = new ArrayList<Projectile>();
+		enemyProjectiles = new ArrayList<Projectile>();
 	}
 	
 	/**
@@ -254,10 +276,20 @@ public class LevelOne extends Level {
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion8));
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9));
 	}
+	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// :::::::::::::::::::::::::::::::::::::::::::::: Update ::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
 
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
+	
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
+		// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	@Override
 	public void updateLevel() {
@@ -297,7 +329,7 @@ public class LevelOne extends Level {
 		getSpaceShip().updateState();
 	}
 	
-	@Override
+	
 	public void changeWeapon() {
 		
 		// Toggle between projectiles
@@ -325,6 +357,17 @@ public class LevelOne extends Level {
 			soundEffects.playShootSound();
 		}
 		
+		for(Enemy enemy : enemies) {
+			if(enemy.isVisible() && enemy.isShooting() &&
+					getTotalGameTime() - enemy.previousEnemyFireTime > enemy.enemyFireTime) {
+				enemy.previousEnemyFireTime = getTotalGameTime();
+				addEnemyProjectile(enemy.getX(), enemy.getY() + enemy.getBitmapHeight()/2, enemy);
+				
+				// TODO: TESTING SOUND EFFECTS
+				soundEffects.playShootSound();
+			}
+		}
+		
 		// Update state of all the projectiles in the list
 		for (int i = projectiles.size() - 1; i >= 0; i--) {
 			projectiles.get(i).updateState();
@@ -335,10 +378,19 @@ public class LevelOne extends Level {
 			}
 		}
 		
+		// Update state of all the enemy projectiles in the list
+		for (int i = enemyProjectiles.size() - 1; i >= 0; i--) {
+			enemyProjectiles.get(i).updateState();
+					
+			// Remove if not on screen
+			if (!enemyProjectiles.get(i).isVisible()) {
+				enemyProjectiles.remove(i);
+			}
+		}	
 	}
 	
 	/**
-	 * Add projectiles to the list.
+	 * Add projectiles to the projectiles list.
 	 * 
 	 * @param x initial X-position of projectile.
 	 * @param y initial Y-position of projectile.
@@ -351,6 +403,26 @@ public class LevelOne extends Level {
 		// Update the fireTime variable according to the type of projectiles
 		fireTime = projectile.getFireInterval();
 		projectiles.add(projectile);
+	}
+	
+	/**
+	 * Add Enemy projectiles to the enemyprojectiles list.
+	 * 
+	 * @param x initial X-position of projectile.
+	 * @param y initial Y-position of projectile.
+	 * @param alien Enemy object with shooting capacity to get its shooting fireinterval time to set the projectiles firetime.
+	 */
+	private void addEnemyProjectile(float x, float y, Enemy alien) {
+		Projectile enemyProjectile = new AlienProjectile(enemyProjectileTypes.get(enemyProjectileTypePointer));
+		enemyProjectile.setX(x);
+		enemyProjectile.setY(y);
+		//Setting window height so projectile knows when it is off screen
+		enemyProjectile.setWindowHeight(getScreenHeight());
+		Log.d(TAG, "adding enemyprojectile");
+		//Setting the specific projectiles firetime according to enemys firetime.
+		enemyProjectile.setFireInterval(alien.enemyFireTime);
+		enemyProjectiles.add(enemyProjectile);
+		Log.d(TAG, "size of enemyprojectiles = " + Integer.toString(enemyProjectiles.size()));
 	}
 	
 	/**
@@ -384,11 +456,13 @@ public class LevelOne extends Level {
 		alien.setVx(2);
 		alien.setMoveDown(true);
 		alien.setVisible(true);
+		alien.enemyFireTime = (8 / 2) * Projectile.FIRE_TIME_STANDARD;
 //		alien.setLife(100);
 //		alien.setDamage(80);
 		enemies.add(alien);
 		Log.d(TAG, "adding alien");
 	}
+	
 	
 	/**
 	 * Add an Explosion in position x, y, with an explosion area.
@@ -422,6 +496,7 @@ public class LevelOne extends Level {
 			}
 		}
 	}
+	
 
 	/**
 	 *  Update Background.
@@ -437,6 +512,7 @@ public class LevelOne extends Level {
 		collisionSpaceShipAndScreenEdges();
 		collisionSpaceShipAndEnemies();
 		collisionProjectilesAndEnemies();
+		collisionProjectilesAndSpaceShip();
 		collisionEnemiesAndScreenEdges();
 	}
 	
@@ -499,6 +575,12 @@ public class LevelOne extends Level {
 					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
 					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
 					getSpaceShip().setVisible(false); 
+					float shipX = getSpaceShip().getX();
+					float shipY = getSpaceShip().getY();
+					Rect shipExpRect = new Rect((int) shipX, (int) shipY, 
+							(int) shipX + getSpaceShip().getBitmapWidth(), (int) shipY + getSpaceShip().getBitmapHeight());
+					Log.d(TAG, "rect=" + rect.toShortString());
+					addExplosion(x, y, shipExpRect);
 					
 					// TODO - TEMPORARY CODE: This should stop the gameloop somehow first.
 					scoreBundle.putInt("score", scoreCounter.getScore());
@@ -557,6 +639,46 @@ public class LevelOne extends Level {
 	}
 	
 	/**
+	 * Update Collisions between Enemies Projectiles and SpaceShip
+	 */
+	private void collisionProjectilesAndSpaceShip() {
+		// Collision: Projectiles and Enemies
+		for (Projectile projectile : enemyProjectiles) {	
+			if (projectile.collisionDetection(getSpaceShip())) {	
+				// Destroy the projectile
+				projectile.setVisible(false);
+				
+				// Logging how many projectiles there are in the list.
+				Log.d(TAG, "projectiles.size() = " + projectiles.size());
+					
+				// Update the life of the spaceship by the amount that the projectile inflicts.
+				getSpaceShip().setLife(getSpaceShip().getLife() - projectile.getDamage());
+				getSpaceShip().setHit(true);
+				lifeBar.setHit(true);
+				lifeBar.setLifeBar(lifeBar.getLifeBar() - projectile.getDamage());
+				// Logging the life of the enemy
+				Log.d(TAG, getSpaceShip().getLife() + "");
+					
+				// TODO - TEMPORARY SOLUTION: Destroy the enemy if lifebar <= 0 and add a new one to the top of the screen 
+				// and add an explosion on previous position
+				if (getSpaceShip().getLife() <= 0) {
+					getSpaceShip().setVisible(false);
+					float x = getSpaceShip().getX();
+					float y = getSpaceShip().getY();
+					Rect rect = new Rect((int) x, (int) y, 
+							(int) x + getSpaceShip().getBitmapWidth(), (int) y + getSpaceShip().getBitmapHeight());
+					Log.d(TAG, "rect=" + rect.toShortString());
+					addExplosion(x, y, rect);
+					
+					// TODO - TEMPORARY CODE: This should stop the gameloop somehow first.
+					scoreBundle.putInt("score", scoreCounter.getScore());
+					gameOver(scoreBundle);
+				}
+			} 
+		}
+	}
+	
+	/**
 	 * Update Collisions between Enemies and screen edges
 	 */
 	private void collisionEnemiesAndScreenEdges() {
@@ -578,8 +700,8 @@ public class LevelOne extends Level {
 				}
 			}
 		}
-	}
-	
+	}	
+
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -622,6 +744,9 @@ public class LevelOne extends Level {
 	private void renderProjectiles(Canvas canvas) {
 		for (Projectile projectile : projectiles) {
 			projectile.draw(canvas);
+		}
+		for (Projectile enemyprojectile : enemyProjectiles) {
+			enemyprojectile.draw(canvas);
 		}
 	}
 

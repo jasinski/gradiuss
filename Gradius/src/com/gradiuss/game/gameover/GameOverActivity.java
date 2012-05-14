@@ -25,11 +25,11 @@ public class GameOverActivity extends Activity implements OnClickListener {
 		bMain.setOnClickListener(this);
 	}
 
-	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bMain:
 			startActivity(new Intent(this, StartGameActivity.class));
+			finish();
 			break;
 		}
 	}
