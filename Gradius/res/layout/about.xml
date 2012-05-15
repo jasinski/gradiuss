@@ -31,17 +31,7 @@
         android:typeface="monospace"
         android:text="Requirements: Michael Jasinski"
         android:textStyle="bold" />
-        
-            <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="15dp"
-        android:textColor="#705090"
-        android:typeface="monospace"
-        android:text="Change management: Martin Bäckman"
-        android:textStyle="bold" />
-            
+                    
                 <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
