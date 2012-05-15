@@ -36,6 +36,10 @@ public class GameOverActivity extends Activity implements OnClickListener {
         sqlUpdate.setOnClickListener(this);  
 		sqlMain.setOnClickListener(this);
         sqlRestart.setOnClickListener(this);  
+        Bundle bundleScore = getIntent().getExtras();
+        String score = bundleScore.getString("score");
+        
+        
 
         
     }
