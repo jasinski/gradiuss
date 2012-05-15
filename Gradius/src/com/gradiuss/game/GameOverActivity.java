@@ -1,7 +1,6 @@
 package com.gradiuss.game;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,37 +10,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.gradiuss.game.R;
 import com.gradiuss.game.highscore.HighScores;
-import com.gradiuss.game.models.TypeOneProjectile;
 
 public class GameOverActivity extends Activity implements OnClickListener {
 	private static final String TAG = GameOverActivity.class.getSimpleName();
-	Button sqlUpdate, sqlMain, sqlRestart;
-	EditText sqlName, sqlScore;
+	Button bHighScores, bMain, bRestart;
+	EditText etName;
+	TextView tvScore;
 	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Buttons and EditTexts connected to the xml
-        setContentView(R.layout.sqlliteexample);
-        sqlUpdate = (Button) findViewById(R.id.bSQLUpdate);
-        sqlName = (EditText) findViewById(R.id.etSQLName);
-        sqlScore = (EditText) findViewById(R.id.etSQLHotness);//Det står hotness men borde vara score, kan inte ändra i R..
-        sqlMain = (Button) findViewById(R.id.sqlMain);
-        sqlRestart = (Button) findViewById(R.id.sqlRestart);
+        setContentView(R.layout.gameover);
+        bHighScores = (Button) findViewById(R.id.bHighScores);
+        etName = (EditText) findViewById(R.id.etPlayer);
+        tvScore = (TextView) findViewById(R.id.tvScore);//Det står hotness men borde vara score, kan inte ändra i R..
+        bMain = (Button) findViewById(R.id.bMain);
+        bRestart = (Button) findViewById(R.id.bRestart);
+        
 
         
-        sqlUpdate.setOnClickListener(this);  
-		sqlMain.setOnClickListener(this);
-        sqlRestart.setOnClickListener(this);  
+
+
         Bundle bundleScore = getIntent().getExtras();
-        String score = bundleScore.getString("score");
-        
-        
-
-        
+		String score = bundleScore.getString("score");
+        bHighScores.setOnClickListener(this);  
+		bMain.setOnClickListener(this);
+        bRestart.setOnClickListener(this);  
     }
 
 
@@ -50,12 +47,12 @@ public class GameOverActivity extends Activity implements OnClickListener {
 		
 		switch (v.getId()){
 		// Adding the given values from the editText and inserting them to the table
-		case R.id.bSQLUpdate:
+		case R.id.bHighScores:
 			boolean didItWork = true;
 			try{
 			
-			String name = sqlName.getText().toString();
-			String score = sqlScore.getText().toString();
+			String name = etName.getText().toString();
+			String score = tvScore.getText().toString();
 			
 			HighScores entry = new HighScores(GameOverActivity.this);
 			entry.open();
@@ -72,7 +69,7 @@ public class GameOverActivity extends Activity implements OnClickListener {
 			}finally{
 				//Popup messages after inserting a value in the table
 				if(didItWork){
-					Intent i = new Intent("android.intent.action.SQLVIEWACTIVITY");
+					Intent i = new Intent("android.intent.action.HIGHSCORESACTIVITY");
 					startActivity(i);
 					finish();
 				}
@@ -81,11 +78,11 @@ public class GameOverActivity extends Activity implements OnClickListener {
 
 			
 			break;
-		case R.id.sqlMain:
+		case R.id.bMain:
 			startActivity(new Intent(this, StartGameActivity.class));
 			break;
 			
-		case R.id.sqlRestart:
+		case R.id.bRestart:
 			startActivity(new Intent(this, GameViewActivity.class));
 			break;
 			
