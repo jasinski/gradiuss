@@ -59,7 +59,8 @@
         android:textSize="15dp"
         android:textColor="#705090"
         android:typeface="monospace"
-        android:text="Architecture: Patrik Nygren" />
+        android:text="Architecture: Patrik Nygren" 
+        android:textStyle="bold"/>
         
             <TextView
         android:layout_width="fill_parent"
