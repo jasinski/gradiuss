@@ -143,6 +143,7 @@ public class GameViewActivity extends Activity {
 				
 				// Start shooting
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					bFire.setPressed(true);
 					gameView.levels.get(gameView.levelPointer).getSpaceShip().setShooting(true);
 					Log.d(TAG, "shooting...");
 
@@ -151,6 +152,7 @@ public class GameViewActivity extends Activity {
 				// Stop shooting
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.levels.get(gameView.levelPointer).getSpaceShip().setShooting(false);
+					bFire.setPressed(false);
 					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
