@@ -47,31 +47,33 @@ public class AlienShip extends Enemy {
 		float xDiff = getX() - target.getX();
 		float yDiff = getY() - target.getY();
 		if(yDiff < 0) {
-			if(xDiff > (0.3 * target.getBitmapWidth())) {
+			//positive xDiff => coming from right
+			if(xDiff >= (0.3 * (float)target.getBitmapWidth())) {
 				setMoveRight(false);
 				setMoveLeft(true);
-				if(xDiff < 0.02 * target.getBitmapWidth()) {
+				if(xDiff <= 0) {//0.02 * target.getBitmapWidth()) {
 					setMoveLeft(false);
 					setShooting(true);
-					Log.d(TAG, "shooting");
+					float x = (float)(0.3 * (float) target.getBitmapWidth());
+					Log.d(TAG, "the float = " + x + ", xDiff = " + xDiff);
 				}
-			} else if(xDiff < (0.3 * target.getBitmapWidth())) {
+			} 
+			//negative xDiff => coming from left
+			else if(xDiff <= (0.3 * (float)target.getBitmapWidth())) {
 				setMoveLeft(false);
 				setMoveRight(true);
-				if(xDiff > 0.02 * target.getBitmapWidth()) {
+				if(xDiff >= 0) {// 0.02 * target.getBitmapWidth()) {
 					setMoveRight(false);
-					Log.d(TAG, "shooting");
 					setShooting(true);
+					float x = (float)(0.3 * (float) target.getBitmapWidth());
+					Log.d(TAG, "the float = " + x + ", xDiff = " + xDiff);
 				}
-			} else {
+			} 
+			else {
 				setMoveRight(false);
 				setMoveLeft(false);
 			}
 		}
-//		if((int)yDiff < GameView.height)
-//			
-//			
-//		if((int)yDiff < GameView.height)
 		
 		if (moveLeft) {	
 			setX((getX() + (getVx() * MovingObject.DIRECTION_LEFT)));

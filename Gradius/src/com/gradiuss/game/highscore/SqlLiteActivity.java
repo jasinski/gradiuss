@@ -32,7 +32,6 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
         sqlScore = (EditText) findViewById(R.id.etSQLHotness);//Det står hotness men borde vara score, kan inte ändra i R..
         sqlMain = (Button) findViewById(R.id.sqlMain);
         sqlRestart = (Button) findViewById(R.id.sqlRestart);
-
         
         sqlUpdate.setOnClickListener(this);  
 		sqlMain.setOnClickListener(this);
@@ -71,6 +70,7 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 				if(didItWork){
 					Intent i = new Intent("android.intent.action.SQLVIEWACTIVITY");
 					startActivity(i);
+					finish();
 				}
 			}
 			

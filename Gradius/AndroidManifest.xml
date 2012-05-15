@@ -24,6 +24,8 @@
         <activity
             android:name=".StartGameActivity"
             android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +36,7 @@
         <activity
             android:name=".GameViewActivity"
             android:label="@string/app_name"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
@@ -46,19 +49,23 @@
         <!-- HighScore -->
 
         <activity
-            android:name=".highscore.SqlLiteActivity"
-            android:label="@string/app_name" >
+            android:name=".GameOverActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.SQLLITEACTIVITY" />
+                <action android:name="android.intent.action.GAMEOVERACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".highscore.SQLViewActivity"
-            android:label="@string/app_name" >
+            android:name=".highscore.HighScoresActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.SQLVIEWACTIVITY" />
+                <action android:name="android.intent.action.HIGHSCORESACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -68,7 +75,9 @@
 
         <activity
             android:name=".AboutActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.ABOUTACTIVITY" />
 
@@ -80,45 +89,26 @@
 
         <activity
             android:name=".HelpActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.HELPACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-        <activity
-            android:name=".gameover.GameOverActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.GAMEOVERACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        
-
- 	<activity
-            android:name=".highscore.SqlLiteActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.SQLLITEACTIVITY" />
-
         <activity
             android:name=".audio.OptionsActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.OPTIONSACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
- 
     </application>
 
 </manifest>

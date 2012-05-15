@@ -11,8 +11,8 @@ import com.gradiuss.game.R;
 import com.gradiuss.game.models.TypeOneProjectile;
 
 //Opening the Highscore View and showing the scores
-public class SQLViewActivity extends Activity{
-	private static final String TAG = SQLViewActivity.class.getSimpleName();
+public class HighScoresActivity extends Activity{
+	private static final String TAG = HighScoresActivity.class.getSimpleName();
 	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);

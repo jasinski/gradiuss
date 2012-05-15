@@ -29,6 +29,7 @@ public class GameOverActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.bMain:
 			startActivity(new Intent(this, StartGameActivity.class));
+			finish();
 			break;
 		}
 	}
