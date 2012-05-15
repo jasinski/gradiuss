@@ -3,7 +3,7 @@ package com.gradiuss.game;
 import android.os.Bundle;
 import android.app.Activity;
 import com.gradiuss.game.R;
-import com.gradiuss.game.highscore.SQLViewActivity;
+import com.gradiuss.game.highscore.HighScoresActivity;
 
 
 public class AboutActivity extends Activity {
