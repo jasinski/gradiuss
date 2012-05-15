@@ -1,87 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/spelbakgrundny">
+    android:background="@drawable/spelbakgrundny"
+    android:orientation="vertical" >
 
- 
     <TextView
-        android:id="@+id/editText1"
+        android:id="@+id/tvGameOver"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="center_horizontal"
+        android:text="@string/gameover"
+        android:textColor="#705090"
         android:textSize="50dp"
-        android:textColor="#705090"
-        android:text="@string/gameover" 
         android:textStyle="bold" />
-     <TextView
-        android:id="@+id/editText1"
+
+    <TextView
+        android:id="@+id/tvPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user"
+        android:textColor="#705090"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center" />
+
+    <EditText
+        android:id="@+id/etPlayer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:textSize="100dp"
-        android:textColor="#D3D3D3"
-        android:text=" " 
-        android:textStyle="bold" />
-     
-      <TextView
-        android:id="@+id/editText1"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/tvHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/highscore"
+        android:textColor="#705090"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" 
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tvScore"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:textSize="30dp"
+        android:text="Score"
         android:textColor="#705090"
-        android:text="Highscore: " 
-        android:textStyle="bold" />
-     
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="30dp" />
+
     
-      <TextView
-        android:id="@+id/editText1"
+    <Button
+        android:id="@+id/bHighScores"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
+        android:background="@null"
+        android:onClick="StartGameMethod"
+        android:text="@string/high_scores"
+        android:textColor="#705090"
         android:textSize="30dp"
-        android:textColor="#D3D3D3"
-        android:text=" " 
-        android:textStyle="bold" />
-       <TextView
-        android:id="@+id/editText1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center_horizontal"
-        android:textSize="30dp"
-        android:textColor="#D3D3D3"
-        android:text=" " 
-        android:textStyle="bold" />
-     
-      
+        android:typeface="monospace" />
+
     <Button
         android:id="@+id/bMain"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
-        android:text="@string/main"       
+        android:background="@null"
         android:onClick="StartGameMethod"
+        android:text="@string/main"
+        android:textColor="#705090"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:background="@null" />
+        android:typeface="monospace" />
 
     <Button
         android:id="@+id/bRestart"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#705090"
-        android:text="@string/restart"
+        android:background="@null"
         android:onClick="OptionsMethod"
+        android:text="@string/restart"
+        android:textColor="#705090"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:background="@null" />
-    
+        android:typeface="monospace" />
 
 </LinearLayout>
