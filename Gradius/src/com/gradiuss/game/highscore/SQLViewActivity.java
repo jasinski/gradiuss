@@ -18,7 +18,7 @@ public class SQLViewActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sqlview);
 		TextView tv = (TextView) findViewById(R.id.tvSQLinfo);
-		Highscore info = new Highscore(this);	
+		HighScores info = new HighScores(this);	
 		info.open();
 		//Fetching data from the Highscore object and storing it.
 		String data = info.getData();

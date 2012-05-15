@@ -17,7 +17,7 @@ public class Asteroid extends Enemy {
 		setDamage(INITIAL_DAMAGE);
 		initialize();
 	}
-	
+
 	public Asteroid() {
 		// Only for testing, should not be used otherwise.
 	}

@@ -179,10 +179,10 @@ public abstract class GameObject {
 			//canvas.drawBitmap(bitmaps.get(animationPointer), getRect(), getRect(), null);
 
 			// TODO - TEMPORARY: paint the rectangle green, just for collision-testing 
-			Paint paint = new Paint();
-			paint.setColor(Color.GREEN);
-			paint.setStyle(Style.STROKE);
-			canvas.drawRect(rectangle, paint);
+//			Paint paint = new Paint();
+//			paint.setColor(Color.GREEN);
+//			paint.setStyle(Style.STROKE);
+//			canvas.drawRect(rectangle, paint);
 			
 		}
 	}

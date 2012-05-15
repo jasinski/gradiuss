@@ -29,10 +29,17 @@ public class GameOverActivity extends Activity implements OnClickListener {
         tvScore = (TextView) findViewById(R.id.tvScore);//Det står hotness men borde vara score, kan inte ändra i R..
         bMain = (Button) findViewById(R.id.bMain);
         bRestart = (Button) findViewById(R.id.bRestart);
-        
+     
+
+        Bundle bundleScore = getIntent().getExtras();
+		int score = bundleScore.getInt("score");
+		
         bHighScores.setOnClickListener(this);  
 		bMain.setOnClickListener(this);
         bRestart.setOnClickListener(this);  
+        Log.d(TAG, "" + score);
+        tvScore.setText("" + score);
+        
     }
 
 

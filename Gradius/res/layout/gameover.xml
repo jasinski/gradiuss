@@ -43,6 +43,7 @@
         android:textColor="#705090"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:layout_marginBottom="10dp" 
         android:layout_gravity="center" />
 
     <TextView
@@ -50,8 +51,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Score"
-        android:gravity="center" />
+        android:textColor="#705090"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="30dp" />
 
+    
     <Button
         android:id="@+id/bHighScores"
         android:layout_width="fill_parent"
