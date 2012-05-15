@@ -25,19 +25,16 @@ public class GameOverActivity extends Activity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Buttons and EditTexts connected to the xml
-        setContentView(R.layout.sqlliteexample);
+        setContentView(R.layout.gameover);
         sqlUpdate = (Button) findViewById(R.id.bSQLUpdate);
         sqlName = (EditText) findViewById(R.id.etSQLName);
-        sqlScore = (EditText) findViewById(R.id.etSQLHotness);//Det står hotness men borde vara score, kan inte ändra i R..
+        sqlScore = (EditText) findViewById(R.id.etSQLscore);//Det står hotness men borde vara score, kan inte ändra i R..
         sqlMain = (Button) findViewById(R.id.sqlMain);
         sqlRestart = (Button) findViewById(R.id.sqlRestart);
-
         
         sqlUpdate.setOnClickListener(this);  
 		sqlMain.setOnClickListener(this);
         sqlRestart.setOnClickListener(this);  
-
-        
     }
 
 
