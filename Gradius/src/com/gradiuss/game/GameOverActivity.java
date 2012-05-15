@@ -35,10 +35,13 @@ public class GameOverActivity extends Activity implements OnClickListener {
 
 
         Bundle bundleScore = getIntent().getExtras();
-		String score = bundleScore.getString("score");
+		int score = bundleScore.getInt("score");
         bHighScores.setOnClickListener(this);  
 		bMain.setOnClickListener(this);
         bRestart.setOnClickListener(this);  
+        Log.d(TAG, "" + score);
+        tvScore.setText("" + score);
+        
     }
 
 
