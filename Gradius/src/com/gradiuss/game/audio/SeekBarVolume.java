@@ -33,7 +33,7 @@ public class SeekBarVolume extends Activity implements OnSeekBarChangeListener {
 	        
 
 	    }
-		  @Override
+		
 		    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 		       am.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
 		       Log.d("TEST", "Progress changed! Progress = " + progress);
@@ -42,12 +42,12 @@ public class SeekBarVolume extends Activity implements OnSeekBarChangeListener {
 		   }
 		  
 		    
-		@Override
+		
 		public void onStartTrackingTouch(SeekBar seekBar) {
 			// TODO Auto-generated method stub
 			
 		}
-		@Override
+		
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			// TODO Auto-generated method stub
 			
