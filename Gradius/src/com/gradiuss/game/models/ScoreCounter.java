@@ -1,17 +1,31 @@
 package com.gradiuss.game.models;
 
+import java.util.List;
+
 import org.w3c.dom.Text;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 
 public class ScoreCounter extends GameObject {
 
 	private int score;
+	private List<Bitmap> bmNumbers;
+	private float xMin, xMax, yMin, yMax;
 	
-	public ScoreCounter() throws IllegalArgumentException {
+	public ScoreCounter(List<Bitmap> animations, float x, float y, Rect rectangle) throws IllegalArgumentException {
+		super(animations, x, y, rectangle);
+		bmNumbers = animations;
+		initialize();
+	}
+	
+	public ScoreCounter(List<Bitmap> animations, float x, float y) throws IllegalArgumentException {
+		super(animations, x, y);
+		bmNumbers = animations;
 		initialize();
 	}
 	
@@ -22,6 +36,7 @@ public class ScoreCounter extends GameObject {
 	
 	public void addScore(int score) {
 		this.score = this.score + score;
+		
 	}
 	
 	public void removeScore(int score) {
@@ -43,6 +58,7 @@ public class ScoreCounter extends GameObject {
 	@Override
 	public void updateState() {
 		
+		//setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), newWidth, (int) getBitmapHeight(), true));
 	}
 
 	@Override

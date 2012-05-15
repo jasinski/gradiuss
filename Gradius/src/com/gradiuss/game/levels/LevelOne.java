@@ -71,6 +71,7 @@ public class LevelOne extends Level {
 	private LifeBar lifeBar;
 	private ScoreCounter scoreCounter;
 	private Bundle scoreBundle;
+	private List<Bitmap> bmScoreNumbers = new ArrayList<Bitmap>(10); //Array of numbers for score counter.
 	
 	// Audio
 	private SoundEffects soundEffects;
@@ -127,7 +128,17 @@ public class LevelOne extends Level {
 		lifeBar.setVisible(true);
 		
 		// Score counter
-		scoreCounter = new ScoreCounter();
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_zero));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_one));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_two));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_three));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_four));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_five));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_six));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_seven));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_eight));
+		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_nine));
+		scoreCounter = new ScoreCounter(bmScoreNumbers, (float)getScreenHeight(), (float)getScreenWidth());
 		scoreCounter.setX(getScreenWidth() - 50);
 		scoreCounter.setY(0 + 50);
 		scoreCounter.setVisible(true);
@@ -289,7 +300,7 @@ public class LevelOne extends Level {
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
-		// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	@Override
 	public void updateLevel() {
