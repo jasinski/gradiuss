@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/spelbakgrundny"
-    android:orientation="vertical" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/tvGameOver"
@@ -20,11 +20,11 @@
         android:id="@+id/tvPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/user"
         android:textColor="#705090"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etPlayer"
@@ -35,39 +35,33 @@
         <requestFocus />
     </EditText>
 
+    <Button
+       	android:id="@+id/bSaveScores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/high_scores" />
+
     <TextView
         android:id="@+id/tvHighScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
         android:text="@string/highscore"
         android:textColor="#705090"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp" 
-        android:layout_gravity="center" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvScore"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
         android:text="Score"
         android:textColor="#705090"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="30dp" />
-
-    
-    <Button
-        android:id="@+id/bHighScores"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:onClick="StartGameMethod"
-        android:text="@string/high_scores"
-        android:textColor="#705090"
-        android:textSize="30dp"
-        android:typeface="monospace" />
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/bMain"

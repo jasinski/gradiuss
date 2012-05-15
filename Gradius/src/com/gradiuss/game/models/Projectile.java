@@ -11,7 +11,7 @@ public abstract class Projectile extends MovingObject {
 	public static final float FIRE_TIME_STANDARD = 100000000;
 	private float damage = 0;
 	private float fireInterval = FIRE_TIME_STANDARD;
-	protected int windowheight;
+	
 
 	public Projectile(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
@@ -21,7 +21,7 @@ public abstract class Projectile extends MovingObject {
 		super(bitmap, x, y);
 		this.damage = damage;
 	}
-	
+		
 	public Projectile(Bitmap bitmap, float x, float y, Rect rectangle) {
 		super(bitmap, x, y, rectangle);
 	}
@@ -59,10 +59,6 @@ public abstract class Projectile extends MovingObject {
 	
 	public float getFireInterval() {
 		return fireInterval;
-	}
-	
-	public void setWindowHeight(int height) {
-		this.windowheight = height;
 	}
 
 }

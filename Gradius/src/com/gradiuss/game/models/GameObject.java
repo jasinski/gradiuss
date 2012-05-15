@@ -18,6 +18,8 @@ public abstract class GameObject {
 	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
+	protected int windowHeight;
+	protected int windowWidth;
 
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
@@ -157,6 +159,14 @@ public abstract class GameObject {
 	
 	public boolean isVisible() {
 		return visible;
+	}
+	
+	public void setWindowHeight(int height) {
+		this.windowHeight = height;
+	}
+	
+	public void setWindowWidth(int width) {
+		this.windowWidth = width;
 	}
 	
 //	 This method should be overridden by the extending class. 

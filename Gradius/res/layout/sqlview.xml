@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <TableLayout
+        android:id="@+id/tlScores"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
         <TableRow>
-            <TextView 
-                	
-                    android:text="Names"
-    				android:layout_width="fill_parent"
-    				android:layout_height="fill_parent"
-    				android:layout_weight="1"
-    			/>
-               <TextView android:text="Highscore"
-    				android:layout_width="fill_parent"
-    				android:layout_height="fill_parent"
-    			/>
-               
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="Names" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Highscore" />
         </TableRow>
-
-       
     </TableLayout>
-    <TextView 
-        	android:text="Get info from db"
-        	android:id="@+id/tvSQLinfo"
-        	android:layout_width="fill_parent"
-    		android:layout_height="fill_parent"
-    			/>
 
-  
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvSQLinfo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Get info from db"
+        android:layout_below="@+id/tlScores" />
 
+    <Button
+        android:id="@+id/bMain"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:onClick="StartGameMethod"
+        android:text="@string/main"
+        android:padding="40dp"
+        android:textColor="#705090"
+        android:textSize="30dp"
+        android:typeface="monospace"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
