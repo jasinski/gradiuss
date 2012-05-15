@@ -1,7 +1,5 @@
 package com.gradiuss.game;
 
-import com.gradiuss.game.highscore.SQLViewActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
 
