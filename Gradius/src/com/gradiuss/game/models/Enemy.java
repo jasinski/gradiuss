@@ -10,7 +10,7 @@ public abstract class Enemy extends MovingObject {
 	private float life;
 	private boolean hit;
 	private float damage;
-	public float enemyFireTime = Projectile.FIRE_TIME_STANDARD;// Measures how often a alienprojectile will be fired
+	public float enemyFireTime = (8/2) * Projectile.FIRE_TIME_STANDARD;// Measures how often a alienprojectile will be fired
 	public long previousEnemyFireTime = 0; // Measures the last time a alien was shooting
 	public int SCORE = 0;
 	

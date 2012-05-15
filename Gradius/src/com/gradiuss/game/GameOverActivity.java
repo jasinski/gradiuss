@@ -1,4 +1,4 @@
-package com.gradiuss.game.highscore;
+package com.gradiuss.game;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,13 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.gradiuss.game.GameViewActivity;
 import com.gradiuss.game.R;
-import com.gradiuss.game.StartGameActivity;
+import com.gradiuss.game.highscore.HighScores;
 import com.gradiuss.game.models.TypeOneProjectile;
 
-public class SqlLiteActivity extends Activity implements OnClickListener {
-	private static final String TAG = SqlLiteActivity.class.getSimpleName();
+public class GameOverActivity extends Activity implements OnClickListener {
+	private static final String TAG = GameOverActivity.class.getSimpleName();
 	Button sqlUpdate, sqlMain, sqlRestart;
 	EditText sqlName, sqlScore;
 	
@@ -32,6 +31,7 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
         sqlScore = (EditText) findViewById(R.id.etSQLHotness);//Det står hotness men borde vara score, kan inte ändra i R..
         sqlMain = (Button) findViewById(R.id.sqlMain);
         sqlRestart = (Button) findViewById(R.id.sqlRestart);
+
         
         sqlUpdate.setOnClickListener(this);  
 		sqlMain.setOnClickListener(this);
@@ -53,7 +53,7 @@ public class SqlLiteActivity extends Activity implements OnClickListener {
 			String name = sqlName.getText().toString();
 			String score = sqlScore.getText().toString();
 			
-			Highscore entry = new Highscore(SqlLiteActivity.this);
+			HighScores entry = new HighScores(GameOverActivity.this);
 			entry.open();
 			entry.createEntry(name, score);
 			Log.d(TAG,entry.getData());

@@ -6,7 +6,6 @@ import android.util.Log;
 
 public class AlienProjectile extends Projectile {
 	private static final String TAG = AlienProjectile.class.getSimpleName();
-
 	
 	public AlienProjectile(Bitmap bitmap, float x, float y) {
 		super(bitmap, x, y);
@@ -40,17 +39,16 @@ public class AlienProjectile extends Projectile {
 		
 	}
 	
+	
 	@Override
 	public void updateState() {
-		
 		// MovemenSt upwards
 		if (moveDown) {	
-			Log.d(TAG, "enemy projectile updatestate move down true");
-			setY(getY() + getVy() * MovingObject.DIRECTION_UP);
+			setY(getY() + getVy() * MovingObject.DIRECTION_DOWN);
 		}
 		
 		// Destroy if touches upper screen boundary
-		if (getY() < 0) {
+		if (getY() > this.windowheight) {
 			setVisible(false);
 		}
 		
