@@ -1,7 +1,5 @@
 package com.gradiuss.game;
 
-import com.gradiuss.game.highscore.HighScoresActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +30,6 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
     }
 
 	public void onClick(View v) {
-		Toast tmpToast;
 		switch (v.getId()) {
 		case R.id.bStartGame:
 			startActivity(new Intent("android.intent.action.GAMEVIEWACTIVITY"));
@@ -41,8 +38,7 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			startActivity(new Intent("android.intent.action.OPTIONSACTIVITY"));
 			break;
 		case R.id.bHighScore:
-			startActivity(new Intent("android.intent.action.SQLVIEWACTIVITY"));
-			//startActivity(new Intent("android.intent.action.SQLLITEACTIVITY"));
+			startActivity(new Intent("android.intent.action.HIGHSCORESACTIVITY"));
 			break;
 		case R.id.bAbout:
 			showAbout(new Intent("android.intent.action.ABOUTACTIVITY"));

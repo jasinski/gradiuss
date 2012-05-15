@@ -30,8 +30,6 @@ public class GameOverActivity extends Activity implements OnClickListener {
         bMain = (Button) findViewById(R.id.bMain);
         bRestart = (Button) findViewById(R.id.bRestart);
         
-        Bundle extras = getIntent().getExtras();
-        
         bHighScores.setOnClickListener(this);  
 		bMain.setOnClickListener(this);
         bRestart.setOnClickListener(this);  
