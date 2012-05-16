@@ -6,7 +6,7 @@
     <!-- StartGame -->
     <string name="start_game">Start Game</string>
     <string name="options">Options</string>
-    <string name="highscore">Highscore</string>
+    <string name="highscore">Score</string>
     <string name="quit_game">Quit</string>
     
     <!-- GameOver -->

@@ -49,12 +49,12 @@ public class HighScoresActivity extends Activity implements OnClickListener {
 			
 			Log.d(TAG, i + ": " + highScoreList.get(i)[0] + ", " +highScoreList.get(i)[1]);
 			TableRow trTemp = new TableRow(this);
-			trTemp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			trTemp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));	
 			
 			TextView tvTemp1 = new TextView(this);
 			tvTemp1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0.5f));
 			tvTemp1.setGravity(Gravity.CENTER);
-			if (i == 1) {
+			if (i == 0) {
 				tvTemp1.setTextColor(Color.YELLOW);
 				tvTemp1.setTypeface(null, Typeface.BOLD);
 			} else {
@@ -66,7 +66,7 @@ public class HighScoresActivity extends Activity implements OnClickListener {
 			TextView tvTemp2 = new TextView(this);
 			tvTemp2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0.5f));
 			tvTemp2.setGravity(Gravity.CENTER);
-			if (i == 1) {
+			if (i == 0) {
 				tvTemp2.setTextColor(Color.YELLOW);
 				tvTemp2.setTypeface(null, Typeface.BOLD);
 			} else {
