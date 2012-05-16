@@ -104,7 +104,7 @@ public class LifeBar extends GameObject {
 			paint.setColor(Color.GREEN);
 			paint.setStyle(Style.STROKE);
 			canvas.drawRect(getRect(), paint);
-			
+
 		}
 	}
 	
