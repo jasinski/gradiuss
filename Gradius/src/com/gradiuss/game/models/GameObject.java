@@ -5,9 +5,6 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
 public abstract class GameObject {
@@ -18,6 +15,8 @@ public abstract class GameObject {
 	private int animationPointer = 0;
 	private Rect rectangle;
 	private boolean visible;
+	protected int windowHeight;
+	protected int windowWidth;
 
 	
 	public GameObject(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
@@ -159,6 +158,14 @@ public abstract class GameObject {
 		return visible;
 	}
 	
+	public void setWindowHeight(int height) {
+		this.windowHeight = height;
+	}
+	
+	public void setWindowWidth(int width) {
+		this.windowWidth = width;
+	}
+	
 //	 This method should be overridden by the extending class. 
 //	 The overriding method should call "super.updateState()" at the end of the method 
 //	 to automatically update the rectangle to fit the size of the bitmap.
@@ -178,11 +185,9 @@ public abstract class GameObject {
 			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
 			//canvas.drawBitmap(bitmaps.get(animationPointer), getRect(), getRect(), null);
 
-//			// TODO - TEMPORARY: paint the rectangle green, just for collision-testing 
-//			Paint paint = new Paint();
-//			paint.setColor(Color.GREEN);
-//			paint.setStyle(Style.STROKE);
-//			canvas.drawRect(rectangle, paint);
+
+			// TODO - TEMPORARY: paint the rectangle green, just for collision-testing 
+
 			
 		}
 	}

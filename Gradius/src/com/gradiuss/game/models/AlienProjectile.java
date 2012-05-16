@@ -48,7 +48,7 @@ public class AlienProjectile extends Projectile {
 		}
 		
 		// Destroy if touches upper screen boundary
-		if (getY() > this.windowheight) {
+		if (getY() > this.windowHeight) {
 			setVisible(false);
 		}
 		

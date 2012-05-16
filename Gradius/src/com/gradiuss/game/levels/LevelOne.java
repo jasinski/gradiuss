@@ -28,6 +28,7 @@ import com.gradiuss.game.models.LifeBar;
 import com.gradiuss.game.models.ParallaxBackground;
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.ScoreCounter;
+import com.gradiuss.game.models.ScoreLabel;
 import com.gradiuss.game.models.SpaceShip;
 import com.gradiuss.game.models.TypeOneProjectile;
 
@@ -72,6 +73,7 @@ public class LevelOne extends Level {
 	private LifeBar lifeBar;
 	private ScoreCounter scoreCounter;
 	private Bundle scoreBundle;
+	private ScoreLabel scoreLabel;
 	private List<Bitmap> bmScoreNumbers = new ArrayList<Bitmap>(10); //Array of numbers for score counter.
 	
 	// Audio
@@ -128,20 +130,27 @@ public class LevelOne extends Level {
 		lifeBar = new LifeBar(lifeBarBitmaps, 0, 0);
 		lifeBar.setVisible(true);
 		
+		//Score label
+		Bitmap bmScore = BitmapFactory.decodeResource(getResources(), R.drawable.score);
+		Bitmap scaledBmScore = Bitmap.createScaledBitmap(bmScore, (int)(bmScore.getWidth()/1.5), (int)(bmScore.getHeight()/1.3), true);
+		//TODO - Scale this label smaller 
+		float scoreLabelX = getScreenWidth() - (scaledBmScore.getWidth()/2);
+		float scoreLabelY = scaledBmScore.getHeight()/2;
+		scoreLabel = new ScoreLabel(scaledBmScore, scoreLabelX, scoreLabelY);
+		scoreLabel.setVisible(true);
+		
 		// Score counter
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_zero));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_one));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_two));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_three));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_four));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_five));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_six));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_seven));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_eight));
-		bmScoreNumbers.add(BitmapFactory.decodeResource(getResources(), R.drawable.score_nine));
-		scoreCounter = new ScoreCounter(bmScoreNumbers, (float)getScreenHeight(), (float)getScreenWidth());
-		scoreCounter.setX(getScreenWidth() - 50);
-		scoreCounter.setY(0 + 50);
+		bmScoreNumbers.add(0, BitmapFactory.decodeResource(getResources(), R.drawable.score_zero));
+		bmScoreNumbers.add(1, BitmapFactory.decodeResource(getResources(), R.drawable.score_one));
+		bmScoreNumbers.add(2, BitmapFactory.decodeResource(getResources(), R.drawable.score_two));
+		bmScoreNumbers.add(3, BitmapFactory.decodeResource(getResources(), R.drawable.score_three));
+		bmScoreNumbers.add(4, BitmapFactory.decodeResource(getResources(), R.drawable.score_four));
+		bmScoreNumbers.add(5, BitmapFactory.decodeResource(getResources(), R.drawable.score_five));
+		bmScoreNumbers.add(6, BitmapFactory.decodeResource(getResources(), R.drawable.score_six));
+		bmScoreNumbers.add(7, BitmapFactory.decodeResource(getResources(), R.drawable.score_seven));
+		bmScoreNumbers.add(8, BitmapFactory.decodeResource(getResources(), R.drawable.score_eight));
+		bmScoreNumbers.add(9, BitmapFactory.decodeResource(getResources(), R.drawable.score_nine));
+		scoreCounter = new ScoreCounter(bmScoreNumbers, getScreenWidth(), scoreLabel.getBitmapHeight());
 		scoreCounter.setVisible(true);
 	}
 
@@ -331,6 +340,7 @@ public class LevelOne extends Level {
 	
 	private void updateStatusBar() {
 		lifeBar.updateState();
+		scoreLabel.updateState();
 		scoreCounter.updateState();
 	}
 
@@ -730,6 +740,7 @@ public class LevelOne extends Level {
 
 	private void renderStatusBar(Canvas canvas) {
 		lifeBar.draw(canvas);
+		scoreLabel.draw(canvas);
 		scoreCounter.draw(canvas);
 	}
 

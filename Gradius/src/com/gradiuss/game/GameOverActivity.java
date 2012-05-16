@@ -14,7 +14,7 @@ import com.gradiuss.game.highscore.HighScores;
 
 public class GameOverActivity extends Activity implements OnClickListener {
 	private static final String TAG = GameOverActivity.class.getSimpleName();
-	Button bHighScores, bMain, bRestart;
+	Button bHighScores, bMain, bRestart, bSaveScores;
 	EditText etName;
 	TextView tvScore;
 	
@@ -24,21 +24,19 @@ public class GameOverActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         //Buttons and EditTexts connected to the xml
         setContentView(R.layout.gameover);
-        bHighScores = (Button) findViewById(R.id.bHighScores);
         etName = (EditText) findViewById(R.id.etPlayer);
-        tvScore = (TextView) findViewById(R.id.tvScore);//Det står hotness men borde vara score, kan inte ändra i R..
+        tvScore = (TextView) findViewById(R.id.tvScore);
         bMain = (Button) findViewById(R.id.bMain);
         bRestart = (Button) findViewById(R.id.bRestart);
-        
-
-        
-
+        bSaveScores = (Button) findViewById(R.id.bSaveScores); 
 
         Bundle bundleScore = getIntent().getExtras();
 		int score = bundleScore.getInt("score");
-        bHighScores.setOnClickListener(this);  
+		
+		bSaveScores.setOnClickListener(this);
 		bMain.setOnClickListener(this);
         bRestart.setOnClickListener(this);  
+        
         Log.d(TAG, "" + score);
         tvScore.setText("" + score);
         
@@ -50,7 +48,7 @@ public class GameOverActivity extends Activity implements OnClickListener {
 		
 		switch (v.getId()){
 		// Adding the given values from the editText and inserting them to the table
-		case R.id.bHighScores:
+		case R.id.bSaveScores:
 			boolean didItWork = true;
 			try{
 			
@@ -88,7 +86,6 @@ public class GameOverActivity extends Activity implements OnClickListener {
 		case R.id.bRestart:
 			startActivity(new Intent(this, GameViewActivity.class));
 			break;
-			
 		}
 		
 	}
