@@ -6,8 +6,8 @@
     <!-- StartGame -->
     <string name="start_game">Start Game</string>
     <string name="options">Options</string>
-    <string name="high_scores">Save score</string>
-  
+    <string name="highscore">Highscore</string>
+    <string name="quit_game">Quit Game</string>
     
     <!-- GameOver -->
     <string name="restart">Restart</string>
@@ -15,7 +15,7 @@
     <string name="gameover">Game Over</string>
     
   	<!-- Highscore -->
-    <string name="highscore">Highscore</string>
+  	<string name="high_scores">Save score</string>
     <string name="user">Player</string>
     <string name="about">About</string>
     <string name="help">Help</string>

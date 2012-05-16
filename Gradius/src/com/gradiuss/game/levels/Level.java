@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.gradiuss.game.GameLoopThread;
+import com.gradiuss.game.GameView;
 import com.gradiuss.game.models.SpaceShip;
 
 /**
@@ -21,6 +24,8 @@ public abstract class Level {
 	
 	// Tag for logging
 	private static final String TAG = Level.class.getSimpleName();
+	
+	GameLoopThread gameLoop;
 	
 	// Game time
 	private long startGameTime;
@@ -41,9 +46,10 @@ public abstract class Level {
 	private List<LevelState> states;
 	private int statePointer;
 
-	public Level(Context context, int screenWidth, int screenHeight) {
+	public Level(Context context, GameLoopThread gameLoop, int screenWidth, int screenHeight) {
 		this.states = new ArrayList<LevelState>();
 		this.context = context;
+		this.gameLoop = gameLoop; 
 		this.resources = this.context.getResources();
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
@@ -111,6 +117,9 @@ public abstract class Level {
 	 * @param intent
 	 */
 	public void gameOver(Bundle bundle) {
+		
+		Log.d(TAG, "Game Over, sätter gameLoop = null");
+		
 		Intent intent = new Intent("android.intent.action.GAMEOVERACTIVITY");
 		intent.putExtras(bundle);
 		context.startActivity(intent);

@@ -8,11 +8,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 
+import com.gradiuss.game.GameLoopThread;
 import com.gradiuss.game.GameView;
 import com.gradiuss.game.GameViewActivity;
 import com.gradiuss.game.R;
@@ -55,6 +56,10 @@ public class LevelOne extends Level {
 	
 	// Enemies
 	private List<Enemy> enemies;
+	private float previousEnemyAddedTime = 0; // Measures the last time an enemy was fired
+	private float enemyTimeInterval  = 9000000000l;
+	private float previousEnemyFrequencyUpdate = 0;
+	private float enemyFrequencyTime = 30000000000l; // Update the enemy update frequency every 30 sec
 	
 	// Explosions
 	private List<Explosion> explosions;
@@ -80,8 +85,8 @@ public class LevelOne extends Level {
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-	public LevelOne(Context context, int screenHeight, int screenWidth) {
-		super(context, screenHeight, screenWidth);
+	public LevelOne(Context context, GameLoopThread gameLoop, int screenHeight, int screenWidth) {
+		super(context, gameLoop, screenHeight, screenWidth);
 	}
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -98,6 +103,9 @@ public class LevelOne extends Level {
 		// Initialize Backgrounds
 		initBackground();
 		
+		// Initialize variables
+		initStatusBar();
+		
 		// Initialize SpaceShip
 		initSpaceShip();
 		
@@ -109,9 +117,6 @@ public class LevelOne extends Level {
 		
 		// Initialize Explosions
 		initExplosions();
-		
-		// Initialize variables
-		initStatusBar();
 		
 		// Initialize Audio
 		initAudio();
@@ -174,9 +179,6 @@ public class LevelOne extends Level {
 		Bitmap bmSpaceShip = BitmapFactory.decodeResource(getResources(), R.drawable.spaceshipsnysmall2);
 		Bitmap bmSpaceShipHit = BitmapFactory.decodeResource(getResources(), R.drawable.spaceshipsnysmall2_hit);
 		
-		// TODO - Common resolutions for smartphone screens vary from 240Ã—320 to 720Ã—1280, with many flagship Android phones at 
-		// 480Ã—800 or 540Ã—960, the iPhone 4/4S at 640Ã—960 and Galaxy Nexus and HTC Rezound at 720Ã—1280 (Wikipedia). By these figures
-		// the target standard for the spaceship size and other game-objects size should be calculated.
 		Bitmap bmSpaceShipRightSize = Bitmap.createScaledBitmap(bmSpaceShip, (int)getScreenWidth()/8, (int)getScreenHeight()/6, true);
 		Bitmap bmSpaceShipHitRightSize = Bitmap.createScaledBitmap(bmSpaceShipHit, (int)getScreenWidth()/8, (int)getScreenHeight()/6, true);
 		
@@ -188,7 +190,7 @@ public class LevelOne extends Level {
 		getSpaceShip().setVx(7);
 		getSpaceShip().setVy(7);
 		getSpaceShip().setVisible(true);
-		getSpaceShip().setLife(100);
+//		getSpaceShip().setLife(lifeBar.getLifeBar());
 	}
 	
 	/**
@@ -248,17 +250,6 @@ public class LevelOne extends Level {
 		Bitmap bmAlienSpaceShip = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.attackers);
 		bmAlienShip = Bitmap.createScaledBitmap(bmAlienSpaceShip, (int)GameView.width/8, (int)GameView.height/6, true);
 		enemies = new ArrayList<Enemy>();
-		
-		// TODO - TEMPORARY: Initializing the first enemy to the list (MAKE THIS TIME-DEPENDANT!)
-		Asteroid asteroid = new Asteroid(bmAsteroid, getScreenWidth()/2, 0);
-		asteroid.setVy(random.nextInt(2) + 1);
-		asteroid.setVx(random.nextInt(1));
-		asteroid.setMoveDown(true);
-		asteroid.setMoveRight(true);
-		asteroid.setVisible(true);
-		
-		// add the first enemy to list of enemies
-		enemies.add(asteroid);
 	}
 	
 	/**
@@ -278,19 +269,9 @@ public class LevelOne extends Level {
 		bmExplosionFrames.add(BitmapFactory.decodeResource(getResources(), R.drawable.bmexplosion9));
 	}
 	
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	// :::::::::::::::::::::::::::::::::::::::::::::: Update ::::::::::::::::::::::::::::::::::::::::::::::::::::
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	
-
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Updating ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	
-	
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
-		// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	@Override
 	public void updateLevel() {
@@ -319,7 +300,10 @@ public class LevelOne extends Level {
 	}
 	
 	private void updateStatusBar() {
+		// Life bar
+		updateLifeBar();
 		lifeBar.updateState();
+		// Score counter
 		scoreCounter.updateState();
 	}
 
@@ -358,11 +342,11 @@ public class LevelOne extends Level {
 			soundEffects.playShootSound();
 		}
 		
-		for(Enemy enemy : enemies) {
-			if(enemy.isVisible() && enemy.isShooting() &&
-					getTotalGameTime() - enemy.previousEnemyFireTime > enemy.enemyFireTime) {
-				enemy.previousEnemyFireTime = getTotalGameTime();
-				addEnemyProjectile(enemy.getX(), enemy.getY() + enemy.getBitmapHeight()/2, enemy);
+		for(int i = 0; i < enemies.size(); i++) {
+//		for(Enemy enemy : enemies) {
+			if(enemies.get(i).isVisible() && enemies.get(i).isShooting() && getTotalGameTime() - enemies.get(i).previousEnemyFireTime > enemies.get(i).enemyFireTime) {
+				enemies.get(i).previousEnemyFireTime = getTotalGameTime();
+				addEnemyProjectile(enemies.get(i).getX(), enemies.get(i).getY() + enemies.get(i).getBitmapHeight()/2, enemies.get(i));
 				
 				// TODO: TESTING SOUND EFFECTS
 				soundEffects.playShootSound();
@@ -427,12 +411,58 @@ public class LevelOne extends Level {
 	}
 	
 	/**
+	 * Add Enemy to the enemies list.
+	 * 
+	 * @param x initial X-position of enemy.
+	 * @param y initial Y-position of enemy.
+	 * @param alien Enemy object with shooting capacity to get its shooting fireinterval time to set the projectiles firetime.
+	 */
+	private void addEnemy() {
+		boolean test = random.nextBoolean();
+		Log.d(TAG, "random.nextBoolean()=" + test); 
+		if(test) {
+			Log.d(TAG, "Adding alien!");
+			addAlien();
+		} else {
+			Log.d(TAG, "Adding asteroid!");
+			addAsteroid();
+		}
+	}
+	
+	/**
 	 * Update enemies.
 	 */
 	private void updateEnemies() {
-		for(Enemy e: enemies){
-			e.updateState();
+		for (int i = 0; i < enemies.size(); i++) {
+			enemies.get(i).updateState();
 		}
+		
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		if (getTotalGameTime() - previousEnemyFrequencyUpdate > enemyFrequencyTime) {
+			previousEnemyFrequencyUpdate = getTotalGameTime();
+			enemyTimeInterval = enemyTimeInterval-enemyTimeInterval/10;
+			Log.d("TESTAR", "enemyTimeInterval=" + enemyTimeInterval);
+		}	
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		// TODO: HÄR ÄR JAG!!!
+		
+		
+		if (getTotalGameTime() - previousEnemyAddedTime > enemyTimeInterval) {
+			previousEnemyAddedTime = getTotalGameTime();
+//			Log.d(TAG, "Borde adda enemy!");
+			Log.d("TESTAR", "adding enemy because of time update");
+			addEnemy();
+		}
+		
+
+		
 	}
 	
 	/**
@@ -458,8 +488,6 @@ public class LevelOne extends Level {
 		alien.setMoveDown(true);
 		alien.setVisible(true);
 		alien.enemyFireTime = (8 / 2) * Projectile.FIRE_TIME_STANDARD;
-//		alien.setLife(100);
-//		alien.setDamage(80);
 		enemies.add(alien);
 		Log.d(TAG, "adding alien");
 	}
@@ -487,12 +515,12 @@ public class LevelOne extends Level {
 	 * Update Explosions
 	 */
 	private void updateExplosions() {
-		for(Explosion explosion : explosions) {
-			if(getTotalGameTime() - explosion.previousExplosionFrame > explosionFrameTime) {
-				explosion.previousExplosionFrame = getTotalGameTime();
-				explosion.updateState();
-				if(explosion.lastFrame()) {
-					explosions.remove(explosion);
+		for(int i = 0; i < explosions.size(); i++) {
+			if(getTotalGameTime() - explosions.get(i).previousExplosionFrame > explosionFrameTime) {
+				explosions.get(i).previousExplosionFrame = getTotalGameTime();
+				explosions.get(i).updateState();
+				if(explosions.get(i).lastFrame()) {
+					explosions.remove(explosions.get(i));
 				}
 			}
 		}
@@ -549,46 +577,33 @@ public class LevelOne extends Level {
 		// Collision: Spaceship and Enemies
 		// TODO - TEMPORARY SOLUTION: The spaceship should lose lifepower
 		// and when it hits zero the game is over.
-		for (Enemy enemy : enemies) {
-			if (enemy.collisionDetection(getSpaceShip())) {
-				
-				// Remove lifepower from the spaceship
-				getSpaceShip().setLife((int) (getSpaceShip().getLife() - enemy.getDamage()));
-				getSpaceShip().setHit(true);
+		for(int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i).collisionDetection(getSpaceShip())) {
+
+				// Update LifeBar
 				lifeBar.setHit(true);
-				lifeBar.setLifeBar(lifeBar.getLifeBar() - enemy.getDamage());
+				lifeBar.decreaseLife(enemies.get(i).getDamage());
+//				lifeBar.setLifeBar(lifeBar.getLifeBar() - enemies.get(i).getDamage());
+				Log.d(TAG, "YOUR LIFE IS: " + lifeBar.getLifeBar());
 				
+				// TODO - TEMPORARY: VIBRATE
+				Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+				long milliseconds = 100;
+				v.vibrate(milliseconds);
+				// VIBRATE
+
 				// Save information about the enemy for the explosion
-				enemy.setVisible(false);
-				float x = enemy.getX();
-				float y = enemy.getY();
-				Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
-				enemies.remove(enemy);
+				enemies.get(i).setVisible(false);
+				float x = enemies.get(i).getX();
+				float y = enemies.get(i).getY();
+				Rect rect = new Rect((int) x, (int) y, (int) x + enemies.get(i).getBitmapWidth(), (int) y + enemies.get(i).getBitmapHeight());
+				enemies.remove(enemies.get(i));
 				addExplosion(x, y, rect);
-				if(random.nextBoolean()) {
-					Log.d(TAG, "adding alien in updatingcollision");
-					addAlien();
-				} else {
-					addAsteroid();
-				}
 				
-				if (getSpaceShip().getLife() <= 0) {
-					// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
-					// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
-					getSpaceShip().setVisible(false); 
-					float shipX = getSpaceShip().getX();
-					float shipY = getSpaceShip().getY();
-					Rect shipExpRect = new Rect((int) shipX, (int) shipY, 
-							(int) shipX + getSpaceShip().getBitmapWidth(), (int) shipY + getSpaceShip().getBitmapHeight());
-					Log.d(TAG, "rect=" + rect.toShortString());
-					addExplosion(x, y, shipExpRect);
-					
-					// TODO - TEMPORARY CODE: This should stop the gameloop somehow first.
-					scoreBundle.putInt("score", scoreCounter.getScore());
-					gameOver(scoreBundle);
-				}
 			}
+			
 		}
+		
 	}
 	
 	/**
@@ -598,9 +613,10 @@ public class LevelOne extends Level {
 
 		// Collision: Projectiles and Enemies
 		for (Projectile projectile : projectiles) {	
-			for (Enemy enemy : enemies) {
+			for (int i = 0; i < enemies.size(); i++) {
+//			for (Enemy enemy : enemies) {
 				
-				if (projectile.collisionDetection(enemy)) {	
+				if (projectile.collisionDetection(enemies.get(i))) {	
 					// Destroy the projectile
 					projectile.setVisible(false);
 					
@@ -608,31 +624,25 @@ public class LevelOne extends Level {
 					Log.d(TAG, "projectiles.size() = " + projectiles.size());
 					
 					// Update the life of the enemy by the amount that the projectile inflicts.
-					enemy.setLife(enemy.getLife() - projectile.getDamage());
-					enemy.setHit(true);
+					enemies.get(i).setLife(enemies.get(i).getLife() - projectile.getDamage());
+					enemies.get(i).setHit(true);
 					
 					// Logging the life of the enemy
-					Log.d(TAG, enemy.getLife() + "");
+					Log.d(TAG, enemies.get(i).getLife() + "");
 					
 					// TODO - TEMPORARY SOLUTION: Destroy the enemy if lifebar <= 0 and add a new one to the top of the screen 
 					// and add an explosion on previous position
-					if (enemy.getLife() <= 0) {
-						scoreCounter.addScore(enemy.SCORE);
-						enemy.setVisible(false);
-						float x = enemy.getX();
-						float y = enemy.getY();
-						Rect rect = new Rect((int) x, (int) y, (int) x + enemy.getBitmapWidth(), (int) y + enemy.getBitmapHeight());
+					if (enemies.get(i).getLife() <= 0) {
+						scoreCounter.addScore(enemies.get(i).SCORE);
+						enemies.get(i).setVisible(false);
+						float x = enemies.get(i).getX();
+						float y = enemies.get(i).getY();
+						Rect rect = new Rect((int) x, (int) y, (int) x + enemies.get(i).getBitmapWidth(), (int) y + enemies.get(i).getBitmapHeight());
 						Log.d(TAG, "rect=" + rect.toShortString());
-						enemies.remove(enemy);
+						enemies.remove(enemies.get(i));
 						addExplosion(x, y, rect);
 						Log.d(TAG, "enemies.size() = " + enemies.size());
 						
-						if(random.nextBoolean()) {
-							Log.d(TAG, "adding alien in Projectiles and enemies collision");
-							addAlien();
-						} else {
-							addAsteroid();
-						}
 					}
 				} 
 			}
@@ -644,37 +654,28 @@ public class LevelOne extends Level {
 	 */
 	private void collisionProjectilesAndSpaceShip() {
 		// Collision: Projectiles and Enemies
-		for (Projectile projectile : enemyProjectiles) {	
-			if (projectile.collisionDetection(getSpaceShip())) {	
+		for (int i = 0; i < enemyProjectiles.size(); i++) {
+			if (enemyProjectiles.get(i).collisionDetection(getSpaceShip())) {	
 				// Destroy the projectile
-				projectile.setVisible(false);
+				enemyProjectiles.get(i).setVisible(false);
 				
 				// Logging how many projectiles there are in the list.
 				Log.d(TAG, "projectiles.size() = " + projectiles.size());
 					
 				// Update the life of the spaceship by the amount that the projectile inflicts.
-				getSpaceShip().setLife(getSpaceShip().getLife() - projectile.getDamage());
-				getSpaceShip().setHit(true);
 				lifeBar.setHit(true);
-				lifeBar.setLifeBar(lifeBar.getLifeBar() - projectile.getDamage());
+				lifeBar.decreaseLife(enemyProjectiles.get(i).getDamage());
+				
+				// TODO - TEMPORARY: VIBRATE
+				Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+				long milliseconds = 100;
+				v.vibrate(milliseconds);
+				// VIBRATE
+				
+				Log.d(TAG, "YOUR LIFE IS: " + lifeBar.getLifeBar());
 				// Logging the life of the enemy
 				Log.d(TAG, getSpaceShip().getLife() + "");
-					
-				// TODO - TEMPORARY SOLUTION: Destroy the enemy if lifebar <= 0 and add a new one to the top of the screen 
-				// and add an explosion on previous position
-				if (getSpaceShip().getLife() <= 0) {
-					getSpaceShip().setVisible(false);
-					float x = getSpaceShip().getX();
-					float y = getSpaceShip().getY();
-					Rect rect = new Rect((int) x, (int) y, 
-							(int) x + getSpaceShip().getBitmapWidth(), (int) y + getSpaceShip().getBitmapHeight());
-					Log.d(TAG, "rect=" + rect.toShortString());
-					addExplosion(x, y, rect);
-					
-					// TODO - TEMPORARY CODE: This should stop the gameloop somehow first.
-					scoreBundle.putInt("score", scoreCounter.getScore());
-					gameOver(scoreBundle);
-				}
+
 			} 
 		}
 	}
@@ -685,23 +686,37 @@ public class LevelOne extends Level {
 	private void collisionEnemiesAndScreenEdges() {
 		
 		// Collision: Enemies and screen edges
-		for (Enemy enemy : enemies) {
-			if (enemy.getX() <= 0 - enemy.getBitmapWidth()/2 || enemy.getX() >= getScreenWidth() + enemy.getBitmapWidth()/2 || enemy.getY() <= 0 - enemy.getBitmapHeight()/2  || enemy.getY() >= getScreenHeight() + enemy.getBitmapHeight()/2) {
-				enemy.setVisible(false);
-				enemies.remove(enemy);
+		for (int i = 0; i < enemies.size(); i++) {
+//		for (Enemy enemy : enemies) {
+			if (enemies.get(i).getX() <= 0 - enemies.get(i).getBitmapWidth()/2 || enemies.get(i).getX() >= getScreenWidth() + enemies.get(i).getBitmapWidth()/2 /* || enemies.get(i).getY() <= 0 - enemies.get(i).getBitmapHeight()/2 */  || enemies.get(i).getY() >= getScreenHeight() + enemies.get(i).getBitmapHeight()/2) {
+				enemies.get(i).setVisible(false);
+				enemies.remove(enemies.get(i));
 				
 				// Logging how many enemies there are in the list.
 				Log.d(TAG, "enemies.size() = " + enemies.size());
-				
-				if(random.nextBoolean()) {
-					Log.d(TAG, "adding alien in updatingcollision");
-					addAlien();
-				} else {
-					addAsteroid();
-				}
+
 			}
 		}
 	}	
+	
+	public void updateLifeBar() {
+//		lifeBar.setLifeBar(getSpaceShip().getLife());
+		if (lifeBar.isDead()) {
+			Log.d(TAG, "YOUR LIFE IS: " + lifeBar.getLifeBar() + "SHOULD BE 0");
+			// TODO - TEMPORARY CODE: If spaceship has no life left make it invisible
+			// TODO - SUGGESTION: Maybe we could handle "continues" so that a spacship has multiple lifes
+			getSpaceShip().setVisible(false); 
+			float shipX = getSpaceShip().getX();
+			float shipY = getSpaceShip().getY();
+			Rect shipExpRect = new Rect((int) shipX, (int) shipY, (int) shipX + getSpaceShip().getBitmapWidth(), (int) shipY + getSpaceShip().getBitmapHeight());
+			Log.d(TAG, "rect=" + shipExpRect.toShortString());
+			addExplosion(getSpaceShip().getX(), getSpaceShip().getY(), shipExpRect);
+			
+			// TODO - TEMPORARY CODE: This should stop the gameloop somehow first.
+			scoreBundle.putInt("score", scoreCounter.getScore());
+			gameOver(scoreBundle);
+		}
+	}
 
 	// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Rendering ::::::::::::::::::::::::::::::::::::::::::::::
@@ -711,8 +726,8 @@ public class LevelOne extends Level {
 	public void renderLevel(Canvas canvas) {
 		renderBackground(canvas);
 		renderSpaceShip(canvas);
-		renderProjectiles(canvas);
 		renderEnemies(canvas);
+		renderProjectiles(canvas);
 		renderExplosions(canvas);
 		renderStatusBar(canvas);
 	}

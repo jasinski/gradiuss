@@ -3,6 +3,7 @@ package com.gradiuss.game;
 import com.gradiuss.game.audio.GameMusic;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 // :::::::::::::::::::::::::::::::::::::::::::::: GameLoopThread ::::::::::::::::::::::::::::::::::::::::::::::
@@ -122,7 +123,6 @@ public class GameLoopThread extends Thread {
 	public void pauseThread() {
 		// TODO: TEMPORARY
 		GameMusic.stopMusic();
-		
 		running = false;
 		while (true) {
 			try {

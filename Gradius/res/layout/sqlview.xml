@@ -28,20 +28,20 @@
         android:id="@+id/tvSQLinfo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Get info from db"
-        android:layout_below="@+id/tlScores" />
+        android:layout_below="@+id/tlScores"
+        android:text="Get info from db" />
 
     <Button
         android:id="@+id/bMain"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@null"
         android:onClick="StartGameMethod"
-        android:text="@string/main"
         android:padding="40dp"
+        android:text="@string/main"
         android:textColor="#705090"
         android:textSize="30dp"
-        android:typeface="monospace"
-        android:layout_alignParentBottom="true" />
+        android:typeface="monospace" />
 
 </RelativeLayout>

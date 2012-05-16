@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -43,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public int levelPointer;
 	
 	// Game Loop
-	public GameLoopThread gameLoop;
+	public static GameLoopThread gameLoop;
 	
 	// GameView
 	public static int width;
@@ -77,27 +78,40 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
-		initGameView();
+//		initGameView();
 	}
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
+	public void initGameView() {
+		getHolder().addCallback(this);
+		gameLoop = new GameLoopThread(getHolder(), this);
+		setFocusable(true);
+	}
+	
 	// Loading resources like images, music etc... and starting the game loop!
 	public void surfaceCreated(SurfaceHolder holder) {
+		
+		initGameView();
 		
 		// GameView
 		width = getWidth();
 		height = getHeight();		
 		
 		// Levels
-		initLevels();
-
+		initLevels();	
+		
 		// Starting game loop
+		if (gameLoop.isAlive()) {
+			Log.d(TAG, "Its Alive!");
+		} else {
+			Log.d(TAG, "Its dead!");
+		}
 		gameLoop.setRunning(true);
 		gameLoop.start();
-		
+
 		// Starting time measurement
 		startGameTime = System.nanoTime();
 	}
@@ -107,6 +121,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		stopGameLoop();
+	}
+	
+	public void stopGameLoop() {
 		boolean retry = true;
 		while (retry) {
 			try {
@@ -116,14 +134,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				// Try again, shutting down the thread(game loop)
 			}
 		}
-		
 	}
 
 	
 
 	public void initLevels() {
 		levels = new ArrayList<Level>();
-		LevelOne levelOne = new LevelOne(this.getContext(), width, height);
+		LevelOne levelOne = new LevelOne(this.getContext(), gameLoop, width, height);
 		levelOne.initializeLevel();
 		levels.add(levelOne);
 		levelPointer = 0;
@@ -138,10 +155,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		levels.get(levelPointer).renderLevel(canvas);
 	}
 	
-	private void initGameView() {
-		getHolder().addCallback(this);
-		gameLoop = new GameLoopThread(getHolder(), this);
-		setFocusable(true);
-	}
+	
         
 }

@@ -12,11 +12,13 @@ import android.util.Log;
 
 public class LifeBar extends GameObject {
 	private static final String TAG = LifeBar.class.getSimpleName();
-	private final float starting_bar = 100;
-	private float lifeBar = 100;
+	private final float startingLifeBar = 100;
+	private float life = startingLifeBar;
+//	private float previousLifeBar = startingLifeBar;
 	private boolean hit = false;
 	private float initialBitmapWidth;
-	private float damage;
+	private float newWidth;
+	private boolean dead;
 
 	public LifeBar(Bitmap bitmap, float x, float y, Rect rectangle) throws IllegalArgumentException {
 		super(bitmap, x, y, rectangle);
@@ -44,37 +46,48 @@ public class LifeBar extends GameObject {
 		return hit;
 	}
 	
-	public void setLifeBar(float lifeBar) {
-		this.lifeBar = lifeBar;
+	public void setLifeBar(float life) {
+		this.life = life;
 	}
 	
 	public float getLifeBar() {
-		return lifeBar;
+		return life;
+	}
+	
+	public void decreaseLife(float life) {
+		this.life = this.life - life;
+	}
+	
+	public void increaseLife(float life) {
+		this.life = this.life + life;
+	}
+	
+	public boolean isDead() {
+		return dead;
+	}
+	
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 	
 	@Override
 	public void initialize() {
-		getRect().set((int) getX(), (int) getY(), (int) (getX() + initialBitmapWidth), (int) (getY()) + getBitmapHeight());
+		newWidth = initialBitmapWidth;
+		getRect().set((int) getX(), (int) getY(), (int) (getX() + newWidth), (int) (getY()) + getBitmapHeight());
 	}
 
 	@Override
 	public void updateState() {
-		
 		if (hit) {
-			damage = (starting_bar - (starting_bar - lifeBar))/starting_bar;
-//			if (damage <= 0) {
-//				damage = 0.01f;
-//			}
-			int newWidth = (int) (damage*((float) initialBitmapWidth));
-			if (newWidth < 1) {
+			newWidth = initialBitmapWidth * (life/startingLifeBar);	
+			if (newWidth <= 1) {
 				newWidth = 1;
 			}
-			// TODO - REMOVE LOGGING
-			Log.d(TAG, "damage=" + damage);
-			
-			setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), newWidth, (int) getBitmapHeight(), true));
-			
 			hit = false;
+		}
+		
+		if (life <= 0) {
+			dead = true;
 		}
 	}
 	
@@ -83,12 +96,10 @@ public class LifeBar extends GameObject {
 		// Draw the bitmap if the object is set to be visible
 		if (isVisible()) {
 			// TODO: TEMPORARY "get(0)"
-			canvas.drawBitmap(getAnimations().get(0), getX()/* - getRectWidth()/2*/, getY()/* - getRectHeight()/2*/, null);
-			canvas.drawBitmap(getAnimations().get(1), getX()/* - getRectWidth()/2*/, getY()/* - getRectHeight()/2*/, null);
+			canvas.drawBitmap(Bitmap.createScaledBitmap(getAnimations().get(0), (int) newWidth, (int) getBitmapHeight(), true), getX(), getY(), null);
+			canvas.drawBitmap(getAnimations().get(1), getX(), getY(), null);
 
-			//canvas.drawBitmap(bitmaps.get(animationPointer), getRect(), getRect(), null);
-
-			// TODO - TEMPORARY: paint the rectangle green, just for collision-testing 
+			// TODO - TEMPORARY: paint the rectangle green, just for testing 
 			Paint paint = new Paint();
 			paint.setColor(Color.GREEN);
 			paint.setStyle(Style.STROKE);

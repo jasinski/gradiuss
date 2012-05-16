@@ -76,8 +76,6 @@ public class GameOverActivity extends Activity implements OnClickListener {
 				}
 			}
 			
-
-			
 			break;
 		case R.id.bMain:
 			startActivity(new Intent(this, StartGameActivity.class));
@@ -87,6 +85,11 @@ public class GameOverActivity extends Activity implements OnClickListener {
 			startActivity(new Intent(this, GameViewActivity.class));
 			break;
 		}
-		
+		finish();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		finish();
 	}
 }

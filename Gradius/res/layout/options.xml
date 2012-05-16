@@ -2,57 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/spelbakgrundny">
-    
-        <TextView
-        android:id="@+id/editText1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="5dp"
-        android:text=" " />
+    android:background="@drawable/spelbakgrundny"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/editText1"
+        android:id="@+id/tvOptions"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"        
-        android:text="Game Volume"
-        android:textSize="20dp"
+        android:ems="10"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"
+        android:text="Game Options"
         android:textColor="#705090"
-        android:typeface="monospace"
-        android:ems="10" />
+        android:textSize="35dp"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/tvMusicVolume"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:text="Game Volume"
+        android:textColor="#705090"
+        android:textSize="20dp"
+        android:typeface="monospace" />
 
     <SeekBar
-        android:id="@+id/seekBar1"
- 		android:layout_width="fill_parent"
- 		android:layout_height="wrap_content"
- 		android:layout_margin="20px"
- 		android:progress="50" />
-    
-            <TextView
-        android:id="@+id/editText1"
+        android:id="@+id/sbMusicVolume"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
-        android:text=" " />
-        
-        <TextView
-        android:id="@+id/editText1"
+        android:layout_margin="20px"
+        android:progress="50" />
+
+    <TextView
+        android:id="@+id/tvEffectsVolume"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:ems="10"
         android:gravity="center_horizontal"
         android:text="Soundeffects Volume"
-        android:textSize="20dp"
         android:textColor="#705090"
-        android:typeface="monospace"
-        android:ems="10" />
-    
+        android:textSize="20dp"
+        android:typeface="monospace" />
+
     <SeekBar
-        android:id="@+id/seekBar2"
-		android:layout_width="fill_parent"
- 		android:layout_height="wrap_content"
- 		android:layout_margin="20px"
- 		android:progress="50" />
-    
+        android:id="@+id/sbEffectsVolume"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20px"
+        android:progress="50" />
+
+    <Button
+        android:id="@+id/bMain"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/main"
+        android:textColor="#705090"
+        android:textSize="30dp"
+        android:typeface="monospace" />
+
 </LinearLayout>

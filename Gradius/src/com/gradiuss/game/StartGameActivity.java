@@ -3,6 +3,7 @@ package com.gradiuss.game;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,18 +15,32 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startgame);
+        
+        int test = 2345;
+        int[] array = new int[4];
+        for (int i = array.length-1; i >= 0; i--) {
+        	array[i] = test % 10;
+        	test = test / 10;
+        }
+        
+        for (int j = 0; j < array.length; j++) {
+        	Log.d(TAG, "array=" + array[j]);
+        }
+        
          
         Button bStartGame = (Button) findViewById(R.id.bStartGame);
         Button bHighScore = (Button) findViewById(R.id.bHighScore);
         Button bOptions = (Button) findViewById(R.id.bOptions);
         Button bAbout = (Button) findViewById(R.id.bAbout);
         Button bHelp = (Button) findViewById(R.id.bHelp);
+        Button bQuitGame = (Button) findViewById(R.id.bQuitGame);
 
         bStartGame.setOnClickListener(this);
         bHighScore.setOnClickListener(this);
         bOptions.setOnClickListener(this);
         bAbout.setOnClickListener(this);
         bHelp.setOnClickListener(this);
+        bQuitGame.setOnClickListener(this);
 
     }
 
@@ -45,6 +60,10 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
 			break;
 		case R.id.bHelp:
 			showAbout(new Intent("android.intent.action.HELPACTIVITY"));
+			break;
+		case R.id.bQuitGame:
+			// TODO: EXIT GAME !!!
+			finish();
 			break;
 			
 		}

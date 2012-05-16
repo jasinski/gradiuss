@@ -14,4 +14,9 @@ public class AboutActivity extends Activity {
 		setContentView(R.layout.about);
 		
 	}
+	
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 }

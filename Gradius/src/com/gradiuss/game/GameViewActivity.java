@@ -175,6 +175,9 @@ public class GameViewActivity extends Activity {
 	protected void onResume() {
 		Log.d(TAG, "Resuming...");
 		super.onResume();
+		if (gameView.gameLoop == null) {
+			gameView.initGameView();
+		}
 		gameView.gameLoop.resumeThread();
 	}
 	

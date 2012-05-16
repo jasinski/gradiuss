@@ -68,5 +68,19 @@
         android:textSize="30dp"
         android:typeface="monospace"
         android:color="#705090" />
+    
+    <Button
+        android:id="@+id/bQuitGame"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:onClick="HelpMethod"
+        android:state_pressed="true"
+        android:text="@string/quit_game"
+        android:textColor="@drawable/text_color"
+        android:textSize="30dp"
+        android:typeface="monospace"
+        android:color="#705090" />
+    
 
 </LinearLayout>

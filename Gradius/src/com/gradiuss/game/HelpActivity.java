@@ -13,4 +13,9 @@ public class HelpActivity extends Activity{
 		setContentView(R.layout.help);
 		
 	}	
+	
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 }

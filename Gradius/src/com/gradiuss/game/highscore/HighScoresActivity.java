@@ -43,10 +43,12 @@ public class HighScoresActivity extends Activity implements OnClickListener {
 			startActivity(new Intent(this, StartGameActivity.class));
 			break;
 		}
+		finish();
 	}
 	
 	@Override
 	public void onBackPressed() {
+		finish();
 	}
 
 }
