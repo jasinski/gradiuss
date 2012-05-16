@@ -58,7 +58,7 @@ public class GameOverActivity extends Activity implements OnClickListener {
 			HighScores entry = new HighScores(GameOverActivity.this);
 			entry.open();
 			entry.createEntry(name, score);
-			Log.d(TAG,entry.getData());
+//			Log.d(TAG,entry.getData());
 			entry.close();
 			
 			

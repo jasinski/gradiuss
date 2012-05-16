@@ -1,5 +1,7 @@
 package com.gradiuss.game.highscore;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -78,8 +80,33 @@ public class HighScores {
 
 	}
 
-	// Fetching data from a table
-	public String getData() {
+//	// Fetching data from a table
+//	public String getData() {
+//
+//		String[] columns = new String[] { KEY_NAME, KEY_HIGHSCORE };
+//
+//		// How the select statement should be presented
+//		Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null,
+//				null, KEY_HIGHSCORE + " DESC", "10");
+//
+//		String result = "";
+//
+//		int iRow = c.getColumnIndex(KEY_ROWID);
+//		int iName = c.getColumnIndex(KEY_NAME);
+//		int iHighscore = c.getColumnIndex(KEY_HIGHSCORE);
+//
+//		// Looping threw all of the rows and storing them in a string
+//		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+//			result = result + c.getString(iName) + "                      "
+//					+ c.getString(iHighscore) + "\n";
+//
+//		}
+//		Log.d(TAG, result);
+//		return result;
+//	}
+	
+	// TESTING: Fetching data from a table
+	public ArrayList<String[]> getData() {
 
 		String[] columns = new String[] { KEY_NAME, KEY_HIGHSCORE };
 
@@ -87,19 +114,24 @@ public class HighScores {
 		Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null,
 				null, KEY_HIGHSCORE + " DESC", "10");
 
-		String result = "";
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		
 
 		int iRow = c.getColumnIndex(KEY_ROWID);
 		int iName = c.getColumnIndex(KEY_NAME);
 		int iHighscore = c.getColumnIndex(KEY_HIGHSCORE);
-
+		
+		// Testing
+		
 		// Looping threw all of the rows and storing them in a string
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			result = result + c.getString(iName) + "                      "
-					+ c.getString(iHighscore) + "\n";
+			String[] temp = new String[2];
+			temp[0] = c.getString(iName);
+			temp[1] = c.getString(iHighscore);
+			result.add(temp);
 
 		}
-		Log.d(TAG, result);
+		Log.d(TAG, "result" + result);
 		return result;
 	}
 
