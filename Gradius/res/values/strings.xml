@@ -7,7 +7,7 @@
     <string name="start_game">Start Game</string>
     <string name="options">Options</string>
     <string name="highscore">Highscore</string>
-    <string name="quit_game">Quit Game</string>
+    <string name="quit_game">Quit</string>
     
     <!-- GameOver -->
     <string name="restart">Restart</string>
