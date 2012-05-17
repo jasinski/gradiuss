@@ -21,7 +21,7 @@
         android:textSize="13dp"
         android:textColor="#705090"
         android:typeface="monospace"
-        android:text="The aim is to fly the spaceship as far as possible. There will be asteroids in the way and attacking ships that will try to shot the spaceship down. To avoid these obstacles the user has to use the control buttons and/or the fire button to destroy the obstacles. The user can also change the weapon by pushing the button to the left of the fire button. The blue weapon will fire faster but hits a smaller area, the yellow weapon will hit a bigger area but fires slower."
+        android:text="Gradius the aim is to fly the spaceship as far as possible. There will be asteroids and attacking ships that will try to shot the spaceship down. To avoid these obstacles the user has to use the control buttons and/or the fire button to destroy the them, The user can also change the weapon by pushing the button to the left of the fire button. The weapon that fires projectiles will fire faster but hits a smaller area, the weapon that fires bullets will hit a bigger area but fires slower." 
         android:textStyle="bold" />
     
     <TextView

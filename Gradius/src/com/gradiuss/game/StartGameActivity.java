@@ -16,17 +16,6 @@ public class StartGameActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startgame);
         
-        int test = 2345;
-        int[] array = new int[4];
-        for (int i = array.length-1; i >= 0; i--) {
-        	array[i] = test % 10;
-        	test = test / 10;
-        }
-        
-        for (int j = 0; j < array.length; j++) {
-        	Log.d(TAG, "array=" + array[j]);
-        }
-        
          
         Button bStartGame = (Button) findViewById(R.id.bStartGame);
         Button bHighScore = (Button) findViewById(R.id.bHighScore);

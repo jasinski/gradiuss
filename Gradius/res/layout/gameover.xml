@@ -13,7 +13,7 @@
         android:gravity="center_horizontal"
         android:text="@string/gameover"
         android:textColor="#705090"
-        android:textSize="50dp"
+        android:textSize="40dp"
         android:textStyle="bold" />
 
     <TextView
@@ -30,16 +30,11 @@
         android:id="@+id/etPlayer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10" >
 
         <requestFocus />
     </EditText>
-
-    <Button
-       	android:id="@+id/bSaveScores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/high_scores" />
 
     <TextView
         android:id="@+id/tvHighScore"
@@ -56,12 +51,19 @@
         android:id="@+id/tvScore"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:text="Score"
-        android:textColor="#705090"
-        android:textSize="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFBB00"
+        android:textSize="35dp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/bSaveScores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/high_scores" />
 
     <Button
         android:id="@+id/bMain"

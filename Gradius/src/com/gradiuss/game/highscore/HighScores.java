@@ -131,7 +131,7 @@ public class HighScores {
 			result.add(temp);
 
 		}
-		Log.d(TAG, "result" + result);
+//		Log.d(TAG, "result" + result);
 		return result;
 	}
 

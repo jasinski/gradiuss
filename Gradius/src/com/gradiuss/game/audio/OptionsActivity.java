@@ -54,12 +54,10 @@ public class OptionsActivity extends Activity implements
 		switch (seekBar.getId()) {
 		case R.id.sbMusicVolume:
 			volumeEditor.putInt("music_volume", progress);
-			Log.d("TAG", "music_volume=" + progress);
 			volumeEditor.commit();
 			break;
 		case R.id.sbEffectsVolume:
 			volumeEditor.putInt("effects_volume", progress);
-			Log.d("TAG", "effects_volume=" + progress);
 			volumeEditor.commit();
 			break;
 		}		
