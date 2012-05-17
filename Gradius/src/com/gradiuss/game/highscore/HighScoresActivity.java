@@ -47,7 +47,7 @@ public class HighScoresActivity extends Activity implements OnClickListener {
 		
 		for (int i = 0; i < highScoreList.size(); i++) {
 			
-			Log.d(TAG, i + ": " + highScoreList.get(i)[0] + ", " +highScoreList.get(i)[1]);
+//			Log.d(TAG, i + ": " + highScoreList.get(i)[0] + ", " +highScoreList.get(i)[1]);
 			TableRow trTemp = new TableRow(this);
 			trTemp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));	
 			

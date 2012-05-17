@@ -9,104 +9,80 @@
         android:id="@+id/tvGameOver"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
         android:ems="10"
         android:gravity="center_horizontal"
         android:text="@string/gameover"
         android:textColor="#705090"
-        android:textSize="50dp"
+        android:textSize="40dp"
         android:textStyle="bold" />
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:id="@+id/tvPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/user"
+        android:textColor="#705090"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etPlayer"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:ems="10" >
 
-        <TextView
-            android:id="@+id/tvHighScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tvScore"
-            android:layout_marginLeft="10dp"
-            android:text="@string/highscore"
-            android:textColor="#705090"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+        <requestFocus />
+    </EditText>
 
-        <TextView
-            android:id="@+id/tvScore"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/tvHighScore"
-            android:gravity="center"
-            android:text="Score"
-            android:textColor="#ffffff"
-            android:textSize="60dp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="@string/highscore"
+        android:textColor="#705090"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:id="@+id/tvScore"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/tvPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_alignBaseline="@+id/etPlayer"
-            android:text="@string/user"
-            android:textColor="#705090"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/etPlayer"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tvPlayer"
-            android:layout_marginLeft="14dp"
-            android:ems="10"
-            android:maxLength="10" >
-
-            <requestFocus />
-        </EditText>
-
-        <Button
-            android:id="@+id/bSaveScores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/etPlayer"
-            android:text="@string/high_scores" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Score"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFBB00"
+        android:textSize="35dp"
+        android:textStyle="bold" />
 
     <Button
-        android:id="@+id/bRestart"
+        android:id="@+id/bSaveScores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/high_scores" />
+
+    <Button
+        android:id="@+id/bMain"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.2"
+        android:layout_height="wrap_content"
         android:background="@null"
-        android:onClick="OptionsMethod"
-        android:text="@string/restart"
+        android:onClick="StartGameMethod"
+        android:text="@string/main"
         android:textColor="#705090"
         android:textSize="30dp"
         android:typeface="monospace" />
 
     <Button
-        android:id="@+id/bMain"
+        android:id="@+id/bRestart"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.1"
+        android:layout_height="wrap_content"
         android:background="@null"
-        android:onClick="StartGameMethod"
-        android:text="@string/main"
+        android:onClick="OptionsMethod"
+        android:text="@string/restart"
         android:textColor="#705090"
         android:textSize="30dp"
         android:typeface="monospace" />

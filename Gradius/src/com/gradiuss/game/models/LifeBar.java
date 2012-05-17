@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class LifeBar extends GameObject {
 	private static final String TAG = LifeBar.class.getSimpleName();
-	private final float startingLifeBar = 100;
+	private final float startingLifeBar = 250;
 	private float life = startingLifeBar;
 //	private float previousLifeBar = startingLifeBar;
 	private boolean hit = false;
@@ -100,10 +100,10 @@ public class LifeBar extends GameObject {
 			canvas.drawBitmap(getAnimations().get(1), getX(), getY(), null);
 
 			// TODO - TEMPORARY: paint the rectangle green, just for testing 
-			Paint paint = new Paint();
-			paint.setColor(Color.GREEN);
-			paint.setStyle(Style.STROKE);
-			canvas.drawRect(getRect(), paint);
+//			Paint paint = new Paint();
+//			paint.setColor(Color.GREEN);
+//			paint.setStyle(Style.STROKE);
+//			canvas.drawRect(getRect(), paint);
 
 		}
 	}

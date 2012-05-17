@@ -104,11 +104,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		initLevels();	
 		
 		// Starting game loop
-		if (gameLoop.isAlive()) {
-			Log.d(TAG, "Its Alive!");
-		} else {
-			Log.d(TAG, "Its dead!");
-		}
 		gameLoop.setRunning(true);
 		gameLoop.start();
 

@@ -66,8 +66,6 @@ public class GameViewActivity extends Activity {
 			
 			public boolean onTouch(View v, MotionEvent event) {
 				
-				Log.d(TAG, event.getX() + "");
-				
 				// Move spaceship right
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bRightPad.setPressed(true);
@@ -131,7 +129,6 @@ public class GameViewActivity extends Activity {
 				
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.levels.get(gameView.levelPointer).changeWeapon();
-					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
 			}
@@ -145,15 +142,12 @@ public class GameViewActivity extends Activity {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					bFire.setPressed(true);
 					gameView.levels.get(gameView.levelPointer).getSpaceShip().setShooting(true);
-					Log.d(TAG, "shooting...");
-
 				}
 				
 				// Stop shooting
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					gameView.levels.get(gameView.levelPointer).getSpaceShip().setShooting(false);
 					bFire.setPressed(false);
-					Log.d(TAG, "...stopped shooting");
 				}
 				return true;
 			}
@@ -165,7 +159,7 @@ public class GameViewActivity extends Activity {
 	
 	@Override
 	protected void onPause() {
-		Log.d(TAG, "Pausing...");
+//		Log.d(TAG, "Pausing...");
 		super.onPause();
 		gameView.gameLoop.pauseThread();
 //		gameSong.release();
@@ -173,7 +167,7 @@ public class GameViewActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
-		Log.d(TAG, "Resuming...");
+//		Log.d(TAG, "Resuming...");
 		super.onResume();
 		if (gameView.gameLoop == null) {
 			gameView.initGameView();
@@ -183,25 +177,25 @@ public class GameViewActivity extends Activity {
 	
 	@Override
 	protected void onDestroy() {
-		Log.d(TAG, "Destroying...");
+//		Log.d(TAG, "Destroying...");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onStop() {
-		Log.d(TAG, "Stopping...");
+//		Log.d(TAG, "Stopping...");
 		super.onStop();
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		Log.d(TAG, "Saving state...");
+//		Log.d(TAG, "Saving state...");
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		Log.d(TAG, "Restoring state...");
+//		Log.d(TAG, "Restoring state...");
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 

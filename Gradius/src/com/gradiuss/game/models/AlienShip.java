@@ -55,7 +55,7 @@ public class AlienShip extends Enemy {
 					setMoveLeft(false);
 					setShooting(true);
 					float x = (float)(0.3 * (float) target.getBitmapWidth());
-					Log.d(TAG, "the float = " + x + ", xDiff = " + xDiff);
+//					Log.d(TAG, "the float = " + x + ", xDiff = " + xDiff);
 				}
 			} 
 			//negative xDiff => coming from left
@@ -66,7 +66,7 @@ public class AlienShip extends Enemy {
 					setMoveRight(false);
 					setShooting(true);
 					float x = (float)(0.3 * (float) target.getBitmapWidth());
-					Log.d(TAG, "the float = " + x + ", xDiff = " + xDiff);
+//					Log.d(TAG, "the float = " + x + ", xDiff = " + xDiff);
 				}
 			} 
 			else {
