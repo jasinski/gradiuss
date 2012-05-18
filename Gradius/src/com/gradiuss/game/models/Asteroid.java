@@ -61,7 +61,7 @@ public class Asteroid extends Enemy {
 			float newDamage = shrinkPercentage*getDamage();
 //			Log.d(TAG, "newDamage=" + newDamage);
 			
-			setDamage((int)(newDamage));
+			setDamage(newDamage);
 //			Log.d(TAG, "damage=" + getDamage());
 			
 			setHit(false);
