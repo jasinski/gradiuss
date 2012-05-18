@@ -11,8 +11,6 @@ public class SoundEffects {
 	private Context context;
 	private int projectileTypeOne = 0;
 	private int explosion = 0;
-	private float shootVolume = 0;
-	private float explosionVolume = 0;
 	private static float effectsVolume;
 	
 	
@@ -23,12 +21,10 @@ public class SoundEffects {
 	
 	// Set sound
 	public void setShootSound(int resId, float volume) {
-		shootVolume = volume;
 		projectileTypeOne = soundPool.load(this.context, resId, 1);
 	}
 	
 	public void setExplosionSound(int resId, float volume) {
-		explosionVolume = volume;
 		explosion = soundPool.load(this.context, resId, 1);
 	}
 	

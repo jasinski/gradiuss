@@ -24,7 +24,6 @@ public class TypeOneProjectile extends Projectile {
 	
 	public TypeOneProjectile(Projectile projectile) {
 		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
-//		this.setRect(projectile.getRect());
 		this.setDamage(projectile.getDamage());
 		this.setFireInterval(projectile.getFireInterval());	
 		this.setVisible(projectile.isVisible());

@@ -5,9 +5,6 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
 public abstract class GameObject {
@@ -169,25 +166,28 @@ public abstract class GameObject {
 		this.windowWidth = width;
 	}
 	
-//	 This method should be overridden by the extending class. 
-//	 The overriding method should call "super.updateState()" at the end of the method 
-//	 to automatically update the rectangle to fit the size of the bitmap.
-//	 Otherwise the updating of the rectangle should be implemented explicitly.
+	/**
+	 * This method should be overridden by the extending class. 
+	 * The overriding method should call "super.updateState()" at the end of the method 
+	 * to automatically update the rectangle to fit the size of the bitmap.
+	 * Otherwise the updating of the rectangle should be implemented explicitly.
+	 */
 	public void updateState() {
 		
 		// Update rectangle
 		getRect().set((int) getX() - getBitmapWidth()/2, (int) getY() - getBitmapHeight()/2, (int) getX() + getBitmapWidth()/2, (int) (getY()) + getBitmapHeight()/2);
 	}
 	
-	// Paint the new image with the middle at the coordinates and not the edge
+	/**
+	 *  Paint the new image with the middle at the coordinates and not the edge
+	 * @param canvas
+	 */
 	public void draw(Canvas canvas) {
 		
 		// Draw the bitmap if the object is set to be visible
 		if (visible) {
 			// TODO: TEMPORARY "get(0)"
-			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);
-			//canvas.drawBitmap(bitmaps.get(animationPointer), getRect(), getRect(), null);
-	
+			canvas.drawBitmap(bitmaps.get(animationPointer), x - getRectWidth()/2, y - getRectHeight()/2, null);	
 		}
 	}
 	

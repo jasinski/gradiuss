@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class ParallaxBackground extends MovingObject {
 	private static final String TAG = ParallaxBackground.class.getSimpleName();
@@ -38,9 +37,20 @@ public class ParallaxBackground extends MovingObject {
 		return this.screenHeight;
 	}
 	
+	/**
+	 * Adding a new parallax background.
+	 * @param bitmap
+	 * @param movementSpeed
+	 */
 	public void addBackground(Bitmap bitmap, float movementSpeed) {
+		
+		// Calculating the number of images needed to fill the screen
 		int nrOfBgImages = calculateBgImages(bitmap.getHeight());
+		
+		// Array with size = nrOfBgImages
 		Background[] bgArray = new Background[nrOfBgImages];
+		
+		// Filling the array with Background-objects
 		for (int i = 0; i < bgArray.length; i++) {
 			bgArray[i] = new Background(bitmap, movementSpeed, nrOfBgImages);
 			bgArray[i].setBitmap(bitmap);
@@ -51,6 +61,10 @@ public class ParallaxBackground extends MovingObject {
 		bitmaps.add(bgArray);
 	}
 	
+	/**
+	 * Remove a background.
+	 * @param position
+	 */
 	public void removeBackground(int position) {
 		bitmaps.remove(position);
 	}
@@ -59,30 +73,20 @@ public class ParallaxBackground extends MovingObject {
 		
 	}
 	
+	// Calculate how many background images are needed to cover the whole screen.
 	private int calculateBgImages(int bitmapHeight) {
-		// Calculate how many background images are needed to cover the whole screen
 		return (int) Math.ceil(screenHeight/bitmapHeight) + 1;
 	}
 	
-//	public void initParallaxBackground() {
-//		for (Background[] bgArray : bitmaps) {
-//			for (int i = 0; i < bgArray.length; i++) {
-//				bgArray[i].setX(screenWidth/2);
-//				bgArray[i].setY(screenHeight - bgArray[i].getBitmap().getHeight()/2 - i*bgArray[i].getBitmap().getHeight());
-//			}
-//		}
-//	}
-	
-	
+	// Scroll the backgrounds
 	@Override
 	public void updateState() {
 		for (Background[] bgArray : bitmaps) {
 			for (Background background : bgArray) {
 				background.setY(background.getY() + background.getMovementSpeed());
 				
-//				Log.d(TAG, "screen height(ParallaxBg) = " + screenHeight + ", test = " + background.getBitmap().getHeight()/2);
 				
-				if (background.getY() >= 2*screenHeight/* + background.getBitmap().getHeight()/2*/) {
+				if (background.getY() >= 2*screenHeight) {
 					background.setY((int) background.getY() - background.getRedrawPosition());
 				}
 			}
@@ -90,6 +94,7 @@ public class ParallaxBackground extends MovingObject {
 		
 	}
 	
+	// Draw the backgrounds
 	public void draw(Canvas canvas) {
 		// Draw the bitmap if the object is set to be visible
 		for (Background[] bgArray : bitmaps) {

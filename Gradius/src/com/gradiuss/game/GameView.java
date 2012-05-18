@@ -1,33 +1,18 @@
 package com.gradiuss.game;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gradiuss.game.levels.Level;
 import com.gradiuss.game.levels.LevelOne;
-import com.gradiuss.game.models.Enemy;
-import com.gradiuss.game.models.Explosion;
-import com.gradiuss.game.models.SpaceShip;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-
-	
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
-	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	
 	private static final String TAG = GameView.class.getSimpleName();
 	
 	// Levels
@@ -44,15 +29,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Game time
 	long startGameTime;
 	long totalGameTime = 0;
-		
-	public GameView(Context context, AttributeSet attributes) {
-		super(context, attributes);
-//		initGameView();
-	}
 	
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Initializing ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	
+	public GameView(Context context, AttributeSet attributes) {
+		super(context, attributes);
+//		initGameView();
+	}
 	
 	public void initGameView() {
 		getHolder().addCallback(this);
@@ -81,7 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		// TODO: Should not be called, since the GameView is locked to portrait mode!
+		// Should not be called, since the GameView is locked to portrait mode!
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder holder) {
@@ -100,17 +85,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	
-
 	public void initLevels() {
+		
+		// Initializing level(s)
 		levels = new ArrayList<Level>();
 		LevelOne levelOne = new LevelOne(this.getContext(), gameLoop, width, height);
 		levelOne.initializeLevel();
 		levels.add(levelOne);
+		
+		// Current level = 0
 		levelPointer = 0;
 	}
 	
-
 	public void updateLevel() {
 		levels.get(levelPointer).initializeLevel();
 	}

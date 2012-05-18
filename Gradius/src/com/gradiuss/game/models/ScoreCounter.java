@@ -46,7 +46,7 @@ public class ScoreCounter extends GameObject {
 
 	@Override
 	public void updateState() {
-		//make score number to integer array
+		// Make score number to integer array
 		int scoreTransitional = score;
 		numbersArray = new int[10];
 		for(int i = 0; i < numbersArray.length; i++) {

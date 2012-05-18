@@ -4,17 +4,12 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class LifeBar extends GameObject {
 	private static final String TAG = LifeBar.class.getSimpleName();
 	private final float startingLifeBar = 250;
 	private float life = startingLifeBar;
-//	private float previousLifeBar = startingLifeBar;
 	private boolean hit = false;
 	private float initialBitmapWidth;
 	private float newWidth;
@@ -79,7 +74,10 @@ public class LifeBar extends GameObject {
 	@Override
 	public void updateState() {
 		if (hit) {
+			
+			// Calculating the new width of the life bar
 			newWidth = initialBitmapWidth * (life/startingLifeBar);	
+			
 			if (newWidth <= 1) {
 				newWidth = 1;
 			}
@@ -95,16 +93,8 @@ public class LifeBar extends GameObject {
 	public void draw(Canvas canvas) {
 		// Draw the bitmap if the object is set to be visible
 		if (isVisible()) {
-			// TODO: TEMPORARY "get(0)"
 			canvas.drawBitmap(Bitmap.createScaledBitmap(getAnimations().get(0), (int) newWidth, (int) getBitmapHeight(), true), getX(), getY(), null);
 			canvas.drawBitmap(getAnimations().get(1), getX(), getY(), null);
-
-			// TODO - TEMPORARY: paint the rectangle green, just for testing 
-//			Paint paint = new Paint();
-//			paint.setColor(Color.GREEN);
-//			paint.setStyle(Style.STROKE);
-//			canvas.drawRect(getRect(), paint);
-
 		}
 	}
 	

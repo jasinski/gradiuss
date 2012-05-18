@@ -15,6 +15,8 @@ public class Explosion extends GameObject {
 	}
 	
 	public void updateState() {
+		
+		// Change the animation everytime this is called
 		nextAnimation();
 		super.updateState();
 	}
@@ -27,7 +29,7 @@ public class Explosion extends GameObject {
 		
 	public boolean lastFrame() {
 		return getAnimationPointer() == getAnimations().size()-1;
-		   //Sound of explosion
+		//Sound of explosion
 	}
 	
 }

@@ -73,6 +73,7 @@ public class SpaceShip extends MovingObject {
 	
 	@Override
 	public void updateState() {
+		
 		// Update movement
 		if (moveLeft) {	
 			setX((getX() + (getVx() * MovingObject.DIRECTION_LEFT)));
@@ -94,6 +95,7 @@ public class SpaceShip extends MovingObject {
 			hit = false;
 		}
 		
+		// Change bitmap when spaceship is hit
 		if (getAnimationPointer() == 1) {
 			if (counter == 2) {
 				setAnimationPointer(0);

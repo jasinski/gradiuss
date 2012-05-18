@@ -1,9 +1,7 @@
 package com.gradiuss.game;
 
-import android.os.Bundle;
 import android.app.Activity;
-import com.gradiuss.game.R;
-import com.gradiuss.game.highscore.HighScoresActivity;
+import android.os.Bundle;
 
 
 public class AboutActivity extends Activity {
@@ -11,8 +9,7 @@ public class AboutActivity extends Activity {
 	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.about);
-		
+		setContentView(R.layout.about);	
 	}
 	
 	@Override

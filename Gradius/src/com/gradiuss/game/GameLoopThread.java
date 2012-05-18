@@ -1,12 +1,9 @@
 package com.gradiuss.game;
 
-import com.gradiuss.game.audio.GameMusic;
-
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
-// :::::::::::::::::::::::::::::::::::::::::::::: GameLoopThread ::::::::::::::::::::::::::::::::::::::::::::::
+import com.gradiuss.game.audio.GameMusic;
 
 public class GameLoopThread extends Thread {
 	private final String TAG = GameLoopThread.class.getSimpleName();
@@ -28,7 +25,10 @@ public class GameLoopThread extends Thread {
 	
 	@Override
 	public void run() {
+		
+		// Canvas
 		Canvas canvas;
+		
 		// FPS
 		long startTime;
 		long endTime;
@@ -39,9 +39,11 @@ public class GameLoopThread extends Thread {
 		while (running) {
 			canvas = null;
 			try {
+				
 				// Locking canvas so that objects can draw themselves on it
 				canvas = this.surfaceHolder.lockCanvas();
 				synchronized (surfaceHolder) {
+					
 					// Start timer
 					startTime = System.currentTimeMillis();
 					
@@ -76,11 +78,8 @@ public class GameLoopThread extends Thread {
 					// Game time
 					gameView.levels.get(gameView.levelPointer).setTotalGameTime(System.nanoTime() - gameView.levels.get(gameView.levelPointer).getStartGameTime());
 
-					
-					// TODO - REMOVE: LOGGIN GAME TIME
-//					Log.d(TAG, "Total game time:" + gameView.totalGameTime + ", TimeDifference: " + (gameView.totalGameTime - old));
-					
 				}
+				
 			} finally {
 				if (canvas != null) {
 					
@@ -96,20 +95,14 @@ public class GameLoopThread extends Thread {
 	 * Wrapper for the actual update method in the game view.
 	 */
 	public void updateGameState() {
-		// TESTING
 		gameView.levels.get(gameView.levelPointer).updateLevel();
-		// TESTING
-//		gameView.updateState();
 	}
 	
 	/**
 	 * Wrapper for the actual rendering method in the game view.
 	 */
 	public void renderGameState(Canvas canvas) {
-		// TESTING
 		gameView.levels.get(gameView.levelPointer).renderLevel(canvas);
-		// TESTING
-//		gameView.renderState(canvas);
 	}
 	
 	public void setRunning(boolean running) {
@@ -121,7 +114,6 @@ public class GameLoopThread extends Thread {
 	}
 	
 	public void pauseThread() {
-		// TODO: TEMPORARY
 		GameMusic.stopMusic();
 		running = false;
 		while (true) {
