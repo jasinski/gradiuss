@@ -18,4 +18,5 @@ android update test-project -m ../Gradius -p TestGradius/
 # run tests.
 #
 cd TestGradius
-ant run-tests
+ant test
+#
