@@ -25,13 +25,19 @@ public class ProjectileTest extends InstrumentationTestCase {
 	private List<Bitmap> listBitmaps;
 
 	public void setUp() throws Exception {
-		testProjectile1 = new TypeOneProjectile();
-		testProjectile2 = new TypeOneProjectile();
-		rect = new Rect(30, 30, 35, 35);
-	
+//		testProjectile1 = new TypeOneProjectile();
+//		testProjectile2 = new TypeOneProjectile();
+		
 		res = getInstrumentation().getContext().getResources();
+		
 		bitmap1 = BitmapFactory.decodeResource(res, R.drawable.projectile1);
 		bitmap2 = BitmapFactory.decodeResource(res, R.drawable.projectile2);
+		
+		testProjectile1 = new TypeOneProjectile(bitmap1, 10, 10);
+		testProjectile2 = new TypeOneProjectile(bitmap2, 10, 10);
+		
+		rect = new Rect(30, 30, 35, 35);
+
 		
 		listBitmaps = new ArrayList<Bitmap>();
 		listBitmaps.add(bitmap1);
@@ -43,7 +49,9 @@ public class ProjectileTest extends InstrumentationTestCase {
 	}
 
 	public void testProjectileConstructors() {
-		Projectile projectile1 = new TypeOneProjectile();
+//		Projectile projectile1 = new TypeOneProjectile();
+		Projectile projectile1 = new TypeOneProjectile(bitmap2, 10, 10);
+		
 		Assert.assertNotNull(projectile1);
 
 		projectile1.addBitmap(0, bitmap1);
