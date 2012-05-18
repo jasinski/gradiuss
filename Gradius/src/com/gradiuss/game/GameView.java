@@ -27,15 +27,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	// :::::::::::::::::::::::::::::::::::::::::::::: Fields ::::::::::::::::::::::::::::::::::::::::::::::
 	// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-	
-	//Sound variables 
-	private SoundPool sounds;
-	private int sExplosion;
-	MediaPlayer explosion;
-	
-	//Random generator
-	Random r;
 	
 	private static final String TAG = GameView.class.getSimpleName();
 	
@@ -53,28 +44,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	// Game time
 	long startGameTime;
 	long totalGameTime = 0;
-	
-	// SpaceShip
-	public SpaceShip spaceShip;
-	
-	// Enemies
-	public List<Enemy> enemies;
-	
-	// Explosions
-	public List<Explosion> explosions;
-	float explosionFrameTime; // Measures how long time an explosion-frame last.
-	
-	// BITMAPS
-	// Background
-	Bitmap bmSpaceShip;
-	Bitmap bmSpaceShipHit;
-	Bitmap bmTypeOneProjectile1;
-	Bitmap bmTypeOneProjectile2;
-	Bitmap bmAsteroid;
-	Bitmap bmAlienShip;
-	
-	// Array of Explosion Frames
-	List<Bitmap> bmExplosionFrames = new ArrayList<Bitmap>(9);
 		
 	public GameView(Context context, AttributeSet attributes) {
 		super(context, attributes);
@@ -104,11 +73,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		initLevels();	
 		
 		// Starting game loop
-		if (gameLoop.isAlive()) {
-			Log.d(TAG, "Its Alive!");
-		} else {
-			Log.d(TAG, "Its dead!");
-		}
 		gameLoop.setRunning(true);
 		gameLoop.start();
 
@@ -117,7 +81,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		// TODO: Fixa till senare!
+		// TODO: Should not be called, since the GameView is locked to portrait mode!
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder holder) {

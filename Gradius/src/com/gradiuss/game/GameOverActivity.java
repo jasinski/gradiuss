@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gradiuss.game.highscore.HighScores;
 
@@ -49,43 +50,55 @@ public class GameOverActivity extends Activity implements OnClickListener {
 		switch (v.getId()){
 		// Adding the given values from the editText and inserting them to the table
 		case R.id.bSaveScores:
-			boolean didItWork = true;
-			try{
 			
 			String name = etName.getText().toString();
 			String score = tvScore.getText().toString();
 			
-			HighScores entry = new HighScores(GameOverActivity.this);
-			entry.open();
-			entry.createEntry(name, score);
-			Log.d(TAG,entry.getData());
-			entry.close();
+			if (!name.equals("")) {
 			
-			
-			}catch (Exception e){
-				didItWork = false;
-				String error = e.toString();
+				boolean didItWork = true;
+				try{
 				
 				
-			}finally{
-				//Popup messages after inserting a value in the table
-				if(didItWork){
-					Intent i = new Intent("android.intent.action.HIGHSCORESACTIVITY");
-					startActivity(i);
-					finish();
+				
+				HighScores entry = new HighScores(GameOverActivity.this);
+				entry.open();
+				entry.createEntry(name, score);
+	//			Log.d(TAG,entry.getData());
+				entry.close();
+				
+				
+				}catch (Exception e){
+					didItWork = false;
+					String error = e.toString();
+					
+					
+				}finally{
+					//Popup messages after inserting a value in the table
+					if(didItWork){
+						Intent i = new Intent("android.intent.action.HIGHSCORESACTIVITY");
+						startActivity(i);
+						finish();
+					}
 				}
+				finish();
+			} else {
+				Toast toastNoName = Toast.makeText(this, "Fill in the field to save your score!", Toast.LENGTH_LONG);
+				toastNoName.show();
 			}
 			
 			break;
 		case R.id.bMain:
 			startActivity(new Intent(this, StartGameActivity.class));
+			finish();
 			break;
 			
 		case R.id.bRestart:
 			startActivity(new Intent(this, GameViewActivity.class));
+			finish();
 			break;
 		}
-		finish();
+		
 	}
 	
 	@Override

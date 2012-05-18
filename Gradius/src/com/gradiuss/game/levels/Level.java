@@ -117,9 +117,7 @@ public abstract class Level {
 	 * @param intent
 	 */
 	public void gameOver(Bundle bundle) {
-		
-		Log.d(TAG, "Game Over, sätter gameLoop = null");
-		
+				
 		Intent intent = new Intent("android.intent.action.GAMEOVERACTIVITY");
 		intent.putExtras(bundle);
 		context.startActivity(intent);

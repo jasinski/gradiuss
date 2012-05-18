@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/spelbakgrundnypng" >
 
     <TableLayout
         android:id="@+id/tlScores"
@@ -15,21 +16,25 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:text="Names" />
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Player"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#705090"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Highscore" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Highscore"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#705090"
+                android:textStyle="bold" />
         </TableRow>
     </TableLayout>
-
-    <TextView
-        android:id="@+id/tvSQLinfo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tlScores"
-        android:text="Get info from db" />
 
     <Button
         android:id="@+id/bMain"
