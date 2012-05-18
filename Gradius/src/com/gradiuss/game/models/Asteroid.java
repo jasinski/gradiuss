@@ -59,7 +59,8 @@ public class Asteroid extends Enemy {
 			
 			float newDamage = shrinkPercentage*getDamage();
 			
-			setDamage((int)(newDamage));
+
+			setDamage(newDamage);
 			
 			setHit(false);
 		}

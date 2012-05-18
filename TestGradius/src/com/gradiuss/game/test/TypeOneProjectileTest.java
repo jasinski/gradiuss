@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.test.InstrumentationTestCase;
-
 import com.gradiuss.game.models.Projectile;
 import com.gradiuss.game.models.TypeOneProjectile;
 
