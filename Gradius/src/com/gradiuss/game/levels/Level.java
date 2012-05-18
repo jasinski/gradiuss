@@ -113,23 +113,21 @@ public abstract class Level {
 	public abstract void changeWeapon();
 	
 	/**
-	 * 
-	 * @param intent
+	 * Starts the game over screen.
+	 * @param intent bundle with information about score
 	 */
 	public void gameOver(Bundle bundle) {
-				
 		Intent intent = new Intent("android.intent.action.GAMEOVERACTIVITY");
 		intent.putExtras(bundle);
 		context.startActivity(intent);
 	}
 
 	/**
-	 * TODO: NOT USED YET! IF THE LEVELS GET LARGER, THIS CLASS WILL HANDLE DIFFERENT STATES.
+	 * TODO: NOT USED YET! IF LEVELS GET LARGER, THIS CLASS WILL HANDLE DIFFERENT STATES.
 	 * FOR EXAMPLE A "BOSS BATTLE" AS THE LAST STATE.
 	 * LevelState
 	 * 
 	 * @author mike
-	 * 
 	 */
 	public abstract class LevelState {
 

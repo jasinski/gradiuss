@@ -2,7 +2,6 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class Asteroid extends Enemy {
 	private static final String TAG = Asteroid.class.getSimpleName();
@@ -37,16 +36,16 @@ public class Asteroid extends Enemy {
 	public void updateState() {
 		
 		// Movement
-		if (moveLeft) {	
+		if (moveLeft) {	// Left
 			setX(getX() + (getVx() * MovingObject.DIRECTION_LEFT));
 		}
-		if (moveRight) {	
+		if (moveRight) { // Right
 			setX(getX() + (getVx() * MovingObject.DIRECTION_RIGHT));
 		}
-		if (moveUp) {	
+		if (moveUp) { // Up
 			setY(getY() + (getVy() * MovingObject.DIRECTION_UP));
 		}
-		if (moveDown) {	
+		if (moveDown) {	// Down
 			setY(getY() + (getVy() * MovingObject.DIRECTION_DOWN));
 		}
 		
@@ -54,15 +53,14 @@ public class Asteroid extends Enemy {
 		if (isHit()) {
 			float damage = previousLife - getLife();
 			float shrinkPercentage = (INITIAL_LIFE/damage-1)/(INITIAL_LIFE/damage);
-//			Log.d(TAG, "ASTEROID TEST: shrinkPercentage = " + shrinkPercentage);
-//			setBitmap(0, Bitmap.createBitmap(getBitmap(), 0, 0, Math.round(shrinkPercentage*getBitmap().getWidth()), Math.round(shrinkPercentage*getBitmap().getHeight())));
+			
+			// Shrink the bitmap
 			setBitmap(0, Bitmap.createScaledBitmap(getBitmap(), Math.round(shrinkPercentage*(getRect().width())), Math.round(shrinkPercentage*(getRect().height())), true));			
 			
 			float newDamage = shrinkPercentage*getDamage();
-//			Log.d(TAG, "newDamage=" + newDamage);
 			
+
 			setDamage(newDamage);
-//			Log.d(TAG, "damage=" + getDamage());
 			
 			setHit(false);
 		}

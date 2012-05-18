@@ -75,7 +75,7 @@ public class SpaceShipTest extends InstrumentationTestCase {
 		testSpSh.setDirectionY(MovingObject.DIRECTION_UP); // -1
 		setMove(true, false, false, false); //up
 		testSpSh.updateState();
-		Assert.assertEquals(20, testSpSh.getX(), 0.5);//nothing happens
+		//nothing happens
 		Assert.assertEquals(0, testSpSh.getY(), 0.5);
 		reset();
 		

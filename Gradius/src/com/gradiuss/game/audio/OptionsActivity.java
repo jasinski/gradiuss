@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,13 +14,11 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.gradiuss.game.R;
 import com.gradiuss.game.StartGameActivity;
 
-public class OptionsActivity extends Activity implements
-		OnSeekBarChangeListener, OnClickListener {
+public class OptionsActivity extends Activity implements OnSeekBarChangeListener, OnClickListener {
 
 	private static SeekBar seekBarMusic;
 	private static SeekBar seekBarEffects;
 	private Button bMain;
-//	private static AudioManager am;
 	public static float volume;
 	public static final String filename = "sharedPreferences";
 	SharedPreferences volumePreferences;
@@ -34,12 +31,13 @@ public class OptionsActivity extends Activity implements
 		bMain = (Button) findViewById(R.id.bMain);
 		bMain.setOnClickListener(this);
 		
+		// Init UI: Seek bar for music volume
 		seekBarMusic = (SeekBar) findViewById(R.id.sbMusicVolume);
-//		am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		seekBarMusic.setMax(100);
 		seekBarMusic.setProgress(getSharedPreferences(filename, 0).getInt("music_volume", 50));
 		seekBarMusic.setOnSeekBarChangeListener(this);
 		
+		// Init UI: Seek bar for sound effects volume
 		seekBarEffects = (SeekBar) findViewById(R.id.sbEffectsVolume);
 		seekBarEffects.setMax(100);
 		seekBarEffects.setProgress(getSharedPreferences(filename, 0).getInt("effects_volume", 50));
@@ -73,7 +71,6 @@ public class OptionsActivity extends Activity implements
 		// TODO Auto-generated method stub
 
 	}
-
 
 	public void onClick(View v) {
 		switch (v.getId()) {

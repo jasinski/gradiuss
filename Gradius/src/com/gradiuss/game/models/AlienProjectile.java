@@ -2,7 +2,6 @@ package com.gradiuss.game.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class AlienProjectile extends Projectile {
 	private static final String TAG = AlienProjectile.class.getSimpleName();
@@ -24,7 +23,6 @@ public class AlienProjectile extends Projectile {
 	
 	public AlienProjectile(Projectile projectile) {
 		super(projectile.getBitmap(), projectile.getX(), projectile.getY());
-//		this.setRect(projectile.getRect());
 		this.setDamage(projectile.getDamage());
 		this.setFireInterval(projectile.getFireInterval());	
 		this.setVisible(projectile.isVisible());

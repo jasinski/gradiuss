@@ -37,15 +37,11 @@ public class HighScores {
 
 		// Creating the Database table
 		public void onCreate(SQLiteDatabase db) {
-			// TODO Auto-generated method stub
-			db.execSQL("CREATE TABLE " + DATABASE_TABLE + " (" + KEY_ROWID
-					+ " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT NOT NULL, "
-					+ KEY_HIGHSCORE + " INTEGER NOT NULL);");
+			db.execSQL("CREATE TABLE " + DATABASE_TABLE + " (" + KEY_ROWID + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT NOT NULL, " + KEY_HIGHSCORE + " INTEGER NOT NULL);");
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -63,13 +59,19 @@ public class HighScores {
 		return this;
 	}
 
-	// closing the helper object
+	/**
+	 * closing the helper object.
+	 */
 	public void close() {
 		ourHelper.close();
-
 	}
 
-	// Inserting values into the table
+	/**
+	 * Inserting values into the table.
+	 * @param name
+	 * @param highscore
+	 * @return 
+	 */
 	public long createEntry(String name, String highscore) {
 		// TODO Auto-generated method stub
 		ContentValues cv = new ContentValues();
@@ -77,12 +79,12 @@ public class HighScores {
 		cv.put(KEY_HIGHSCORE, highscore);
 		Log.d(TAG, (String) cv.get(KEY_NAME));
 		return ourDatabase.insert(DATABASE_TABLE, null, cv);
-
 	}
 
-
-	
-	// TESTING: Fetching data from a table
+	/**
+	 * Fetching data from a table.
+	 * @return
+	 */
 	public ArrayList<String[]> getData() {
 
 		String[] columns = new String[] { KEY_NAME, KEY_HIGHSCORE };
@@ -97,9 +99,7 @@ public class HighScores {
 		int iRow = c.getColumnIndex(KEY_ROWID);
 		int iName = c.getColumnIndex(KEY_NAME);
 		int iHighscore = c.getColumnIndex(KEY_HIGHSCORE);
-		
-		// Testing
-		
+				
 		// Looping threw all of the rows and storing them in a string
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			String[] temp = new String[2];
@@ -108,7 +108,6 @@ public class HighScores {
 			result.add(temp);
 
 		}
-//		Log.d(TAG, "result" + result);
 		return result;
 	}
 

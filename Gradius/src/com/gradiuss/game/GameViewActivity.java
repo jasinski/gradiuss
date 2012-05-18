@@ -2,7 +2,6 @@ package com.gradiuss.game;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -198,7 +197,5 @@ public class GameViewActivity extends Activity {
 //		Log.d(TAG, "Restoring state...");
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-
-
 	
 }
