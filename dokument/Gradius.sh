@@ -9,7 +9,7 @@ git clone git@github.com:jasinski/gradiuss.git
 #
 # Generate build.xml
 #
-cd gradiuss/
+cd gradiuss/Gradius/
 android update project --path .
 cd ..
 android update test-project -m ../Gradius -p TestGradius/
